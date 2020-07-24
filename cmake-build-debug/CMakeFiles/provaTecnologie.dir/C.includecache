@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/marco/Desktop/code/provaTecnologie/def.h
+stdio.h
+-
+stdlib.h
+-
+
+C:/Users/marco/Desktop/code/provaTecnologie/main.c
+stdio.h
+-
+def.h
+C:/Users/marco/Desktop/code/provaTecnologie/def.h
+
