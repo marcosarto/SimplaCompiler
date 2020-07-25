@@ -1,7 +1,4 @@
 #include <stdio.h>
 #include "def.h"
+extern FILE *yyin;
 
-int main() {
-    int c = yylex();
-    printf("Letto %d",c);
-}

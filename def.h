@@ -8,13 +8,9 @@
 typedef enum
 {
     NPROGRAM,
-    NVAR_DECL_LIST,
-    NFUNC_DECL_LIST,
-    NSTAT_LIST,
     NVAR_DECL,
-    NID_LIST,
     NFUNC_DECL,
-    NOPTPARAM_LIST,
+    NOPT_PARAM_LIST,
     NPARAM_DECL,
     NASSIGN_STAT,
     NIF_STAT,
@@ -22,16 +18,7 @@ typedef enum
     NFOR_STAT,
     NRETURN_STAT,
     NREAD_STAT,
-    NWRITE_STAT,
-    NFUNC_CALL,
-    NEXPR,
-    NEXPR_LIST,
-    NLOGIC_EXPR,
-    NREL_EXPR,
-    NMATH_EXPR,
-    NNEG_EXPR,
-    NCOND_EXPR,
-    NCASTING
+    NWRITE_STAT
 } Nonterminal;
 
 typedef enum
@@ -45,21 +32,24 @@ typedef enum
     T_WRITELN,
     T_AND,
     T_OR,
-    T_EQUALS,
-    T_NOT_EQUALS,
-    T_GREATER,
-    T_GREATER_EQ,
-    T_LESS,
-    T_LESS_EQ,
+    T_EQU,
+    T_NEQ,
+    T_GRT,
+    T_GEQ,
+    T_LSS,
+    T_LEQ,
     T_PLUS,
     T_MINUS,
     T_STAR,
-    T_SLASH,
+    T_DIV,
     T_NOT,
+    T_ID,
+    T_BREAK,
     T_INTCONST,
-    T_REALCONST,
     T_STRCONST,
     T_BOOLCONST,
+    T_REALCONST,
+    T_NONTERMINAL
 } Typenode;
 
 typedef union
@@ -83,6 +73,7 @@ int yylex();
 Pnode nontermnode(Nonterminal),
         idnode(),
         keynode(Typenode),
+        realconstnode(),
         intconstnode(),
         strconstnode(),
         boolconstnode(),

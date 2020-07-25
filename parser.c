@@ -2107,3 +2107,66 @@ yyreturn:
 }
 #line 180 "parser.y" /* yacc.c:1918  */
 
+Pnode nontermnode(Nonterminal nonterm)
+{
+    Pnode p = newnode(T_NONTERMINAL);
+    p->value.ival = nonterm;
+    return(p);
+}
+Pnode idnode()
+{
+    Pnode p = newnode(T_ID);
+    p->value.sval = lexval.sval;
+    return(p);
+}
+Pnode keynode(Typenode keyword)
+{
+    return(newnode(keyword));
+}
+Pnode intconstnode()
+{
+    Pnode p = newnode(T_INTCONST);
+    p->value.ival = lexval.ival;
+    return(p);
+}
+Pnode strconstnode()
+{
+    Pnode p = newnode(T_STRCONST);
+    p->value.sval = lexval.sval;
+    return(p);
+}
+Pnode realconstnode()
+{
+    Pnode p = newnode(T_REALCONST);
+    p->value.rval = lexval.rval;
+    return(p);
+}
+Pnode boolconstnode()
+{
+  Pnode p = newnode(T_BOOLCONST);
+  p->value.bval = lexval.bval;
+  return(p);
+}
+Pnode newnode(Typenode tnode)
+{
+  Pnode p = malloc(sizeof(Node));
+  p->type = tnode;
+  p->c1 = p->c2 = p->b = NULL;
+  return(p);
+}
+int main()
+{
+    int result;
+
+    yyin = stdin;
+    if((result = yyparse()) == 0)
+        treeprint(root, 0);
+    return(result);
+}
+
+void yyerror()
+{
+  fprintf(stderr, "Line %d: syntax error on symbol \"%s\"\n",
+          line, yytext);
+  exit(-1);
+}
