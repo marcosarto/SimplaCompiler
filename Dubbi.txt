@@ -1,0 +1,5 @@
+*Token ERROR, ritornato da lex, nel file parser.h
+nelle slides ma mai usato nelle regole di yacc?
+* https://www.epaperpress.com/lexandyacc/err.html un modo per continuare
+  a scansionare anche quando si trova un errore
+* https://stackoverflow.com/questions/18837828/how-should-i-handle-lexical-errors-in-my-flex-lexer

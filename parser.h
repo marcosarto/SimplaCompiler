@@ -79,8 +79,10 @@ extern int yydebug;
     RETURN = 285,
     TO = 286,
     WHILE = 287,
-    WRITE = 288,
-    WRITELN = 289
+    GRT = 288,
+    LSS = 289,
+    WRITE = 290,
+    WRITELN = 291
   };
 #endif
 

@@ -90,9 +90,9 @@ Grammar
 
    56 rel_op: EQU
    57       | NEQ
-   58       | '>'
+   58       | GRT
    59       | GEQ
-   60       | '<'
+   60       | LSS
    61       | LEQ
 
    62 rel_term: rel_term low_prec_op low_term
@@ -155,9 +155,7 @@ $end (0) 0
 '/' (47) 69
 ':' (58) 4 16 22
 ';' (59) 4 16 24 25
-'<' (60) 60
 '=' (61) 36 42
-'>' (62) 58
 error (256)
 INTEGER (258) 8 91
 REAL (259) 9 92
@@ -189,8 +187,10 @@ READ (284) 46
 RETURN (285) 43
 TO (286) 42
 WHILE (287) 40
-WRITE (288) 48
-WRITELN (289) 49
+GRT (288) 58
+LSS (289) 60
+WRITE (290) 48
+WRITELN (291) 49
 
 
 Nonterminals, with rules where they appear
@@ -938,8 +938,8 @@ State 64
     NEQ  shift, and go to state 94
     GEQ  shift, and go to state 95
     LEQ  shift, and go to state 96
-    '>'  shift, and go to state 97
-    '<'  shift, and go to state 98
+    GRT  shift, and go to state 97
+    LSS  shift, and go to state 98
     '+'  shift, and go to state 99
     '-'  shift, and go to state 100
 
@@ -1359,14 +1359,14 @@ State 96
 
 State 97
 
-   58 rel_op: '>' .
+   58 rel_op: GRT .
 
     $default  reduce using rule 58 (rel_op)
 
 
 State 98
 
-   60 rel_op: '<' .
+   60 rel_op: LSS .
 
     $default  reduce using rule 60 (rel_op)
 

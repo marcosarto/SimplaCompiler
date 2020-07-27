@@ -42,17 +42,17 @@ break       {return(BREAK);}
 "+"         {return(PLUS);}
 "-"         {return(MINUS);}
 "*"         {return(STAR);}
-"/"         {return(DIVIDE);}
+"/"         {return(DIV);}
 and         {return(AND);}
 or          {return(OR);}
 not         {return(NOT);}
 "="         {return(EQUAL);}
-"=="        {return(EQUALS);}
-"!="        {return(NOTEQUALS);}
-">"         {return(GRTHAN);}
-"<"         {return(LSTHAN);}
-">="        {return(GRETHAN);}
-"<="        {return(LSETHAN);}
+"=="        {return(EQU);}
+"!="        {return(NEQ);}
+">"         {return(GRT);}
+"<"         {return(LSS);}
+">="        {return(GEQ);}
+"<="        {return(LEQ);}
 {intconst}  {lexval.ival = atoi(yytext); return(INTCONST);}
 {realconst} {lexval.rval = atof(yytext); return(REALCONST);}
 {strconst}  {lexval.sval = newstring(yytext); return(STRCONST);}

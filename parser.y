@@ -9,7 +9,7 @@ Pnode root = NULL;
 %}
 %token INTEGER REAL STRING BOOLEAN VOID ID FUNC BODY END BREAK
 %token EQU NEQ GEQ LEQ AND OR IF ELSE INTCONST NOT REALCONST
-%token STRCONST THEN BOOLCONST DO FOR READ RETURN TO WHILE
+%token STRCONST THEN BOOLCONST DO FOR READ RETURN TO WHILE GRT LSS
 %token WRITE WRITELN
 %start program 
 %%
@@ -69,7 +69,7 @@ stat : assign_stat
 | func_call
 | BREAK {$$ = keynode(T_BREAK);}
 ;
-assign_stat : ID {$$ = idnode();} '=' expr {$$ = nontermnode(NASSIGN_STAT);
+assign_stat : ID {$$ = idnode();} EQUAL expr {$$ = nontermnode(NASSIGN_STAT);
                                         $$->c1 = $2;
                                         $$->c2 = $4;}
         ;
@@ -85,7 +85,7 @@ while_stat : WHILE expr DO stat_list END {$$ = nontermnode(NWHILE_STAT);
                                         $$->c1 = $2;
                                         $$->c2 = $4;}
         ;
-for_stat : FOR ID {$$ = idnode();} '=' expr TO expr DO stat_list END{$$ = nontermnode(NFOR_STAT);
+for_stat : FOR ID {$$ = idnode();} EQUAL expr TO expr DO stat_list END{$$ = nontermnode(NFOR_STAT);
                                                                 $$->c1 = $6;
                                                                 $$->c2 = $8;
                                                                 $$->b = $3;
@@ -122,9 +122,9 @@ bool_term : rel_term rel_op rel_term {$$->c1 = $1;
         ;
 rel_op : EQU {$$ = keynode(T_EQU);}
 | NEQ {$$ = keynode(T_NEQ);}
-| '>' {$$ = keynode(T_GRT);}
+| GRT {$$ = keynode(T_GRT);}
 | GEQ {$$ = keynode(T_GEQ);}
-| '<' {$$ = keynode(T_LSS);}
+| LSS {$$ = keynode(T_LSS);}
 | LEQ {$$ = keynode(T_LEQ);}
 ;
 rel_term : rel_term low_prec_op low_term {$$->c1 = $1;
@@ -132,16 +132,16 @@ rel_term : rel_term low_prec_op low_term {$$->c1 = $1;
                                         $$->b = $3;}
         | low_term {$$->c1 = $1;}
         ;
-low_prec_op : '+' {$$ = keynode(T_PLUS);}
-        | '-' {$$ = keynode(T_MINUS);}
+low_prec_op : PLUS {$$ = keynode(T_PLUS);}
+        | MINUS {$$ = keynode(T_MINUS);}
         ;
 low_term : low_term high_prec_op factor {$$->c1 = $1;
                                         $$->c2 = $2;
                                         $$->b = $3;}
         | factor {$$->c1 = $1;}
         ;
-high_prec_op : '*' {$$ = keynode(T_STAR);}
-        | '/' {$$ = keynode(T_DIV);}
+high_prec_op : STAR {$$ = keynode(T_STAR);}
+        | DIV {$$ = keynode(T_DIV);}
         ;
 factor : unary_op factor {$$->c1 = $1;
                         $$->c2 = $2;}
@@ -153,7 +153,7 @@ factor : unary_op factor {$$->c1 = $1;
 | cast '(' expr ')' {$$->c1 = $1;
                 $$->c2 = $3;}
 ;
-unary_op : '-' {$$ = keynode(T_MINUS);}
+unary_op : MINUS {$$ = keynode(T_MINUS);}
         | NOT {$$ = keynode(T_NOT);}
         ;
 const : INTCONST {$$ = intconstnode();}
