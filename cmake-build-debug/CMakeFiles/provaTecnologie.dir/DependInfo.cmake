@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "C:/Users/marco/Desktop/code/provaTecnologie/hashtable.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/hashtable.c.obj"
   "C:/Users/marco/Desktop/code/provaTecnologie/main.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/main.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")

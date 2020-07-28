@@ -38,10 +38,10 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = C:\Users\marco\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\201.7846.88\bin\cmake\win\bin\cmake.exe
+CMAKE_COMMAND = C:\Users\marco\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\201.8743.17\bin\cmake\win\bin\cmake.exe
 
 # The command to remove a file.
-RM = C:\Users\marco\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\201.7846.88\bin\cmake\win\bin\cmake.exe -E remove -f
+RM = C:\Users\marco\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\201.8743.17\bin\cmake\win\bin\cmake.exe -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -58,7 +58,7 @@ CMAKE_BINARY_DIR = C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	C:\Users\marco\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\201.7846.88\bin\cmake\win\bin\cmake.exe -E echo "No interactive CMake dialog available."
+	C:\Users\marco\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\201.8743.17\bin\cmake\win\bin\cmake.exe -E echo "No interactive CMake dialog available."
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -69,7 +69,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	C:\Users\marco\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\201.7846.88\bin\cmake\win\bin\cmake.exe -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	C:\Users\marco\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\201.8743.17\bin\cmake\win\bin\cmake.exe -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -122,6 +122,33 @@ provaTecnologie/fast:
 	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/build
 .PHONY : provaTecnologie/fast
 
+hashtable.obj: hashtable.c.obj
+
+.PHONY : hashtable.obj
+
+# target to build an object file
+hashtable.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/hashtable.c.obj
+.PHONY : hashtable.c.obj
+
+hashtable.i: hashtable.c.i
+
+.PHONY : hashtable.i
+
+# target to preprocess a source file
+hashtable.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/hashtable.c.i
+.PHONY : hashtable.c.i
+
+hashtable.s: hashtable.c.s
+
+.PHONY : hashtable.s
+
+# target to generate assembly for a file
+hashtable.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/hashtable.c.s
+.PHONY : hashtable.c.s
+
 main.obj: main.c.obj
 
 .PHONY : main.obj
@@ -158,6 +185,9 @@ help:
 	@echo ... edit_cache
 	@echo ... provaTecnologie
 	@echo ... rebuild_cache
+	@echo ... hashtable.obj
+	@echo ... hashtable.i
+	@echo ... hashtable.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

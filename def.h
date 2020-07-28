@@ -2,9 +2,11 @@
 #define PROVATECNOLOGIE_DEF_H
 
 #endif //PROVATECNOLOGIE_DEF_H
+#define TOT 1013
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "hashmap.h"
 typedef enum
 {
     NPROGRAM,

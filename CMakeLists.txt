@@ -3,4 +3,4 @@ project(provaTecnologie C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(provaTecnologie main.c parser.h def.h)
+add_executable(provaTecnologie main.c parser.h def.h hashtable.c)
