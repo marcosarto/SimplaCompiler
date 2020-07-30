@@ -4,8 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "C:/Users/marco/Desktop/code/provaTecnologie/hashtable.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/hashtable.c.obj"
-  "C:/Users/marco/Desktop/code/provaTecnologie/main.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/main.c.obj"
+  "C:/Users/marco/Desktop/code/provaTecnologie/lexer.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/lexer.c.obj"
+  "C:/Users/marco/Desktop/code/provaTecnologie/parser.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/parser.c.obj"
+  "C:/Users/marco/Desktop/code/provaTecnologie/semantica.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/semantica.c.obj"
+  "C:/Users/marco/Desktop/code/provaTecnologie/table.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/table.c.obj"
+  "C:/Users/marco/Desktop/code/provaTecnologie/tree.c" "C:/Users/marco/Desktop/code/provaTecnologie/cmake-build-debug/CMakeFiles/provaTecnologie.dir/tree.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

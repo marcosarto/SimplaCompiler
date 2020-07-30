@@ -122,59 +122,140 @@ provaTecnologie/fast:
 	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/build
 .PHONY : provaTecnologie/fast
 
-hashtable.obj: hashtable.c.obj
+lexer.obj: lexer.c.obj
 
-.PHONY : hashtable.obj
-
-# target to build an object file
-hashtable.c.obj:
-	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/hashtable.c.obj
-.PHONY : hashtable.c.obj
-
-hashtable.i: hashtable.c.i
-
-.PHONY : hashtable.i
-
-# target to preprocess a source file
-hashtable.c.i:
-	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/hashtable.c.i
-.PHONY : hashtable.c.i
-
-hashtable.s: hashtable.c.s
-
-.PHONY : hashtable.s
-
-# target to generate assembly for a file
-hashtable.c.s:
-	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/hashtable.c.s
-.PHONY : hashtable.c.s
-
-main.obj: main.c.obj
-
-.PHONY : main.obj
+.PHONY : lexer.obj
 
 # target to build an object file
-main.c.obj:
-	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/main.c.obj
-.PHONY : main.c.obj
+lexer.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/lexer.c.obj
+.PHONY : lexer.c.obj
 
-main.i: main.c.i
+lexer.i: lexer.c.i
 
-.PHONY : main.i
+.PHONY : lexer.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/main.c.i
-.PHONY : main.c.i
+lexer.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/lexer.c.i
+.PHONY : lexer.c.i
 
-main.s: main.c.s
+lexer.s: lexer.c.s
 
-.PHONY : main.s
+.PHONY : lexer.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/main.c.s
-.PHONY : main.c.s
+lexer.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/lexer.c.s
+.PHONY : lexer.c.s
+
+parser.obj: parser.c.obj
+
+.PHONY : parser.obj
+
+# target to build an object file
+parser.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/parser.c.obj
+.PHONY : parser.c.obj
+
+parser.i: parser.c.i
+
+.PHONY : parser.i
+
+# target to preprocess a source file
+parser.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/parser.c.i
+.PHONY : parser.c.i
+
+parser.s: parser.c.s
+
+.PHONY : parser.s
+
+# target to generate assembly for a file
+parser.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/parser.c.s
+.PHONY : parser.c.s
+
+semantica.obj: semantica.c.obj
+
+.PHONY : semantica.obj
+
+# target to build an object file
+semantica.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/semantica.c.obj
+.PHONY : semantica.c.obj
+
+semantica.i: semantica.c.i
+
+.PHONY : semantica.i
+
+# target to preprocess a source file
+semantica.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/semantica.c.i
+.PHONY : semantica.c.i
+
+semantica.s: semantica.c.s
+
+.PHONY : semantica.s
+
+# target to generate assembly for a file
+semantica.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/semantica.c.s
+.PHONY : semantica.c.s
+
+table.obj: table.c.obj
+
+.PHONY : table.obj
+
+# target to build an object file
+table.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/table.c.obj
+.PHONY : table.c.obj
+
+table.i: table.c.i
+
+.PHONY : table.i
+
+# target to preprocess a source file
+table.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/table.c.i
+.PHONY : table.c.i
+
+table.s: table.c.s
+
+.PHONY : table.s
+
+# target to generate assembly for a file
+table.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/table.c.s
+.PHONY : table.c.s
+
+tree.obj: tree.c.obj
+
+.PHONY : tree.obj
+
+# target to build an object file
+tree.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/tree.c.obj
+.PHONY : tree.c.obj
+
+tree.i: tree.c.i
+
+.PHONY : tree.i
+
+# target to preprocess a source file
+tree.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/tree.c.i
+.PHONY : tree.c.i
+
+tree.s: tree.c.s
+
+.PHONY : tree.s
+
+# target to generate assembly for a file
+tree.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/tree.c.s
+.PHONY : tree.c.s
 
 # Help Target
 help:
@@ -185,12 +266,21 @@ help:
 	@echo ... edit_cache
 	@echo ... provaTecnologie
 	@echo ... rebuild_cache
-	@echo ... hashtable.obj
-	@echo ... hashtable.i
-	@echo ... hashtable.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... lexer.obj
+	@echo ... lexer.i
+	@echo ... lexer.s
+	@echo ... parser.obj
+	@echo ... parser.i
+	@echo ... parser.s
+	@echo ... semantica.obj
+	@echo ... semantica.i
+	@echo ... semantica.s
+	@echo ... table.obj
+	@echo ... table.i
+	@echo ... table.s
+	@echo ... tree.obj
+	@echo ... tree.i
+	@echo ... tree.s
 .PHONY : help
 
 

@@ -1,24 +1,25 @@
 %{   
 #include "parser.h"                                             
 #include "def.h"
+#include "table.h"
 int line = 1;                                                   
 Value lexval;
 %}                                                              
 %option noyywrap
 spacing     ([ \t])+
-letter      [A-Za­z]
-digit       [0­9]
+letter      [A-Za-z]
+digit       [0-9]
 intconst    {digit}+
 realconst   {digit}+\.{digit}+
 strconst    \"([^\"])*\"
 boolconst   false|true
 id          {letter}({letter}|{digit})*
-sugar       [(){}:;,]
+sugar       [(){}:;,'.']
 comment     #.*\n
 %%
 {spacing}   ;
 \n          {line++;}
-{comment}   ;
+{comment}   {printf("riconosciuto commento");}
 integer     {return(INTEGER);}
 real        {return(REAL);}
 string      {return(STRING);}
@@ -57,9 +58,9 @@ not         {return(NOT);}
 {realconst} {lexval.rval = atof(yytext); return(REALCONST);}
 {strconst}  {lexval.sval = newstring(yytext); return(STRCONST);}
 {boolconst} {lexval.bval = (yytext[0] == 'f' ? FALSE : TRUE); return(BOOLCONST);}
-{id}        {lexval.sval = newstring(yytext); return(ID);}
+{id}        {lexval.sval = newstring(yytext);return(ID);}
 {sugar}     {return(yytext[0]);}
-.           {return(ERROR);}
+.           {printf("altro carattere %s",yytext);}
 %%
 char *newstring(char *s)
 {

@@ -1,6 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/provaTecnologie.dir/hashtable.c.obj"
-  "CMakeFiles/provaTecnologie.dir/main.c.obj"
+  "CMakeFiles/provaTecnologie.dir/lexer.c.obj"
+  "CMakeFiles/provaTecnologie.dir/parser.c.obj"
+  "CMakeFiles/provaTecnologie.dir/semantica.c.obj"
+  "CMakeFiles/provaTecnologie.dir/table.c.obj"
+  "CMakeFiles/provaTecnologie.dir/tree.c.obj"
   "libprovaTecnologie.dll.a"
   "provaTecnologie.exe"
   "provaTecnologie.exe.manifest"

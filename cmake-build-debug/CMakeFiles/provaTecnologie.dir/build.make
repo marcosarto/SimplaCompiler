@@ -56,47 +56,92 @@ include CMakeFiles/provaTecnologie.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/provaTecnologie.dir/flags.make
 
-CMakeFiles/provaTecnologie.dir/main.c.obj: CMakeFiles/provaTecnologie.dir/flags.make
-CMakeFiles/provaTecnologie.dir/main.c.obj: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/provaTecnologie.dir/main.c.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\provaTecnologie.dir\main.c.obj   -c C:\Users\marco\Desktop\code\provaTecnologie\main.c
+CMakeFiles/provaTecnologie.dir/table.c.obj: CMakeFiles/provaTecnologie.dir/flags.make
+CMakeFiles/provaTecnologie.dir/table.c.obj: ../table.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/provaTecnologie.dir/table.c.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\provaTecnologie.dir\table.c.obj   -c C:\Users\marco\Desktop\code\provaTecnologie\table.c
 
-CMakeFiles/provaTecnologie.dir/main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/provaTecnologie.dir/main.c.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\marco\Desktop\code\provaTecnologie\main.c > CMakeFiles\provaTecnologie.dir\main.c.i
+CMakeFiles/provaTecnologie.dir/table.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/provaTecnologie.dir/table.c.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\marco\Desktop\code\provaTecnologie\table.c > CMakeFiles\provaTecnologie.dir\table.c.i
 
-CMakeFiles/provaTecnologie.dir/main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/provaTecnologie.dir/main.c.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\marco\Desktop\code\provaTecnologie\main.c -o CMakeFiles\provaTecnologie.dir\main.c.s
+CMakeFiles/provaTecnologie.dir/table.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/provaTecnologie.dir/table.c.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\marco\Desktop\code\provaTecnologie\table.c -o CMakeFiles\provaTecnologie.dir\table.c.s
 
-CMakeFiles/provaTecnologie.dir/hashtable.c.obj: CMakeFiles/provaTecnologie.dir/flags.make
-CMakeFiles/provaTecnologie.dir/hashtable.c.obj: ../hashtable.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/provaTecnologie.dir/hashtable.c.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\provaTecnologie.dir\hashtable.c.obj   -c C:\Users\marco\Desktop\code\provaTecnologie\hashtable.c
+CMakeFiles/provaTecnologie.dir/parser.c.obj: CMakeFiles/provaTecnologie.dir/flags.make
+CMakeFiles/provaTecnologie.dir/parser.c.obj: ../parser.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/provaTecnologie.dir/parser.c.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\provaTecnologie.dir\parser.c.obj   -c C:\Users\marco\Desktop\code\provaTecnologie\parser.c
 
-CMakeFiles/provaTecnologie.dir/hashtable.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/provaTecnologie.dir/hashtable.c.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\marco\Desktop\code\provaTecnologie\hashtable.c > CMakeFiles\provaTecnologie.dir\hashtable.c.i
+CMakeFiles/provaTecnologie.dir/parser.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/provaTecnologie.dir/parser.c.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\marco\Desktop\code\provaTecnologie\parser.c > CMakeFiles\provaTecnologie.dir\parser.c.i
 
-CMakeFiles/provaTecnologie.dir/hashtable.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/provaTecnologie.dir/hashtable.c.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\marco\Desktop\code\provaTecnologie\hashtable.c -o CMakeFiles\provaTecnologie.dir\hashtable.c.s
+CMakeFiles/provaTecnologie.dir/parser.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/provaTecnologie.dir/parser.c.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\marco\Desktop\code\provaTecnologie\parser.c -o CMakeFiles\provaTecnologie.dir\parser.c.s
+
+CMakeFiles/provaTecnologie.dir/lexer.c.obj: CMakeFiles/provaTecnologie.dir/flags.make
+CMakeFiles/provaTecnologie.dir/lexer.c.obj: ../lexer.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/provaTecnologie.dir/lexer.c.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\provaTecnologie.dir\lexer.c.obj   -c C:\Users\marco\Desktop\code\provaTecnologie\lexer.c
+
+CMakeFiles/provaTecnologie.dir/lexer.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/provaTecnologie.dir/lexer.c.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\marco\Desktop\code\provaTecnologie\lexer.c > CMakeFiles\provaTecnologie.dir\lexer.c.i
+
+CMakeFiles/provaTecnologie.dir/lexer.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/provaTecnologie.dir/lexer.c.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\marco\Desktop\code\provaTecnologie\lexer.c -o CMakeFiles\provaTecnologie.dir\lexer.c.s
+
+CMakeFiles/provaTecnologie.dir/tree.c.obj: CMakeFiles/provaTecnologie.dir/flags.make
+CMakeFiles/provaTecnologie.dir/tree.c.obj: ../tree.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/provaTecnologie.dir/tree.c.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\provaTecnologie.dir\tree.c.obj   -c C:\Users\marco\Desktop\code\provaTecnologie\tree.c
+
+CMakeFiles/provaTecnologie.dir/tree.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/provaTecnologie.dir/tree.c.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\marco\Desktop\code\provaTecnologie\tree.c > CMakeFiles\provaTecnologie.dir\tree.c.i
+
+CMakeFiles/provaTecnologie.dir/tree.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/provaTecnologie.dir/tree.c.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\marco\Desktop\code\provaTecnologie\tree.c -o CMakeFiles\provaTecnologie.dir\tree.c.s
+
+CMakeFiles/provaTecnologie.dir/semantica.c.obj: CMakeFiles/provaTecnologie.dir/flags.make
+CMakeFiles/provaTecnologie.dir/semantica.c.obj: ../semantica.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/provaTecnologie.dir/semantica.c.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\provaTecnologie.dir\semantica.c.obj   -c C:\Users\marco\Desktop\code\provaTecnologie\semantica.c
+
+CMakeFiles/provaTecnologie.dir/semantica.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/provaTecnologie.dir/semantica.c.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\marco\Desktop\code\provaTecnologie\semantica.c > CMakeFiles\provaTecnologie.dir\semantica.c.i
+
+CMakeFiles/provaTecnologie.dir/semantica.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/provaTecnologie.dir/semantica.c.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\marco\Desktop\code\provaTecnologie\semantica.c -o CMakeFiles\provaTecnologie.dir\semantica.c.s
 
 # Object files for target provaTecnologie
 provaTecnologie_OBJECTS = \
-"CMakeFiles/provaTecnologie.dir/main.c.obj" \
-"CMakeFiles/provaTecnologie.dir/hashtable.c.obj"
+"CMakeFiles/provaTecnologie.dir/table.c.obj" \
+"CMakeFiles/provaTecnologie.dir/parser.c.obj" \
+"CMakeFiles/provaTecnologie.dir/lexer.c.obj" \
+"CMakeFiles/provaTecnologie.dir/tree.c.obj" \
+"CMakeFiles/provaTecnologie.dir/semantica.c.obj"
 
 # External object files for target provaTecnologie
 provaTecnologie_EXTERNAL_OBJECTS =
 
-provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/main.c.obj
-provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/hashtable.c.obj
+provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/table.c.obj
+provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/parser.c.obj
+provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/lexer.c.obj
+provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/tree.c.obj
+provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/semantica.c.obj
 provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/build.make
 provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/linklibs.rsp
 provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/objects1.rsp
 provaTecnologie.exe: CMakeFiles/provaTecnologie.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable provaTecnologie.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\marco\Desktop\code\provaTecnologie\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable provaTecnologie.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\provaTecnologie.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

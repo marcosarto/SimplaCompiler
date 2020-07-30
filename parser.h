@@ -82,7 +82,12 @@ extern int yydebug;
     GRT = 288,
     LSS = 289,
     WRITE = 290,
-    WRITELN = 291
+    WRITELN = 291,
+    PLUS = 292,
+    STAR = 293,
+    MINUS = 294,
+    EQUAL = 295,
+    DIV = 296
   };
 #endif
 
