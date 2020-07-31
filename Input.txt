@@ -1,4 +1,5 @@
-numero: integer;
+numero,tipo,dado: integer;
+ciao: real;
 func fattoriale(n: integer): integer
   fact: integer;
 body

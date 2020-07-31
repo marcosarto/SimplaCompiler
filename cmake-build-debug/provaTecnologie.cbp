@@ -107,6 +107,9 @@
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/tree.c">
 			<Option target="provaTecnologie"/>
 		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/tree.h">
+			<Option target="provaTecnologie"/>
+		</Unit>
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

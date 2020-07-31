@@ -1008,31 +1008,24 @@ YY_RULE_SETUP
 case 42:
 YY_RULE_SETUP
 #line 61 "lexer.lex"
-{
-                lexval.sval = newstring(yytext);
-                Entry *entry = malloc(sizeof(Entry));
-                entry->key = newstring(yytext);
-                entry->next = NULL;
-                insert(entry);
-                return(ID);
-            }
+{lexval.sval = newstring(yytext);return(ID);}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 69 "lexer.lex"
+#line 62 "lexer.lex"
 {return(yytext[0]);}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 70 "lexer.lex"
+#line 63 "lexer.lex"
 {printf("altro carattere %s",yytext);}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 71 "lexer.lex"
+#line 64 "lexer.lex"
 ECHO;
 	YY_BREAK
-#line 1036 "lexer.c"
+#line 1029 "lexer.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2037,7 +2030,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 71 "lexer.lex"
+#line 64 "lexer.lex"
 
 char *newstring(char *s)
 {

@@ -1,7 +1,6 @@
 %{   
 #include "parser.h"                                             
 #include "def.h"
-#include "table.h"
 int line = 1;                                                   
 Value lexval;
 %}                                                              

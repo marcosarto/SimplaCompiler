@@ -1,17 +1,30 @@
 #ifndef PROVATECNOLOGIE_TABLE_H
 #define PROVATECNOLOGIE_TABLE_H
-#define TOT 5
+#define TOT 1013
 #define SHIFT 4
 #include "def.h"
 
 typedef struct stable Table;
 typedef struct sentry Entry;
+typedef enum{
+    VAR,
+    PAR,
+    FUN
+}Classi;
+typedef enum{
+    INTE,
+    REALE,
+    STRINGE,
+    BOOLE,
+    VOIDE
+}HashType;
+
 
 struct sentry{
     char* key;
-    enum {VAR, PAR, FUN} classe;
+    Classi classe;
     int oid;
-    enum {INTE, REALE, STRINGE, BOOLE, VOIDE} tipo;
+    HashType tipo;
     Table* ambiente;
     int nformali;
     Entry* dformali[TOT];
@@ -25,8 +38,11 @@ struct stable{
 };
 
 int hash(char* id);
-void insert (Entry *entry);
+int insert (Entry *entry);
+int insertInto(Entry *entry,Table *tableP);
 void initTable();
-void print();
+void print(Table *table);
+Table* creaAmbiente();
+Table* getGlobale();
 
 #endif //PROVATECNOLOGIE_TABLE_H

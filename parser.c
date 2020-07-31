@@ -1461,10 +1461,10 @@ yyreduce:
 #line 42 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NFUNC_DECL);
                                                                                         yyval->c1 = yyvsp[-2];
-                                                                                        yyval->c2 = yyvsp[-1];
-                                                                                        yyval->b = yyvsp[-8];
-                                                                                        yyvsp[-8]->b = yyvsp[-3];
-                                                                                        yyvsp[-3]->c1 = yyvsp[-6];}
+                                                                                        yyval->c2 = yyvsp[-8];
+                                                                                        yyvsp[-8]->c1 = yyvsp[-1];
+                                                                                        yyvsp[-8]->c2 = yyvsp[-6];
+                                                                                        yyvsp[-8]->b = yyvsp[-3];}
 #line 1469 "parser.c" /* yacc.c:1652  */
     break;
 
@@ -2170,8 +2170,9 @@ int main()
     //yyin = stdin;
     if((result = yyparse()) == 0){
         //treeprint(root,0);
-        //print();
         evalType(root);
+        printf("TABELLA GLOBALE\n");
+        print(getGlobale());
         }
     return(result);
 }

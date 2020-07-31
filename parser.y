@@ -41,10 +41,10 @@ func_decl_list : func_decl func_decl_list {$$ = $1; $1->b = $2;}
         ;
 func_decl : FUNC ID {$$ = idnode();} '(' opt_param_list ')' ':' type var_decl_list body ';' {$$ = nontermnode(NFUNC_DECL);
                                                                                         $$->c1 = $9;
-                                                                                        $$->c2 = $10;
-                                                                                        $$->b = $3;
-                                                                                        $3->b = $8;
-                                                                                        $8->c1 = $5;}
+                                                                                        $$->c2 = $3;
+                                                                                        $3->c1 = $10;
+                                                                                        $3->c2 = $5;
+                                                                                        $3->b = $8;}
         ;
 opt_param_list : param_list {$$ = nontermnode(NOPT_PARAM_LIST);
                         $$->c1 = $1;}
@@ -240,8 +240,9 @@ int main()
     //yyin = stdin;
     if((result = yyparse()) == 0){
         //treeprint(root,0);
-        //print();
         evalType(root);
+        printf("TABELLA GLOBALE\n");
+        print(getGlobale());
         }
     return(result);
 }
