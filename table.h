@@ -11,6 +11,7 @@ typedef enum{
     PAR,
     FUN
 }Classi;
+
 typedef enum{
     INTE,
     REALE,
@@ -18,7 +19,6 @@ typedef enum{
     BOOLE,
     VOIDE
 }HashType;
-
 
 struct sentry{
     char* key;
@@ -32,15 +32,18 @@ struct sentry{
 };
 
 struct stable{
+    char *scope;
     int count;
     int capacity;
     Entry* entry[TOT];
 };
 
+void assignScopeName(char *nome, Table *tableP);
 int hash(char* id);
 int insert (Entry *entry);
 int insertInto(Entry *entry,Table *tableP);
 void initTable();
+Entry* lookUp(char *s,Table *tableP);
 void print(Table *table);
 Table* creaAmbiente();
 Table* getGlobale();

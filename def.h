@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 typedef enum
 {
     NPROGRAM,
@@ -16,7 +17,8 @@ typedef enum
     NFOR_STAT,
     NRETURN_STAT,
     NREAD_STAT,
-    NWRITE_STAT
+    NWRITE_STAT,
+    NCOND_EXPR
 } Nonterminal;
 
 typedef enum
@@ -50,12 +52,14 @@ typedef enum
     T_NONTERMINAL
 } Typenode;
 
+typedef enum {FALSE, TRUE} Boolean;
+
 typedef union
 {
     int ival;
     float rval;
     char *sval;
-    enum {FALSE, TRUE} bval;
+    Boolean bval;
 } Value;
 
 typedef struct snode

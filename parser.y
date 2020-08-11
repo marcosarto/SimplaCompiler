@@ -157,7 +157,8 @@ factor : unary_op factor {$$ = $1;
 | ID {$$ = idnode();}
 | const {$$ = $1;}
 | func_call {$$ = $1;}
-| cond_expr {$$ = $1;}
+| cond_expr {$$ = nontermnode(NCOND_EXPR);
+            $$->c1=$1;}
 | cast '(' expr ')' {$$ = $1;
                 $1->c1 = $3;}
 ;

@@ -54,6 +54,25 @@ int insertInto(Entry *entry,Table *tableP){
     }
 }
 
+Entry* lookUp(char *s,Table *tableP){
+    int pos = hash(s);
+
+    if(tableP->entry[pos]==NULL)
+        return NULL;
+    else{
+        Entry *temp = tableP->entry[pos];
+        while(temp)
+        {
+            if (strcmp(temp->key,s)==0)
+                return temp;
+            if(temp->next == NULL)
+                break;
+            temp = temp->next;
+        }
+        return NULL;
+    }
+}
+
 void print(Table *tableP)
 {
     int i;
@@ -76,11 +95,16 @@ void print(Table *tableP)
 void initTable()
 {
     table = malloc(sizeof(Table));
-    table->count = 0;
+    table->scope = newstring("Globale"); //Verra' riscritto solo se e' una funzione, metodo non pulitissimo si puo' rivedere
+    table->count = 0; //Servirebbero se si volesse fare la tabella dinamica, da togliere se non viene fatto
     table->capacity = 0;
     int i;
     for(i = 0; i < TOT; i++)
         table->entry[i] = NULL;
+}
+
+void assignScopeName(char *nome, Table *tableP){
+    tableP->scope = nome;
 }
 
 Table* creaAmbiente(){
