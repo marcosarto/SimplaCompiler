@@ -18,7 +18,8 @@ typedef enum
     NRETURN_STAT,
     NREAD_STAT,
     NWRITE_STAT,
-    NCOND_EXPR
+    NCOND_EXPR,
+    NFUNC_CALL
 } Nonterminal;
 
 typedef enum

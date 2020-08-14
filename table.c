@@ -55,10 +55,12 @@ int insertInto(Entry *entry,Table *tableP){
 }
 
 Entry* lookUp(char *s,Table *tableP){
+    int isNull = 0;
     int pos = hash(s);
 
+    //Per ora lascio per chiarezza del codice, questo if puo' essere tolto e anche isNull
     if(tableP->entry[pos]==NULL)
-        return NULL;
+        isNull = 1;
     else{
         Entry *temp = tableP->entry[pos];
         while(temp)
@@ -69,8 +71,14 @@ Entry* lookUp(char *s,Table *tableP){
                 break;
             temp = temp->next;
         }
-        return NULL;
+        isNull = 1;
     }
+    //Se sono nello scope di una funzione e non c'e' la variabile controllo il globale
+    //In questo modo rispetto lo shadowing (precedenza definizione interna alla funzione)
+    if(strcmp(tableP->scope,"Globale")!=0)
+        return lookUp(s,getGlobale());
+    else
+        return NULL;
 }
 
 void print(Table *tableP)
