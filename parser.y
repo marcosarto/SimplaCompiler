@@ -2,6 +2,7 @@
 #include "def.h"
 #include "table.h"
 #include "semantica.h"
+#include "interprete.h"
 #define YYSTYPE Pnode
 extern char *yytext;
 extern Value lexval;
@@ -242,9 +243,11 @@ int main()
     //yyin = stdin;
     if((result = yyparse()) == 0){
         //treeprint(root,0);
-        evalType(root);
+        Pnode semCheckRoot = root;
+        evalType(semCheckRoot);
         printf("TABELLA GLOBALE\n");
         print(getGlobale());
+        runCode(root);
         }
     return(result);
 }

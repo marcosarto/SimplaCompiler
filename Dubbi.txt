@@ -1,8 +1,2 @@
-*Token ERROR, ritornato da lex, nel file parser.h
-nelle slides ma mai usato nelle regole di yacc?
-* https://www.epaperpress.com/lexandyacc/err.html un modo per continuare
-  a scansionare anche quando si trova un errore
-* https://stackoverflow.com/questions/18837828/how-should-i-handle-lexical-errors-in-my-flex-lexer
-*Forse > < <= ecc possono essere fatti con lo stesso token
- di return e un diverso lexval o simili vedi read://http_osr507doc.sco.com/?url=http%3A%2F%2Fosr507doc.sco.com%2Fen%2Ftools%2FLex_yacc.html
-*
+IL RETURN SICURO ANCORA DA FARE NELLA SEMANTICA
+E ALTRO SEMPRE NELLA SEMANTICA, RICONTROLLA

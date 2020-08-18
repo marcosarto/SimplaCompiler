@@ -1,32 +1,10 @@
-numero,tipo,dado: integer;
-ciao: real;
-varbool : boolean;
+numero:integer;
 func fattoriale(n: integer): integer
   fact: integer;
 body
-  n = fattoriale(5);
-  if n == 0 then
-    facto = 1.5;
-  else
-    fact = n * fattoriale(n-1);
-  end;
+  fact = 15;
   return fact;
 end;
-func stampaFattoriali(tot: integer): void
-  i, f: integer;
 body
-  for i=0 to tot do
-    i = 5;
-    f = fattoriale(i);
-    writeln("Il fattoriale di ", i, "è ", f);
-  end;
-end;
-body
-  numero = -5;
-  numero = tipo;
-  if numero < 0 then
-    writeln("Il numero ", numero, "non è valido");
-  else
-    stampaFattoriali(numero);
-  end;
+  numero = fattoriale(5);
 end.

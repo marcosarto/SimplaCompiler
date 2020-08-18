@@ -71,6 +71,7 @@
 #include "def.h"
 #include "table.h"
 #include "semantica.h"
+#include "interprete.h"
 #define YYSTYPE Pnode
 extern char *yytext;
 extern Value lexval;
@@ -78,7 +79,7 @@ extern int line;
 extern FILE *yyin;
 Pnode root = NULL;
 
-#line 82 "parser.c" /* yacc.c:337  */
+#line 83 "parser.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -464,16 +465,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    18,    18,    23,    24,    26,    30,    30,    31,    33,
-      34,    35,    36,    37,    39,    40,    42,    42,    49,    51,
-      53,    54,    56,    56,    60,    62,    63,    65,    66,    67,
-      68,    69,    70,    71,    72,    73,    75,    75,    79,    84,
-      85,    87,    91,    91,    97,   100,   101,   103,   106,   110,
-     111,   113,   114,   116,   120,   122,   123,   125,   129,   131,
-     132,   133,   134,   135,   136,   138,   141,   143,   144,   146,
-     149,   151,   152,   154,   156,   157,   158,   159,   161,   163,
-     166,   167,   169,   170,   171,   172,   174,   174,   177,   178,
-     180,   184,   185
+       0,    19,    19,    24,    25,    27,    31,    31,    32,    34,
+      35,    36,    37,    38,    40,    41,    43,    43,    50,    52,
+      54,    55,    57,    57,    61,    63,    64,    66,    67,    68,
+      69,    70,    71,    72,    73,    74,    76,    76,    80,    85,
+      86,    88,    92,    92,    98,   101,   102,   104,   107,   111,
+     112,   114,   115,   117,   121,   123,   124,   126,   130,   132,
+     133,   134,   135,   136,   137,   139,   142,   144,   145,   147,
+     150,   152,   153,   155,   157,   158,   159,   160,   162,   164,
+     167,   168,   170,   171,   172,   173,   175,   175,   178,   179,
+     181,   185,   186
 };
 #endif
 
@@ -1363,526 +1364,526 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 18 "parser.y" /* yacc.c:1652  */
+#line 19 "parser.y" /* yacc.c:1652  */
     {root = yyval = nontermnode(NPROGRAM);
                                                 yyval->c1 = yyvsp[-3];
                                                 yyval->c2 = yyvsp[-2];
                                                 yyval->b = yyvsp[-1];}
-#line 1372 "parser.c" /* yacc.c:1652  */
+#line 1373 "parser.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 23 "parser.y" /* yacc.c:1652  */
+#line 24 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-1]; yyvsp[-1]->b = yyvsp[0];}
-#line 1378 "parser.c" /* yacc.c:1652  */
+#line 1379 "parser.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 24 "parser.y" /* yacc.c:1652  */
+#line 25 "parser.y" /* yacc.c:1652  */
     {yyval = NULL;}
-#line 1384 "parser.c" /* yacc.c:1652  */
+#line 1385 "parser.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 26 "parser.y" /* yacc.c:1652  */
+#line 27 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NVAR_DECL);
                                 yyval->c1 = yyvsp[-3];
                                 yyval->c2 = yyvsp[-1];}
-#line 1392 "parser.c" /* yacc.c:1652  */
+#line 1393 "parser.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 30 "parser.y" /* yacc.c:1652  */
+#line 31 "parser.y" /* yacc.c:1652  */
     {yyval = idnode();}
-#line 1398 "parser.c" /* yacc.c:1652  */
+#line 1399 "parser.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 30 "parser.y" /* yacc.c:1652  */
+#line 31 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-2]; yyvsp[-2]->b = yyvsp[0];}
-#line 1404 "parser.c" /* yacc.c:1652  */
+#line 1405 "parser.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 31 "parser.y" /* yacc.c:1652  */
+#line 32 "parser.y" /* yacc.c:1652  */
     {yyval = idnode();}
-#line 1410 "parser.c" /* yacc.c:1652  */
+#line 1411 "parser.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 33 "parser.y" /* yacc.c:1652  */
+#line 34 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_INTEGER);}
-#line 1416 "parser.c" /* yacc.c:1652  */
+#line 1417 "parser.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 34 "parser.y" /* yacc.c:1652  */
+#line 35 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_REAL);}
-#line 1422 "parser.c" /* yacc.c:1652  */
+#line 1423 "parser.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 35 "parser.y" /* yacc.c:1652  */
+#line 36 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_STRING);}
-#line 1428 "parser.c" /* yacc.c:1652  */
+#line 1429 "parser.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 36 "parser.y" /* yacc.c:1652  */
+#line 37 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_BOOLEAN);}
-#line 1434 "parser.c" /* yacc.c:1652  */
+#line 1435 "parser.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 37 "parser.y" /* yacc.c:1652  */
+#line 38 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_VOID);}
-#line 1440 "parser.c" /* yacc.c:1652  */
+#line 1441 "parser.c" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 39 "parser.y" /* yacc.c:1652  */
+#line 40 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-1]; yyvsp[-1]->b = yyvsp[0];}
-#line 1446 "parser.c" /* yacc.c:1652  */
+#line 1447 "parser.c" /* yacc.c:1652  */
     break;
 
   case 15:
-#line 40 "parser.y" /* yacc.c:1652  */
+#line 41 "parser.y" /* yacc.c:1652  */
     {yyval = NULL;}
-#line 1452 "parser.c" /* yacc.c:1652  */
+#line 1453 "parser.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 42 "parser.y" /* yacc.c:1652  */
+#line 43 "parser.y" /* yacc.c:1652  */
     {yyval = idnode();}
-#line 1458 "parser.c" /* yacc.c:1652  */
+#line 1459 "parser.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 42 "parser.y" /* yacc.c:1652  */
+#line 43 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NFUNC_DECL);
                                                                                         yyval->c1 = yyvsp[-2];
                                                                                         yyval->c2 = yyvsp[-8];
                                                                                         yyvsp[-8]->c1 = yyvsp[-1];
                                                                                         yyvsp[-8]->c2 = yyvsp[-6];
                                                                                         yyvsp[-8]->b = yyvsp[-3];}
-#line 1469 "parser.c" /* yacc.c:1652  */
+#line 1470 "parser.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 49 "parser.y" /* yacc.c:1652  */
+#line 50 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NOPT_PARAM_LIST);
                         yyval->c1 = yyvsp[0];}
-#line 1476 "parser.c" /* yacc.c:1652  */
+#line 1477 "parser.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 51 "parser.y" /* yacc.c:1652  */
+#line 52 "parser.y" /* yacc.c:1652  */
     {yyval = NULL;}
-#line 1482 "parser.c" /* yacc.c:1652  */
+#line 1483 "parser.c" /* yacc.c:1652  */
     break;
 
   case 20:
-#line 53 "parser.y" /* yacc.c:1652  */
+#line 54 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-2]; yyvsp[-2]->b = yyvsp[0];}
-#line 1488 "parser.c" /* yacc.c:1652  */
+#line 1489 "parser.c" /* yacc.c:1652  */
     break;
 
   case 22:
-#line 56 "parser.y" /* yacc.c:1652  */
+#line 57 "parser.y" /* yacc.c:1652  */
     {yyval = idnode();}
-#line 1494 "parser.c" /* yacc.c:1652  */
+#line 1495 "parser.c" /* yacc.c:1652  */
     break;
 
   case 23:
-#line 56 "parser.y" /* yacc.c:1652  */
+#line 57 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NPARAM_DECL);
                                         yyval->c1 = yyvsp[-2];
                                         yyval->c2 = yyvsp[0];}
-#line 1502 "parser.c" /* yacc.c:1652  */
+#line 1503 "parser.c" /* yacc.c:1652  */
     break;
 
   case 24:
-#line 60 "parser.y" /* yacc.c:1652  */
+#line 61 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-1];}
-#line 1508 "parser.c" /* yacc.c:1652  */
+#line 1509 "parser.c" /* yacc.c:1652  */
     break;
 
   case 25:
-#line 62 "parser.y" /* yacc.c:1652  */
+#line 63 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-2]; yyvsp[-2]->b = yyvsp[0];}
-#line 1514 "parser.c" /* yacc.c:1652  */
+#line 1515 "parser.c" /* yacc.c:1652  */
     break;
 
   case 26:
-#line 63 "parser.y" /* yacc.c:1652  */
+#line 64 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-1];}
-#line 1520 "parser.c" /* yacc.c:1652  */
+#line 1521 "parser.c" /* yacc.c:1652  */
     break;
 
   case 35:
-#line 73 "parser.y" /* yacc.c:1652  */
+#line 74 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_BREAK);}
-#line 1526 "parser.c" /* yacc.c:1652  */
+#line 1527 "parser.c" /* yacc.c:1652  */
     break;
 
   case 36:
-#line 75 "parser.y" /* yacc.c:1652  */
+#line 76 "parser.y" /* yacc.c:1652  */
     {yyval = idnode();}
-#line 1532 "parser.c" /* yacc.c:1652  */
+#line 1533 "parser.c" /* yacc.c:1652  */
     break;
 
   case 37:
-#line 75 "parser.y" /* yacc.c:1652  */
+#line 76 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NASSIGN_STAT);
                                         yyval->c1 = yyvsp[-2];
                                         yyval->c2 = yyvsp[0];}
-#line 1540 "parser.c" /* yacc.c:1652  */
+#line 1541 "parser.c" /* yacc.c:1652  */
     break;
 
   case 38:
-#line 79 "parser.y" /* yacc.c:1652  */
+#line 80 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NIF_STAT);
                                                 yyval->c1 = yyvsp[-4];
                                                 yyval->c2 = yyvsp[-2];
                                                 yyval->b = yyvsp[-1];}
-#line 1549 "parser.c" /* yacc.c:1652  */
+#line 1550 "parser.c" /* yacc.c:1652  */
     break;
 
   case 39:
-#line 84 "parser.y" /* yacc.c:1652  */
+#line 85 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[0];}
-#line 1555 "parser.c" /* yacc.c:1652  */
+#line 1556 "parser.c" /* yacc.c:1652  */
     break;
 
   case 40:
-#line 85 "parser.y" /* yacc.c:1652  */
+#line 86 "parser.y" /* yacc.c:1652  */
     {yyval = NULL;}
-#line 1561 "parser.c" /* yacc.c:1652  */
+#line 1562 "parser.c" /* yacc.c:1652  */
     break;
 
   case 41:
-#line 87 "parser.y" /* yacc.c:1652  */
+#line 88 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NWHILE_STAT);
                                         yyval->c1 = yyvsp[-3];
                                         yyval->c2 = yyvsp[-1];}
-#line 1569 "parser.c" /* yacc.c:1652  */
+#line 1570 "parser.c" /* yacc.c:1652  */
     break;
 
   case 42:
-#line 91 "parser.y" /* yacc.c:1652  */
+#line 92 "parser.y" /* yacc.c:1652  */
     {yyval = idnode();}
-#line 1575 "parser.c" /* yacc.c:1652  */
+#line 1576 "parser.c" /* yacc.c:1652  */
     break;
 
   case 43:
-#line 91 "parser.y" /* yacc.c:1652  */
+#line 92 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NFOR_STAT);
                                                                 yyval->c1 = yyvsp[-3];
                                                                 yyval->c2 = yyvsp[-1];
                                                                 yyval->b = yyvsp[-7];
                                                                 yyvsp[-7]->b = yyvsp[-5];}
-#line 1585 "parser.c" /* yacc.c:1652  */
+#line 1586 "parser.c" /* yacc.c:1652  */
     break;
 
   case 44:
-#line 97 "parser.y" /* yacc.c:1652  */
+#line 98 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NRETURN_STAT);
                         yyval->c1 = yyvsp[0];}
-#line 1592 "parser.c" /* yacc.c:1652  */
+#line 1593 "parser.c" /* yacc.c:1652  */
     break;
 
   case 46:
-#line 101 "parser.y" /* yacc.c:1652  */
+#line 102 "parser.y" /* yacc.c:1652  */
     {yyval = NULL;}
-#line 1598 "parser.c" /* yacc.c:1652  */
+#line 1599 "parser.c" /* yacc.c:1652  */
     break;
 
   case 47:
-#line 103 "parser.y" /* yacc.c:1652  */
+#line 104 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NREAD_STAT);
                                 yyval->c1 = yyvsp[-1];}
-#line 1605 "parser.c" /* yacc.c:1652  */
+#line 1606 "parser.c" /* yacc.c:1652  */
     break;
 
   case 48:
-#line 106 "parser.y" /* yacc.c:1652  */
+#line 107 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NWRITE_STAT);
                                         yyval->c1 = yyvsp[-3];
                                         yyval->c2 = yyvsp[-1];}
-#line 1613 "parser.c" /* yacc.c:1652  */
+#line 1614 "parser.c" /* yacc.c:1652  */
     break;
 
   case 49:
-#line 110 "parser.y" /* yacc.c:1652  */
+#line 111 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_WRITE);}
-#line 1619 "parser.c" /* yacc.c:1652  */
+#line 1620 "parser.c" /* yacc.c:1652  */
     break;
 
   case 50:
-#line 111 "parser.y" /* yacc.c:1652  */
+#line 112 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_WRITELN);}
-#line 1625 "parser.c" /* yacc.c:1652  */
+#line 1626 "parser.c" /* yacc.c:1652  */
     break;
 
   case 51:
-#line 113 "parser.y" /* yacc.c:1652  */
+#line 114 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-2]; yyvsp[-2]->b = yyvsp[0];}
-#line 1631 "parser.c" /* yacc.c:1652  */
+#line 1632 "parser.c" /* yacc.c:1652  */
     break;
 
   case 53:
-#line 116 "parser.y" /* yacc.c:1652  */
+#line 117 "parser.y" /* yacc.c:1652  */
     {yyval= yyvsp[-1];
                                 yyvsp[-1]->c1 = yyvsp[-2];
                                 yyvsp[-1]->c2 = yyvsp[0];
                                 }
-#line 1640 "parser.c" /* yacc.c:1652  */
+#line 1641 "parser.c" /* yacc.c:1652  */
     break;
 
   case 54:
-#line 120 "parser.y" /* yacc.c:1652  */
+#line 121 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[0];}
-#line 1646 "parser.c" /* yacc.c:1652  */
+#line 1647 "parser.c" /* yacc.c:1652  */
     break;
 
   case 55:
-#line 122 "parser.y" /* yacc.c:1652  */
+#line 123 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_AND);}
-#line 1652 "parser.c" /* yacc.c:1652  */
+#line 1653 "parser.c" /* yacc.c:1652  */
     break;
 
   case 56:
-#line 123 "parser.y" /* yacc.c:1652  */
+#line 124 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_OR);}
-#line 1658 "parser.c" /* yacc.c:1652  */
+#line 1659 "parser.c" /* yacc.c:1652  */
     break;
 
   case 57:
-#line 125 "parser.y" /* yacc.c:1652  */
+#line 126 "parser.y" /* yacc.c:1652  */
     {yyval=yyvsp[-1];
                                         yyvsp[-1]->c1=yyvsp[-2];
                                         yyvsp[-1]->c2=yyvsp[0];
                                         }
-#line 1667 "parser.c" /* yacc.c:1652  */
+#line 1668 "parser.c" /* yacc.c:1652  */
     break;
 
   case 58:
-#line 129 "parser.y" /* yacc.c:1652  */
+#line 130 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[0];}
-#line 1673 "parser.c" /* yacc.c:1652  */
+#line 1674 "parser.c" /* yacc.c:1652  */
     break;
 
   case 59:
-#line 131 "parser.y" /* yacc.c:1652  */
+#line 132 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_EQU);}
-#line 1679 "parser.c" /* yacc.c:1652  */
+#line 1680 "parser.c" /* yacc.c:1652  */
     break;
 
   case 60:
-#line 132 "parser.y" /* yacc.c:1652  */
+#line 133 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_NEQ);}
-#line 1685 "parser.c" /* yacc.c:1652  */
+#line 1686 "parser.c" /* yacc.c:1652  */
     break;
 
   case 61:
-#line 133 "parser.y" /* yacc.c:1652  */
+#line 134 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_GRT);}
-#line 1691 "parser.c" /* yacc.c:1652  */
+#line 1692 "parser.c" /* yacc.c:1652  */
     break;
 
   case 62:
-#line 134 "parser.y" /* yacc.c:1652  */
+#line 135 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_GEQ);}
-#line 1697 "parser.c" /* yacc.c:1652  */
+#line 1698 "parser.c" /* yacc.c:1652  */
     break;
 
   case 63:
-#line 135 "parser.y" /* yacc.c:1652  */
+#line 136 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_LSS);}
-#line 1703 "parser.c" /* yacc.c:1652  */
+#line 1704 "parser.c" /* yacc.c:1652  */
     break;
 
   case 64:
-#line 136 "parser.y" /* yacc.c:1652  */
+#line 137 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_LEQ);}
-#line 1709 "parser.c" /* yacc.c:1652  */
+#line 1710 "parser.c" /* yacc.c:1652  */
     break;
 
   case 65:
-#line 138 "parser.y" /* yacc.c:1652  */
+#line 139 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-1];
                                         yyvsp[-1]->c1 = yyvsp[-2];
                                         yyvsp[-1]->c2 = yyvsp[0];}
-#line 1717 "parser.c" /* yacc.c:1652  */
+#line 1718 "parser.c" /* yacc.c:1652  */
     break;
 
   case 66:
-#line 141 "parser.y" /* yacc.c:1652  */
+#line 142 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[0];}
-#line 1723 "parser.c" /* yacc.c:1652  */
+#line 1724 "parser.c" /* yacc.c:1652  */
     break;
 
   case 67:
-#line 143 "parser.y" /* yacc.c:1652  */
+#line 144 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_PLUS);}
-#line 1729 "parser.c" /* yacc.c:1652  */
+#line 1730 "parser.c" /* yacc.c:1652  */
     break;
 
   case 68:
-#line 144 "parser.y" /* yacc.c:1652  */
+#line 145 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_MINUS);}
-#line 1735 "parser.c" /* yacc.c:1652  */
+#line 1736 "parser.c" /* yacc.c:1652  */
     break;
 
   case 69:
-#line 146 "parser.y" /* yacc.c:1652  */
+#line 147 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-1];
                                         yyvsp[-1]->c1 = yyvsp[-2];
                                         yyvsp[-1]->c2 = yyvsp[0];}
-#line 1743 "parser.c" /* yacc.c:1652  */
+#line 1744 "parser.c" /* yacc.c:1652  */
     break;
 
   case 70:
-#line 149 "parser.y" /* yacc.c:1652  */
+#line 150 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[0];}
-#line 1749 "parser.c" /* yacc.c:1652  */
+#line 1750 "parser.c" /* yacc.c:1652  */
     break;
 
   case 71:
-#line 151 "parser.y" /* yacc.c:1652  */
+#line 152 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_STAR);}
-#line 1755 "parser.c" /* yacc.c:1652  */
+#line 1756 "parser.c" /* yacc.c:1652  */
     break;
 
   case 72:
-#line 152 "parser.y" /* yacc.c:1652  */
+#line 153 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_DIV);}
-#line 1761 "parser.c" /* yacc.c:1652  */
+#line 1762 "parser.c" /* yacc.c:1652  */
     break;
 
   case 73:
-#line 154 "parser.y" /* yacc.c:1652  */
+#line 155 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-1];
                         yyval->c1 = yyvsp[0];}
-#line 1768 "parser.c" /* yacc.c:1652  */
+#line 1769 "parser.c" /* yacc.c:1652  */
     break;
 
   case 74:
-#line 156 "parser.y" /* yacc.c:1652  */
+#line 157 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-1];}
-#line 1774 "parser.c" /* yacc.c:1652  */
+#line 1775 "parser.c" /* yacc.c:1652  */
     break;
 
   case 75:
-#line 157 "parser.y" /* yacc.c:1652  */
+#line 158 "parser.y" /* yacc.c:1652  */
     {yyval = idnode();}
-#line 1780 "parser.c" /* yacc.c:1652  */
+#line 1781 "parser.c" /* yacc.c:1652  */
     break;
 
   case 76:
-#line 158 "parser.y" /* yacc.c:1652  */
+#line 159 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[0];}
-#line 1786 "parser.c" /* yacc.c:1652  */
+#line 1787 "parser.c" /* yacc.c:1652  */
     break;
 
   case 77:
-#line 159 "parser.y" /* yacc.c:1652  */
+#line 160 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NFUNC_CALL);
             yyval->c1 = yyvsp[0];}
-#line 1793 "parser.c" /* yacc.c:1652  */
+#line 1794 "parser.c" /* yacc.c:1652  */
     break;
 
   case 78:
-#line 161 "parser.y" /* yacc.c:1652  */
+#line 162 "parser.y" /* yacc.c:1652  */
     {yyval = nontermnode(NCOND_EXPR);
             yyval->c1=yyvsp[0];}
-#line 1800 "parser.c" /* yacc.c:1652  */
+#line 1801 "parser.c" /* yacc.c:1652  */
     break;
 
   case 79:
-#line 163 "parser.y" /* yacc.c:1652  */
+#line 164 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-3];
                 yyvsp[-3]->c1 = yyvsp[-1];}
-#line 1807 "parser.c" /* yacc.c:1652  */
+#line 1808 "parser.c" /* yacc.c:1652  */
     break;
 
   case 80:
-#line 166 "parser.y" /* yacc.c:1652  */
+#line 167 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_MINUS);}
-#line 1813 "parser.c" /* yacc.c:1652  */
+#line 1814 "parser.c" /* yacc.c:1652  */
     break;
 
   case 81:
-#line 167 "parser.y" /* yacc.c:1652  */
+#line 168 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_NOT);}
-#line 1819 "parser.c" /* yacc.c:1652  */
+#line 1820 "parser.c" /* yacc.c:1652  */
     break;
 
   case 82:
-#line 169 "parser.y" /* yacc.c:1652  */
+#line 170 "parser.y" /* yacc.c:1652  */
     {yyval = intconstnode();}
-#line 1825 "parser.c" /* yacc.c:1652  */
+#line 1826 "parser.c" /* yacc.c:1652  */
     break;
 
   case 83:
-#line 170 "parser.y" /* yacc.c:1652  */
+#line 171 "parser.y" /* yacc.c:1652  */
     {yyval = realconstnode();}
-#line 1831 "parser.c" /* yacc.c:1652  */
+#line 1832 "parser.c" /* yacc.c:1652  */
     break;
 
   case 84:
-#line 171 "parser.y" /* yacc.c:1652  */
+#line 172 "parser.y" /* yacc.c:1652  */
     {yyval = strconstnode();}
-#line 1837 "parser.c" /* yacc.c:1652  */
+#line 1838 "parser.c" /* yacc.c:1652  */
     break;
 
   case 85:
-#line 172 "parser.y" /* yacc.c:1652  */
+#line 173 "parser.y" /* yacc.c:1652  */
     {yyval = boolconstnode();}
-#line 1843 "parser.c" /* yacc.c:1652  */
+#line 1844 "parser.c" /* yacc.c:1652  */
     break;
 
   case 86:
-#line 174 "parser.y" /* yacc.c:1652  */
+#line 175 "parser.y" /* yacc.c:1652  */
     {yyval = idnode();}
-#line 1849 "parser.c" /* yacc.c:1652  */
+#line 1850 "parser.c" /* yacc.c:1652  */
     break;
 
   case 87:
-#line 174 "parser.y" /* yacc.c:1652  */
+#line 175 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-3];
                                                         yyvsp[-3]->c1 = yyvsp[-1];}
-#line 1856 "parser.c" /* yacc.c:1652  */
+#line 1857 "parser.c" /* yacc.c:1652  */
     break;
 
   case 89:
-#line 178 "parser.y" /* yacc.c:1652  */
+#line 179 "parser.y" /* yacc.c:1652  */
     {yyval = NULL;}
-#line 1862 "parser.c" /* yacc.c:1652  */
+#line 1863 "parser.c" /* yacc.c:1652  */
     break;
 
   case 90:
-#line 180 "parser.y" /* yacc.c:1652  */
+#line 181 "parser.y" /* yacc.c:1652  */
     {yyval = yyvsp[-5];
                                         yyvsp[-5]->c1 = yyvsp[-3];
                                         yyvsp[-5]->c2 = yyvsp[-1];}
-#line 1870 "parser.c" /* yacc.c:1652  */
+#line 1871 "parser.c" /* yacc.c:1652  */
     break;
 
   case 91:
-#line 184 "parser.y" /* yacc.c:1652  */
+#line 185 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_INTEGER);}
-#line 1876 "parser.c" /* yacc.c:1652  */
+#line 1877 "parser.c" /* yacc.c:1652  */
     break;
 
   case 92:
-#line 185 "parser.y" /* yacc.c:1652  */
+#line 186 "parser.y" /* yacc.c:1652  */
     {yyval = keynode(T_REAL);}
-#line 1882 "parser.c" /* yacc.c:1652  */
+#line 1883 "parser.c" /* yacc.c:1652  */
     break;
 
 
-#line 1886 "parser.c" /* yacc.c:1652  */
+#line 1887 "parser.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2113,7 +2114,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 187 "parser.y" /* yacc.c:1918  */
+#line 188 "parser.y" /* yacc.c:1918  */
 
 Pnode nontermnode(Nonterminal nonterm)
 {
@@ -2172,9 +2173,11 @@ int main()
     //yyin = stdin;
     if((result = yyparse()) == 0){
         //treeprint(root,0);
-        evalType(root);
+        Pnode semCheckRoot = root;
+        evalType(semCheckRoot);
         printf("TABELLA GLOBALE\n");
         print(getGlobale());
+        runCode(root);
         }
     return(result);
 }

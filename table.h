@@ -34,7 +34,6 @@ struct sentry{
 struct stable{
     char *scope;
     int count;
-    int capacity;
     Entry* entry[TOT];
 };
 
@@ -47,5 +46,6 @@ Entry* lookUp(char *s,Table *tableP);
 void print(Table *table);
 Table* creaAmbiente();
 Table* getGlobale();
+int getOid(char *s,Table *tableP);
 
 #endif //PROVATECNOLOGIE_TABLE_H

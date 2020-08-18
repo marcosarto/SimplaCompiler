@@ -29,6 +29,9 @@ int insert(Entry *entry)
 
 int insertInto(Entry *entry,Table *tableP){
     int pos = hash(entry->key);
+    int oid = tableP->count;
+    entry->oid = oid;
+    tableP->count = oid+1;
 
     if(tableP->entry[pos] == NULL)
         tableP->entry[pos] = entry;
@@ -81,6 +84,23 @@ Entry* lookUp(char *s,Table *tableP){
         return NULL;
 }
 
+int getOid(char *s,Table *tableP) {
+    int pos = hash(s);
+    if (tableP->entry[pos] == NULL)
+        return -1;
+    else {
+        Entry *temp = tableP->entry[pos];
+        while (temp) {
+            if (strcmp(temp->key, s) == 0)
+                return temp->oid;
+            if (temp->next == NULL)
+                break;
+            temp = temp->next;
+        }
+        return -1;
+    }
+}
+
 void print(Table *tableP)
 {
     int i;
@@ -92,7 +112,7 @@ void print(Table *tableP)
             printf("chain[%d]-->", i);
             while (temp)
             {
-                printf("%s|%s -->", temp->key,tipiToString[(int)temp->tipo]);
+                printf("%s|%s|%d -->", temp->key,tipiToString[(int)temp->tipo],temp->oid);
                 temp = temp->next;
             }
             printf("NULL\n");
@@ -104,8 +124,7 @@ void initTable()
 {
     table = malloc(sizeof(Table));
     table->scope = newstring("Globale"); //Verra' riscritto solo se e' una funzione, metodo non pulitissimo si puo' rivedere
-    table->count = 0; //Servirebbero se si volesse fare la tabella dinamica, da togliere se non viene fatto
-    table->capacity = 0;
+    table->count = 0;
     int i;
     for(i = 0; i < TOT; i++)
         table->entry[i] = NULL;
@@ -117,6 +136,7 @@ void assignScopeName(char *nome, Table *tableP){
 
 Table* creaAmbiente(){
     Table* tableP = malloc(sizeof(Table));
+    tableP->count = 0;
     return tableP;
 }
 

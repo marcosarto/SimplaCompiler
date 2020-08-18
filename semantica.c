@@ -91,6 +91,7 @@ void funDeclList(Pnode n) {
 
         n = n->b;
     }
+    //Controllo il body di ogni funzione
     while (originalN != NULL) {
         Table *tableFun = lookUp(originalN->c2->value.sval,getGlobale())->ambiente;
         body(originalN->c2->c1, tableFun);
