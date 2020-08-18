@@ -9,9 +9,10 @@
 #include "semantica.h"
 #include "runStructure.h"
 void runCode(Pnode root);
-void varDeclListex(Pnode n,int nVars);
+void varDeclListex(Pnode n);
 void bodyex(Pnode n,Table *table);
 void assignStatex(Pnode n,Table *table);
+void returnStatex(Pnode n,Table *table);
 void exprex(Pnode n, Table *table);
 void booltermex(Pnode n, Table *table);
 void relTermex(Pnode n, Table *table);

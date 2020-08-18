@@ -1,10 +1,13 @@
-numero:integer;
+numero,dado,cinque:integer;
+pi:real;
+varbool:boolean;
 func fattoriale(n: integer): integer
   fact: integer;
 body
-  fact = 15;
+  fact = n;
   return fact;
 end;
 body
-  numero = fattoriale(5);
+  numero = fattoriale(fattoriale(5));
+  varbool = true;
 end.
