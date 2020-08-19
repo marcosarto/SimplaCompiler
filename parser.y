@@ -80,7 +80,7 @@ assign_stat : ID {$$ = idnode();} EQUAL expr {$$ = nontermnode(NASSIGN_STAT);
 if_stat : IF expr THEN stat_list opt_else_stat END {$$ = nontermnode(NIF_STAT);
                                                 $$->c1 = $2;
                                                 $$->c2 = $4;
-                                                $$->b = $5;}
+                                                $2->b = $5;}
         ;
 opt_else_stat : ELSE stat_list {$$ = $2;}
         | {$$ = NULL;}
@@ -157,8 +157,7 @@ factor : unary_op factor {$$ = $1;
 | '(' expr ')' {$$ = $2;}
 | ID {$$ = idnode();}
 | const {$$ = $1;}
-| func_call {$$ = nontermnode(NFUNC_CALL);
-            $$->c1 = $1;}
+| func_call
 | cond_expr {$$ = nontermnode(NCOND_EXPR);
             $$->c1=$1;}
 | cast '(' expr ')' {$$ = $1;
@@ -172,8 +171,9 @@ const : INTCONST {$$ = intconstnode();}
 | STRCONST {$$ = strconstnode();}
 | BOOLCONST {$$ = boolconstnode();}
 ;
-func_call : ID {$$ = idnode();} '(' opt_expr_list ')' {$$ = $2;
-                                                        $2->c1 = $4;}
+func_call : ID {$$ = idnode();} '(' opt_expr_list ')' {$$ = nontermnode(NFUNC_CALL);
+                                                       $$->c1 = $2;
+                                                       $2->c1 = $4;}
         ;
 opt_expr_list : expr_list
         | {$$ = NULL;}

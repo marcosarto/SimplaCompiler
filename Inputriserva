@@ -1,12 +1,9 @@
-numero,tipo,dado: integer;
-ciao: real;
-varbool : boolean;
+numero: integer;
 func fattoriale(n: integer): integer
   fact: integer;
 body
-  n = fattoriale(5);
   if n == 0 then
-    facto = 1.5;
+    fact = 1;
   else
     fact = n * fattoriale(n-1);
   end;
@@ -21,8 +18,7 @@ body
   end;
 end;
 body
-  numero = -5;
-  numero = tipo;
+  read(numero);
   if numero < 0 then
     writeln("Il numero ", numero, "non è valido");
   else

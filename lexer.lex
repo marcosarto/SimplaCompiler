@@ -5,16 +5,17 @@ int line = 1;
 Value lexval;
 %}                                                              
 %option noyywrap
-spacing     ([ \t])+
-letter      [A-Za-z]
-digit       [0-9]
-intconst    {digit}+
-realconst   {digit}+\.{digit}+
-strconst    \"([^\"])*\"
-boolconst   false|true
-id          {letter}({letter}|{digit})*
-sugar       [(){}:;,'.']
-comment     #.*\n
+delimiter	[ \t]
+spacing		{delimiter}+
+letter		[A-Za-z]
+digit       	[0-9]
+intconst    	{digit}+
+realconst   	{digit}+\.{digit}+
+strconst    	\"([^\"])*\"
+boolconst   	false|true
+id          	{letter}({letter}|{digit})*
+sugar       	[(){}:;,'.']
+comment     	#.*\n
 %%
 {spacing}   ;
 \n          {line++;}

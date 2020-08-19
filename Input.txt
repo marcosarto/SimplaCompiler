@@ -1,13 +1,17 @@
-numero,dado,cinque:integer;
-pi:real;
-varbool:boolean;
+numero: integer;
 func fattoriale(n: integer): integer
   fact: integer;
 body
-  fact = n;
-  return fact;
+  fact = 15;
+  return somma(n,fact);
+end;
+func somma(a:integer,b:integer):integer
+    risultato:integer;
+body
+    risultato = a+b;
+    return risultato;
 end;
 body
-  numero = fattoriale(fattoriale(5));
-  varbool = true;
+  numero = fattoriale(5);
+  writeln(numero);
 end.

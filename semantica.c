@@ -85,7 +85,8 @@ void funDeclList(Pnode n) {
         assignScopeName(nomeF, table);
 
         //Gestisco le variabili dichiarate all'interno della tabella della funzione
-        varDeclListInterno(n->c1, table);
+        if(n->c1!=NULL)
+            varDeclListInterno(n->c1, table);
         printf("TABELLA INTERNA DI %s\n", nomeF);
         print(table);
 

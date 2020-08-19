@@ -517,11 +517,10 @@ char *yytext;
 #line 2 "lexer.lex"
 #include "parser.h"                                             
 #include "def.h"
-#include "table.h"
 int line = 1;                                                   
 Value lexval;
+#line 523 "lexer.c"
 #line 524 "lexer.c"
-#line 525 "lexer.c"
 
 #define INITIAL 0
 
@@ -740,7 +739,7 @@ YY_DECL
 	{
 #line 19 "lexer.lex"
 
-#line 744 "lexer.c"
+#line 743 "lexer.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1025,7 +1024,7 @@ YY_RULE_SETUP
 #line 64 "lexer.lex"
 ECHO;
 	YY_BREAK
-#line 1029 "lexer.c"
+#line 1028 "lexer.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

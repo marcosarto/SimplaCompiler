@@ -1,5 +1,5 @@
 #include "runStructure.h"
-#define MAX_STACK 256
+#define MAX_STACK 1024
 
 Ostackrecord ostack[MAX_STACK];
 Astack astack[MAX_STACK];
@@ -27,7 +27,18 @@ void printAStack(){
     printf("----------------OSTACK------------------\n");
     for(Ostackrecord *ostackr = ostack;ostackr<op;ostackr++){
         printf("[ ");
-        printf("%s | %d",tipiToStringr[ostackr->tipo],ostackr->val.ival);
+        switch (ostackr->tipo) {
+            case BOOLE:
+            case INTE:
+                printf("%s | %d",tipiToStringr[ostackr->tipo],ostackr->val.ival);
+                break;
+            case REALE:
+                printf("%s | %f",tipiToStringr[ostackr->tipo],ostackr->val.rval);
+                break;
+            case STRINGE:
+                printf("%s | %s",tipiToStringr[ostackr->tipo],ostackr->val.sval);
+                break;
+        }
         printf(" ]\n");
     }
     printf("----------------ASTACK------------------\n");
