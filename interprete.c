@@ -260,10 +260,12 @@ void returnStatex(Pnode n) {
         exprex(n->c1);
         (((ap - 2)->startPoint) + (ap - 2)->nObjs - 1)->val = (op - 1)->val;
         ap--;
+        //Riaggiusto il puntatore op
         op = (ap - 1)->startPoint + (ap - 1)->nObjs;
     }
     else{
         ap--;
+        op = (ap - 1)->startPoint + (ap - 1)->nObjs;
     }
 }
 
@@ -290,6 +292,7 @@ void funcCallex(Pnode n) {
         os.tipo = e->dformali[i]->tipo;
         *op = os;
         op++;
+        //Computo l'expr passata come argomento
         exprex(temp);
         (op-2)->val = (op-1)->val;
         diminuisciOp();
@@ -298,6 +301,7 @@ void funcCallex(Pnode n) {
 
     *ap = as;
     ap++;
+    //Spiega questa parte nella presentazione (necessita' ap precedente)
     for(int i = 0; i < e->nformali; i++)
         (ap-1)->nObjs++;
     //Creo sullo stack le variabili locali della funzione
@@ -313,7 +317,13 @@ void funcCallex(Pnode n) {
     } while (exit != 1);
     //Eseguo il corpo della funzione chiamata, sullo stack c'e' gia tutto
     bodyex(funPointer->c2->c1);
-    funInterrupt = 0;
+    if(funInterrupt)
+        funInterrupt = 0;
+    //Entro qui solo se sono in una funzione void senza return esplicito
+    else {
+        ap--;
+        op = (ap - 1)->startPoint + (ap - 1)->nObjs;
+    }
 }
 
 void exprex(Pnode n) {
