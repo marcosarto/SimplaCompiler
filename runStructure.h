@@ -10,6 +10,7 @@ typedef struct {
 typedef struct Astacks{
     int nObjs;
     Ostackrecord *startPoint;
+    Table *table;
 }Astack ;
 
 void initRunStructure();

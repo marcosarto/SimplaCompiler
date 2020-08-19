@@ -1,10 +1,12 @@
 #include "interprete.h"
 #include "string.h"
+
 #define MAX_INPUT 100
 
 extern Ostackrecord *op;
 extern Astack *ap, *aproot;
 Pnode rootAST;
+int funInterrupt = 0;
 
 void runCode(Pnode root) {
     initRunStructure();
@@ -14,13 +16,14 @@ void runCode(Pnode root) {
     Astack as;
     as.startPoint = op;
     as.nObjs = 0;
+    as.table = getGlobale();
     *ap = as;
     ap++;
 
     if (root->c1 != NULL)
         varDeclListex(root->c1);
 
-    bodyex(root->b, getGlobale());
+    bodyex(root->b);
 
     printAStack();
 }
@@ -53,88 +56,79 @@ void varDeclListex(Pnode n) {
     if (n->b != NULL) varDeclListex(n->b);
 }
 
-void createRA(char *funName) {
-    Entry *e = lookUp(funName, getGlobale());
-    for (int i = 0; i < e->nformali; i++) {
-        Ostackrecord os;
-        os.tipo = e->dformali[i]->tipo;
-        *op = os;
-        aumentaOp();
-    }
-}
-
-void bodyex(Pnode n, Table *table) {
+void bodyex(Pnode n) {
     while (n != NULL) {
+        if(funInterrupt) return;
         switch (n->value.ival) {
             case NASSIGN_STAT:
-                assignStatex(n, table);
+                assignStatex(n);
                 break;
             case NIF_STAT:
-                ifStatex(n,table);
+                ifStatex(n);
                 break;
             case NFOR_STAT:
-                forStatex(n,table);
+                forStatex(n);
                 break;
             case NRETURN_STAT:
-                returnStatex(n, table);
+                returnStatex(n);
                 return;
             case NFUNC_CALL:
-                funcCallex(n,table);
+                funcCallex(n);
                 break;
             case NREAD_STAT:
-                readStatex(n,table);
+                readStatex(n);
                 break;
             case NWRITE_STAT:
-                writeStatex(n,table);
+                writeStatex(n);
                 break;
         }
         n = n->b;
     }
 }
 
-void assignStatex(Pnode n, Table *table) {
-    exprex(n->c2, table);
-    cambiaValInStack(n->c1->value.sval,table);
+void assignStatex(Pnode n) {
+    exprex(n->c2);
+    cambiaValInStack(n->c1->value.sval);
 }
 
-void writeStatex(Pnode n,Table *table){
+void writeStatex(Pnode n) {
     Pnode temp = n->c2;
-    while(temp!=NULL){
-        exprex(temp,table);
-        switch ((op-1)->tipo) {
+    while (temp != NULL) {
+        exprex(temp);
+        switch ((op - 1)->tipo) {
             case INTE:
-                printf("%d",(op-1)->val.ival);
+                printf("%d", (op - 1)->val.ival);
                 break;
             case REALE:
-                printf("%f",(op-1)->val.rval);
+                printf("%f", (op - 1)->val.rval);
                 break;
             case STRINGE:
-                printf("%s",(op-1)->val.sval);
+                printf("%s", (op - 1)->val.sval);
                 break;
             case BOOLE:
-                printf("%s",(op-1)->val.bval?"true":"false");
+                printf("%s", (op - 1)->val.bval ? "true" : "false");
                 break;
         }
         diminuisciOp();
         temp = temp->b;
     }
-    if(n->c1->type==T_WRITELN){
+    if (n->c1->type == T_WRITELN) {
         printf("\n");
     }
 }
 
-void readStatex(Pnode n,Table *table){
+void readStatex(Pnode n) {
     Pnode temp = n->c1;
-    while(temp!=NULL){
+    while (temp != NULL) {
         char str[MAX_INPUT];
-        scanf("%s",str);
-        switch (lookUp(n->c1->value.sval,table)->tipo) {
+        scanf("%s", str);
+        switch (lookUp(n->c1->value.sval, (ap - 1)->table)->tipo) {
             case INTE:
-                if(!isInt(str)) {
+                if (!isInt(str)) {
                     printf("Read stat %s e' intero, l'input e' invece di tipo non compatibile\n",
-                                      n->c1->value.sval);
+                           n->c1->value.sval);
                     errRunTime();
-                }else{
+                } else {
                     Ostackrecord os;
                     Value val;
                     os.tipo = INTE;
@@ -142,15 +136,15 @@ void readStatex(Pnode n,Table *table){
                     os.val = val;
                     *op = os;
                     aumentaOp();
-                    cambiaValInStack(n->c1->value.sval,table);
+                    cambiaValInStack(n->c1->value.sval);
                 }
                 break;
             case REALE:
-                if(!isReale(str)) {
+                if (!isReale(str)) {
                     printf("Read stat %s e' real, l'input e' invece di tipo non compatibile\n",
                            n->c1->value.sval);
                     errRunTime();
-                }else{
+                } else {
                     Ostackrecord os;
                     Value val;
                     os.tipo = REALE;
@@ -158,27 +152,27 @@ void readStatex(Pnode n,Table *table){
                     os.val = val;
                     *op = os;
                     aumentaOp();
-                    cambiaValInStack(n->c1->value.sval,table);
+                    cambiaValInStack(n->c1->value.sval);
                 }
                 break;
             case BOOLE:
-                if(!isBool(str)) {
+                if (!isBool(str)) {
                     printf("Read stat %s e' boolean, l'input e' invece di tipo non compatibile\n",
                            n->c1->value.sval);
                     errRunTime();
-                }else{
+                } else {
                     Ostackrecord os;
                     Value val;
                     os.tipo = BOOLE;
-                    val.bval = str[0]=='f'?FALSE:TRUE;
+                    val.bval = str[0] == 'f' ? FALSE : TRUE;
                     os.val = val;
                     *op = os;
                     aumentaOp();
-                    cambiaValInStack(n->c1->value.sval,table);
+                    cambiaValInStack(n->c1->value.sval);
                 }
                 break;
             case STRINGE:
-                if(0); //Se Ostack come prima riga errore, non so perche'
+                if (0); //Se Ostack come prima riga errore, non so perche'
                 Ostackrecord os;
                 Value val;
                 os.tipo = STRINGE;
@@ -186,96 +180,98 @@ void readStatex(Pnode n,Table *table){
                 os.val = val;
                 *op = os;
                 aumentaOp();
-                cambiaValInStack(n->c1->value.sval,table);
+                cambiaValInStack(n->c1->value.sval);
                 break;
         }
         temp = temp->b;
     }
 }
 
-void forStatex(Pnode n,Table *table){
+void forStatex(Pnode n) {
 
-    exprex(n->b->b,table);
-    cambiaValInStack(n->b->value.sval,table);
+    exprex(n->b->b);
+    cambiaValInStack(n->b->value.sval);
 
     int uscita;
     do {
-        exprex(n->c1, table);
+        exprex(n->c1);
 
         uscita = 1;
         //Controllo se la variabile e' locale
-        int Oid = getOid(n->b->value.sval, table);
+        int Oid = getOid(n->b->value.sval,(ap-1)->table);
         if (Oid != -1) {
             if (((ap - 1)->startPoint + Oid)->val.ival <= (op - 1)->val.ival) {
                 uscita = 0;
             }
         } else {
-            //E' globale e io non sono nel main
-            if (strcmp(table->scope, "Globale") != 0) {
-                Oid = getOid(n->b->value.sval, getGlobale());
-                if (((aproot)->startPoint + Oid)->val.ival <= (op - 1)->val.ival) {
-                    uscita = 0;
-                }
+            Oid = getOid(n->b->value.sval, getGlobale());
+            if (((aproot)->startPoint + Oid)->val.ival <= (op - 1)->val.ival) {
+                uscita = 0;
             }
+
         }
         diminuisciOp();
 
         //Runno il corpo del for se uscita = 0;
         if (!uscita) {
-            bodyex(n->c2, table);
+            bodyex(n->c2);
         }
         //Aumento di 1
-        int prec = getValueVarStack(n->b->value.sval,table).ival;
+        int prec = getValueVarStack(n->b->value.sval).ival;
         prec++;
         Ostackrecord os;
         os.tipo = INTE;
         os.val.ival = prec;
         *op = os;
         aumentaOp();
-        cambiaValInStack(n->b->value.sval,table);
-    }while(uscita!=1);
+        cambiaValInStack(n->b->value.sval);
+    } while (uscita != 1);
 }
 
-void ifStatex(Pnode n,Table *table){
-    exprex(n->c1,table);
-    int cond = (op-1)->val.bval;
+void ifStatex(Pnode n) {
+    exprex(n->c1);
+    int cond = (op - 1)->val.bval;
     diminuisciOp();
-    if(cond){
-        bodyex(n->c2,table);
-    }else{
-        bodyex(n->c1->b,table);
+    if (cond) {
+        bodyex(n->c2);
+    } else {
+        bodyex(n->c1->b);
     }
 }
 
-void cambiaValInStack(char *s,Table *table){
+void cambiaValInStack(char *s) {
     //Controllo se la variabile e' locale
-    int Oid = getOid(s, table);
+    int Oid = getOid(s,(ap-1)->table);
     if (Oid != -1) {
         ((ap - 1)->startPoint + Oid)->val = (op - 1)->val;
         diminuisciOp();
     }
-    //E' globale e io non sono nel main
-    else if (strcmp(table->scope, "Globale") != 0) {
+        //E' globale e io non sono nel main
+    else {
         Oid = getOid(s, getGlobale());
         ((aproot)->startPoint + Oid)->val = (op - 1)->val;
         diminuisciOp();
     }
 }
 
-void returnStatex(Pnode n, Table *table) {
-    if(n->c1!=NULL){
-        exprex(n->c1, table);
-        (((ap-2)->startPoint)+(ap-2)->nObjs-1)->val = (op-1)->val;
+void returnStatex(Pnode n) {
+    funInterrupt = 1;
+    if (n->c1 != NULL) {
+        exprex(n->c1);
+        (((ap - 2)->startPoint) + (ap - 2)->nObjs - 1)->val = (op - 1)->val;
         ap--;
-        op = (ap-1)->startPoint+(ap-1)->nObjs;
+        op = (ap - 1)->startPoint + (ap - 1)->nObjs;
+    }
+    else{
+        ap--;
     }
 }
 
-void funcCallex(Pnode n,Table *table){
+void funcCallex(Pnode n) {
     //Creo uno slot sullo stack per metterci il valore di ritorno (se non void)
-    if (lookUp(n->c1->value.sval,getGlobale())->tipo != VOIDE){
+    if (lookUp(n->c1->value.sval, getGlobale())->tipo != VOIDE) {
         Ostackrecord ost;
-        ost.tipo = lookUp(n->c1->value.sval,getGlobale())->tipo;
+        ost.tipo = lookUp(n->c1->value.sval, getGlobale())->tipo;
         *op = ost;
         aumentaOp();
     }
@@ -283,42 +279,49 @@ void funcCallex(Pnode n,Table *table){
     Astack as;
     as.startPoint = op;
     as.nObjs = 0;
-    *ap = as;
-    ap++;
-    table = lookUp(n->c1->value.sval,getGlobale())->ambiente;
+    as.table = lookUp(n->c1->value.sval, getGlobale())->ambiente;
+
+
     //Creo gli slot nello stack che conterranno i parametri formali
-    createRA(n->c1->value.sval);
+    Entry *e = lookUp(n->c1->value.sval, getGlobale());
     Pnode temp = n->c1->c1;
-    int i = 0;
-    //Do il valore agli slot con le expr che passo in parentesi
-    while (temp != NULL) {
-        exprex(temp, table);
-        ((ap - 1)->startPoint + i)->val = (op - 1)->val;
+    for (int i = 0; i < e->nformali; i++) {
+        Ostackrecord os;
+        os.tipo = e->dformali[i]->tipo;
+        *op = os;
+        op++;
+        exprex(temp);
+        (op-2)->val = (op-1)->val;
         diminuisciOp();
-        i++;
         temp = temp->b;
     }
+
+    *ap = as;
+    ap++;
+    for(int i = 0; i < e->nformali; i++)
+        (ap-1)->nObjs++;
     //Creo sullo stack le variabili locali della funzione
     int exit = 0;
     Pnode funPointer = rootAST->c2;
-    do{
-        if(strcmp(funPointer->c2->value.sval,n->c1->value.sval)==0){
+    do {
+        if (strcmp(funPointer->c2->value.sval, n->c1->value.sval) == 0) {
             exit = 1;
-            if(funPointer->c1!=NULL)
+            if (funPointer->c1 != NULL)
                 varDeclListex(funPointer->c1);
         }
-        if(exit!=1) funPointer = funPointer->b;
-    }while(exit!=1);
+        if (exit != 1) funPointer = funPointer->b;
+    } while (exit != 1);
     //Eseguo il corpo della funzione chiamata, sullo stack c'e' gia tutto
-    bodyex(funPointer->c2->c1, lookUp(n->c1->value.sval, getGlobale())->ambiente);
+    bodyex(funPointer->c2->c1);
+    funInterrupt = 0;
 }
 
-void exprex(Pnode n, Table *table) {
+void exprex(Pnode n) {
     Ostackrecord os;
     switch (n->type) {
         case T_AND:
-            exprex(n->c1, table);
-            booltermex(n->c2, table);
+            exprex(n->c1);
+            booltermex(n->c2);
             os.tipo = BOOLE;
             if (!(op - 2)->val.bval)
                 os.val.bval = FALSE;
@@ -330,8 +333,8 @@ void exprex(Pnode n, Table *table) {
             aumentaOp();
             break;
         case T_OR:
-            exprex(n->c1, table);
-            booltermex(n->c2, table);
+            exprex(n->c1);
+            booltermex(n->c2);
             os.tipo = BOOLE;
             if ((op - 2)->val.bval)
                 os.val.bval = TRUE;
@@ -343,16 +346,16 @@ void exprex(Pnode n, Table *table) {
             aumentaOp();
             break;
         default:
-            booltermex(n, table);
+            booltermex(n);
     }
 }
 
-void booltermex(Pnode n, Table *table) {
+void booltermex(Pnode n) {
     Ostackrecord os;
     switch (n->type) {
         case T_EQU:
-            relTermex(n->c1, table);
-            relTermex(n->c2, table);
+            relTermex(n->c1);
+            relTermex(n->c2);
             os.tipo = BOOLE;
             //Forse c'e' un modo meno lungo
             switch ((op - 2)->tipo) {
@@ -375,8 +378,8 @@ void booltermex(Pnode n, Table *table) {
             aumentaOp();
             break;
         case T_NEQ:
-            relTermex(n->c1, table);
-            relTermex(n->c2, table);
+            relTermex(n->c1);
+            relTermex(n->c2);
             os.tipo = BOOLE;
             switch ((op - 2)->tipo) {
                 case INTE:
@@ -398,8 +401,8 @@ void booltermex(Pnode n, Table *table) {
             aumentaOp();
             break;
         case T_GRT:
-            relTermex(n->c1, table);
-            relTermex(n->c2, table);
+            relTermex(n->c1);
+            relTermex(n->c2);
             os.tipo = BOOLE;
             switch ((op - 2)->tipo) {
                 case INTE:
@@ -421,8 +424,8 @@ void booltermex(Pnode n, Table *table) {
             aumentaOp();
             break;
         case T_GEQ:
-            relTermex(n->c1, table);
-            relTermex(n->c2, table);
+            relTermex(n->c1);
+            relTermex(n->c2);
             os.tipo = BOOLE;
             switch ((op - 2)->tipo) {
                 case INTE:
@@ -444,8 +447,8 @@ void booltermex(Pnode n, Table *table) {
             aumentaOp();
             break;
         case T_LSS:
-            relTermex(n->c1, table);
-            relTermex(n->c2, table);
+            relTermex(n->c1);
+            relTermex(n->c2);
             os.tipo = BOOLE;
             switch ((op - 2)->tipo) {
                 case INTE:
@@ -467,8 +470,8 @@ void booltermex(Pnode n, Table *table) {
             aumentaOp();
             break;
         case T_LEQ:
-            relTermex(n->c1, table);
-            relTermex(n->c2, table);
+            relTermex(n->c1);
+            relTermex(n->c2);
             os.tipo = BOOLE;
             switch ((op - 2)->tipo) {
                 case INTE:
@@ -490,16 +493,16 @@ void booltermex(Pnode n, Table *table) {
             aumentaOp();
             break;
         default:
-            relTermex(n, table);
+            relTermex(n);
     }
 }
 
-void relTermex(Pnode n, Table *table) {
+void relTermex(Pnode n) {
     Ostackrecord os;
     switch (n->type) {
         case T_PLUS:
-            relTermex(n->c1, table);
-            lowTermex(n->c2, table);
+            relTermex(n->c1);
+            lowTermex(n->c2);
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival + (op - 1)->val.ival;
@@ -514,8 +517,8 @@ void relTermex(Pnode n, Table *table) {
             break;
         case T_MINUS:
             if (n->c2 != NULL) {
-                relTermex(n->c1, table);
-                lowTermex(n->c2, table);
+                relTermex(n->c1);
+                lowTermex(n->c2);
                 if ((op - 2)->tipo == INTE) {
                     os.tipo = INTE;
                     os.val.ival = (op - 2)->val.ival - (op - 1)->val.ival;
@@ -528,20 +531,20 @@ void relTermex(Pnode n, Table *table) {
                 *op = os;
                 aumentaOp();
             } else {
-                lowTermex(n, table);
+                lowTermex(n);
             }
             break;
         default:
-            lowTermex(n, table);
+            lowTermex(n);
     }
 }
 
-void lowTermex(Pnode n, Table *table) {
+void lowTermex(Pnode n) {
     Ostackrecord os;
     switch (n->type) {
         case T_STAR:
-            lowTermex(n->c1, table);
-            factorex(n->c2, table);
+            lowTermex(n->c1);
+            factorex(n->c2);
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival * (op - 1)->val.ival;
@@ -555,8 +558,8 @@ void lowTermex(Pnode n, Table *table) {
             aumentaOp();
             break;
         case T_DIV:
-            lowTermex(n->c1, table);
-            factorex(n->c2, table);
+            lowTermex(n->c1);
+            factorex(n->c2);
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival / (op - 1)->val.ival;
@@ -570,11 +573,11 @@ void lowTermex(Pnode n, Table *table) {
             aumentaOp();
             break;
         default:
-            factorex(n, table);
+            factorex(n);
     }
 }
 
-void factorex(Pnode n, Table *table) {
+void factorex(Pnode n) {
     Ostackrecord os;
     switch (n->type) {
         case T_INTCONST:
@@ -602,14 +605,14 @@ void factorex(Pnode n, Table *table) {
             aumentaOp();
             break;
         case T_MINUS:
-            factorex(n->c1, table);
+            factorex(n->c1);
             if ((op - 1)->tipo == INTE)
                 (op - 1)->val.ival = -((op - 1)->val.ival);
             else
                 (op - 1)->val.rval = -((op - 1)->val.rval);
             break;
         case T_NOT:
-            factorex(n->c1, table);
+            factorex(n->c1);
             if ((op - 1)->val.bval == FALSE)
                 (op - 1)->val.bval = TRUE;
             else
@@ -617,25 +620,25 @@ void factorex(Pnode n, Table *table) {
             break;
         case T_NONTERMINAL:
             if (n->value.ival == NFUNC_CALL) {
-                funcCallex(n,table);
+                funcCallex(n);
             } else if (n->value.ival == NCOND_EXPR) {
-                exprex(n->c1, table);
+                exprex(n->c1);
                 if ((op - 1)->val.bval) {
                     diminuisciOp();
-                    exprex(n->c1, table);
+                    exprex(n->c1);
                 } else {
                     diminuisciOp();
-                    exprex(n->c2, table);
+                    exprex(n->c2);
                 }
             }
             break;
         case T_ID:
-            if (getOid(n->value.sval, table) != -1) {
-                os.tipo = lookUp(n->value.sval, table)->tipo;
-                os.val = ((ap - 1)->startPoint + getOid(n->value.sval, table))->val;
+            if (getOid(n->value.sval, (ap - 1)->table) != -1) {
+                os.tipo = lookUp(n->value.sval, (ap - 1)->table)->tipo;
+                os.val = ((ap - 1)->startPoint + getOid(n->value.sval,(ap-1)->table))->val;
                 *op = os;
                 aumentaOp();
-            }else if (strcmp(table->scope, "Globale") != 0) {
+            } else {
                 os.tipo = lookUp(n->value.sval, getGlobale())->tipo;
                 os.val = ((aproot)->startPoint + getOid(n->value.sval, getGlobale()))->val;
                 *op = os;
@@ -643,15 +646,15 @@ void factorex(Pnode n, Table *table) {
             }
             break;
         case T_INTEGER:
-            exprex(n->c1, table);
+            exprex(n->c1);
             (op - 1)->val.ival = (int) (op - 1)->val.rval;
             break;
         case T_REAL:
-            exprex(n->c1, table);
+            exprex(n->c1);
             (op - 1)->val.rval = (op - 1)->val.ival;
             break;
         default:
-            exprex(n, table);
+            exprex(n);
             break;
     }
 }
@@ -666,53 +669,53 @@ void diminuisciOp() {
     (ap - 1)->nObjs--;
 }
 
-int isInt(char *s){
-    for(int i=0;i<strlen(s);i++){
-        if(!(s[i] >= '0' && s[i] <='9'))
+int isInt(char *s) {
+    for (int i = 0; i < strlen(s); i++) {
+        if (!(s[i] >= '0' && s[i] <= '9'))
             return 0;
     }
     return 1;
 }
 
-int isReale(char *s){
-    int almenoUno = 0,punto = 0,almenoUnoDec=0;
-    for(int i=0;i<strlen(s);i++){
-        if(!(s[i] >= '0' && s[i] <='9')){
-            if(s[i]=='.'&&almenoUno&&!punto)
+int isReale(char *s) {
+    int almenoUno = 0, punto = 0, almenoUnoDec = 0;
+    for (int i = 0; i < strlen(s); i++) {
+        if (!(s[i] >= '0' && s[i] <= '9')) {
+            if (s[i] == '.' && almenoUno && !punto)
                 punto = 1;
             else
                 return 0;
-        } else{
-            if(punto)
+        } else {
+            if (punto)
                 almenoUnoDec = 1;
             else
                 almenoUno = 1;
         }
     }
-    if(almenoUno&&punto&&almenoUnoDec)
+    if (almenoUno && punto && almenoUnoDec)
         return 1;
     return 0;
 }
 
-int isBool(char *s){
-    if(strcmp(s,"true")==0||strcmp(s,"false")==0)
+int isBool(char *s) {
+    if (strcmp(s, "true") == 0 || strcmp(s, "false") == 0)
         return 1;
     return 0;
 }
 
-Value getValueVarStack(char *s,Table *table){
+Value getValueVarStack(char *s) {
     //Controllo se la variabile e' locale
-    int Oid = getOid(s, table);
+    int Oid = getOid(s, (ap - 1)->table);
     if (Oid != -1) {
         return ((ap - 1)->startPoint + Oid)->val;
     }
         //E' globale e io non sono nel main
-    else if (strcmp(table->scope, "Globale") != 0) {
+    else {
         Oid = getOid(s, getGlobale());
         return ((aproot)->startPoint + Oid)->val;
     }
 }
 
-void errRunTime(){
+void errRunTime() {
     exit(-1);
 }

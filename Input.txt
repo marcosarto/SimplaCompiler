@@ -2,16 +2,26 @@ numero: integer;
 func fattoriale(n: integer): integer
   fact: integer;
 body
-  fact = 15;
-  return somma(n,fact);
+  if n == 0 then
+    fact = 1;
+  else
+    fact = n * fattoriale(n-1);
+  end;
+  return fact;
 end;
-func somma(a:integer,b:integer):integer
-    risultato:integer;
+func stampaFattoriali(tot: integer): void
+  i, f: integer;
 body
-    risultato = a+b;
-    return risultato;
+  for i=0 to tot do
+    f = fattoriale(i);
+    writeln("Il fattoriale di ", i, "è ", f);
+  end;
 end;
 body
-  numero = fattoriale(5);
-  writeln(numero);
+  read(numero);
+  if numero < 0 then
+    writeln("Il numero ", numero, "non è valido");
+  else
+    stampaFattoriali(numero);
+  end;
 end.
