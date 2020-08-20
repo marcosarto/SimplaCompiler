@@ -1,26 +1,27 @@
 numero: integer;
-func infondo():void
-frase:string;
+func fattoriale(n: integer): integer
+  fact: integer;
 body
-    read(frase);
-    writeln(frase);
-    return;
+  if n == 0 then
+    fact = 1;
+  else
+    fact = n * fattoriale(n-1);
+  end;
+  return fact;
+end;
+func stampaFattoriali(tot: integer): void
+  i, f: integer;
+body
+  for i=0 to tot do
+    f = fattoriale(i);
+    writeln("Il fattoriale di ", i, "è ", f);
+  end;
 end;
 body
-  #commento prova
   read(numero);
-  if numero == 0 then
-    if 3<4 then
-        if true then
-            infondo();
-        else
-            writeln("else3");
-        end;
-    else
-        writeln("else2");
-    end;
+  if numero < 0 then
+    writeln("Il numero ", numero, "non è valido");
   else
-    writeln("else1");
+    stampaFattoriali(numero);
   end;
-  infondo();
 end.

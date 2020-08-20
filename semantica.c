@@ -343,10 +343,10 @@ HashType factor(Pnode n, Table *table) {
     }
         //cond_expr
     else if (n->type == T_NONTERMINAL && n->value.ival == NCOND_EXPR) {
-        if (expr(n->c1, table) != BOOLE)
+        if (expr(n->b, table) != BOOLE)
             printf("ERRSEMANTICO la condizione di if non e' booleana\n");
-        factorType = expr(n->c1->c1,table);
-        if(factorType!=expr(n->c1->c2,table))
+        factorType = expr(n->c1,table);
+        if(factorType!=expr(n->c2,table))
             printf("ERRSEMANTICO i due branch dell'if sono di tipi diversi\n");
         return factorType;
     }

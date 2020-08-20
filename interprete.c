@@ -122,11 +122,11 @@ void readStatex(Pnode n) {
     while (temp != NULL) {
         char str[MAX_INPUT];
         scanf("%s", str);
-        switch (lookUp(n->c1->value.sval, (ap - 1)->table)->tipo) {
+        switch (lookUp(temp->value.sval, (ap - 1)->table)->tipo) {
             case INTE:
                 if (!isInt(str)) {
                     printf("Read stat %s e' intero, l'input e' invece di tipo non compatibile\n",
-                           n->c1->value.sval);
+                           temp->value.sval);
                     errRunTime();
                 } else {
                     Ostackrecord os;
@@ -136,13 +136,13 @@ void readStatex(Pnode n) {
                     os.val = val;
                     *op = os;
                     aumentaOp();
-                    cambiaValInStack(n->c1->value.sval);
+                    cambiaValInStack(temp->value.sval);
                 }
                 break;
             case REALE:
                 if (!isReale(str)) {
                     printf("Read stat %s e' real, l'input e' invece di tipo non compatibile\n",
-                           n->c1->value.sval);
+                           temp->value.sval);
                     errRunTime();
                 } else {
                     Ostackrecord os;
@@ -152,13 +152,13 @@ void readStatex(Pnode n) {
                     os.val = val;
                     *op = os;
                     aumentaOp();
-                    cambiaValInStack(n->c1->value.sval);
+                    cambiaValInStack(temp->value.sval);
                 }
                 break;
             case BOOLE:
                 if (!isBool(str)) {
                     printf("Read stat %s e' boolean, l'input e' invece di tipo non compatibile\n",
-                           n->c1->value.sval);
+                           temp->value.sval);
                     errRunTime();
                 } else {
                     Ostackrecord os;
@@ -168,7 +168,7 @@ void readStatex(Pnode n) {
                     os.val = val;
                     *op = os;
                     aumentaOp();
-                    cambiaValInStack(n->c1->value.sval);
+                    cambiaValInStack(temp->value.sval);
                 }
                 break;
             case STRINGE:
@@ -180,7 +180,7 @@ void readStatex(Pnode n) {
                 os.val = val;
                 *op = os;
                 aumentaOp();
-                cambiaValInStack(n->c1->value.sval);
+                cambiaValInStack(temp->value.sval);
                 break;
         }
         temp = temp->b;
@@ -331,27 +331,29 @@ void exprex(Pnode n) {
     switch (n->type) {
         case T_AND:
             exprex(n->c1);
-            booltermex(n->c2);
-            os.tipo = BOOLE;
-            if (!(op - 2)->val.bval)
+            if (!(op - 1)->val.bval) {
                 os.val.bval = FALSE;
-            else
+            }else{
+                booltermex(n->c2);
                 os.val.bval = (op - 1)->val.bval;
-            diminuisciOp();
+                diminuisciOp();
+            }
+            os.tipo = BOOLE;
             diminuisciOp();
             *op = os;
             aumentaOp();
             break;
         case T_OR:
             exprex(n->c1);
-            booltermex(n->c2);
-            os.tipo = BOOLE;
-            if ((op - 2)->val.bval)
+            if((op-1)->val.bval) {
                 os.val.bval = TRUE;
-            else
+            }else {
+                booltermex(n->c2);
                 os.val.bval = (op - 1)->val.bval;
+                diminuisciOp();
+            }
             diminuisciOp();
-            diminuisciOp();
+            os.tipo = BOOLE;
             *op = os;
             aumentaOp();
             break;
@@ -632,7 +634,7 @@ void factorex(Pnode n) {
             if (n->value.ival == NFUNC_CALL) {
                 funcCallex(n);
             } else if (n->value.ival == NCOND_EXPR) {
-                exprex(n->c1);
+                exprex(n->b);
                 if ((op - 1)->val.bval) {
                     diminuisciOp();
                     exprex(n->c1);
@@ -680,16 +682,28 @@ void diminuisciOp() {
 }
 
 int isInt(char *s) {
-    for (int i = 0; i < strlen(s); i++) {
+    int i = 0,almenoUno=0;
+    if(s[i]=='-')
+        i++;
+
+    for (i ; i < strlen(s); i++) {
         if (!(s[i] >= '0' && s[i] <= '9'))
             return 0;
+        else
+            almenoUno = 1;
     }
-    return 1;
+    if(almenoUno)
+        return 1;
+    else return 0;
 }
 
 int isReale(char *s) {
+    int i = 0;
+    if(s[i]=='-')
+        i++;
+
     int almenoUno = 0, punto = 0, almenoUnoDec = 0;
-    for (int i = 0; i < strlen(s); i++) {
+    for (i; i < strlen(s); i++) {
         if (!(s[i] >= '0' && s[i] <= '9')) {
             if (s[i] == '.' && almenoUno && !punto)
                 punto = 1;

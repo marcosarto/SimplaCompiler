@@ -158,8 +158,7 @@ factor : unary_op factor {$$ = $1;
 | ID {$$ = idnode();}
 | const {$$ = $1;}
 | func_call
-| cond_expr {$$ = nontermnode(NCOND_EXPR);
-            $$->c1=$1;}
+| cond_expr
 | cast '(' expr ')' {$$ = $1;
                 $1->c1 = $3;}
 ;
@@ -178,9 +177,10 @@ func_call : ID {$$ = idnode();} '(' opt_expr_list ')' {$$ = nontermnode(NFUNC_CA
 opt_expr_list : expr_list
         | {$$ = NULL;}
         ;
-cond_expr : IF expr THEN expr ELSE expr END {$$ = $2;
-                                        $2->c1 = $4;
-                                        $2->c2 = $6;}
+cond_expr : IF expr THEN expr ELSE expr END {$$ = nontermnode(NCOND_EXPR);
+                                        $$->b = $2;
+                                        $$->c1 = $4;
+                                        $$->c2 = $6;}
         ;
 cast : INTEGER {$$ = keynode(T_INTEGER);}
 | REAL {$$ = keynode(T_REAL);}
