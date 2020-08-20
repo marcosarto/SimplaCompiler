@@ -6,19 +6,20 @@ Value lexval;
 %}                                                              
 %option noyywrap
 delimiter	[ \t]
+acapo		[\r\n]{2,}
 spacing		{delimiter}+
 letter		[A-Za-z]
-digit       	[0-9]
-intconst    	{digit}+
-realconst   	{digit}+\.{digit}+
-strconst    	\"([^\"])*\"
-boolconst   	false|true
-id          	{letter}({letter}|{digit})*
-sugar       	[(){}:;,'.']
-comment     	#.*\n
+digit		[0-9]
+intconst	{digit}+
+realconst	{digit}+\.{digit}+
+strconst	\"([^\"])*\"
+boolconst	false|true
+id		{letter}({letter}|{digit})*
+sugar		[(){}:;,'.']
+comment		#.*\n
 %%
 {spacing}   ;
-\n          {line++;}
+{acapo}     {line++;}
 {comment}   {printf("riconosciuto commento");}
 integer     {return(INTEGER);}
 real        {return(REAL);}
@@ -60,7 +61,7 @@ not         {return(NOT);}
 {boolconst} {lexval.bval = (yytext[0] == 'f' ? FALSE : TRUE); return(BOOLCONST);}
 {id}        {lexval.sval = newstring(yytext);return(ID);}
 {sugar}     {return(yytext[0]);}
-.           {printf("altro carattere %s",yytext);}
+.           {printf("Line %d: ErrLessicale carattere %s non riconosciuto\n",line,yytext);errLessicale();}
 %%
 char *newstring(char *s)
 {
@@ -69,4 +70,8 @@ char *newstring(char *s)
   p = malloc(strlen(s)+1);
   strcpy(p, s);
   return(p);
+}
+
+void errLessicale(){
+    exit(-4);
 }

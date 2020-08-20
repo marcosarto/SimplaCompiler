@@ -230,6 +230,7 @@ Pnode newnode(Typenode tnode)
 {
   Pnode p = malloc(sizeof(Node));
   p->type = tnode;
+  p->linen = line;
   p->c1 = p->c2 = p->b = NULL;
   return(p);
 }

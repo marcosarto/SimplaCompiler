@@ -67,6 +67,7 @@ typedef struct snode
 {
     Typenode type;
     Value value;
+    int linen;
     struct snode *c1, *c2, *b;
 } Node;
 typedef Node *Pnode;
@@ -83,5 +84,6 @@ Pnode nontermnode(Nonterminal),
         newnode(Typenode);
 void treeprint(Pnode, int),
         yyerror();
+void errLessicale();
 
 #endif //PROVATECNOLOGIE_DEF_H
