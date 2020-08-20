@@ -5,21 +5,14 @@
 #define LEN_ERR_MAX 100
 
 void evalType(Pnode n) {
-    switch (n->type) {
-        case T_NONTERMINAL:
-            switch (n->value.ival) {
-                case NPROGRAM:
-                    if (n->c1 != NULL)
-                        varDeclList(n->c1);
 
-                    if (n->c2 != NULL)
-                        funDeclList(n->c2);
+    if (n->c1 != NULL)
+        varDeclList(n->c1);
 
-                    body(n->b, getGlobale());
+    if (n->c2 != NULL)
+        funDeclList(n->c2);
 
-                    break;
-            }
-    }
+    body(n->b, getGlobale());
 }
 
 void varDeclList(Pnode n) {
@@ -134,11 +127,15 @@ void body(Pnode n, Table *table) {
 void readStat(Pnode n, Table *table) {
     Pnode temp = n->c1;
     while (temp != NULL) {
-        if (lookUp(n->c1->value.sval, table) == NULL) {
-            printf("ERRSEMANTICO Variabile %s del read fuori scope (%s) o non dichiarata\n", n->c1->value.sval,
-                   table->scope);
-        } else if (lookUp(n->c1->value.sval, table)->classe != VAR && lookUp(n->c1->value.sval, table)->classe != PAR) {
-            printf("ERRSEMANTICO Variabile %s del read di classe non consentita\n", n->c1->value.sval);
+        if (lookUp(temp->value.sval, table) == NULL) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "Variabile %s del read fuori scope (%s) o non dichiarata\n", temp->value.sval,
+                    table->scope);
+            errSemantico(s, temp);
+        } else if (lookUp(temp->value.sval, table)->classe != VAR && lookUp(temp->value.sval, table)->classe != PAR) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "Variabile %s del read di classe non consentita\n", temp->value.sval);
+            errSemantico(s, temp);
         }
         temp = temp->b;
     }
@@ -148,32 +145,33 @@ void returnStat(Pnode n, Table *table) {
     HashType tipoFun = lookUp(table->scope, getGlobale())->tipo;
     if (n->c1 != NULL) {
         if (tipoFun != expr(n->c1, table))
-            printf("Tipo di ritorno diverso dal tipo della funzione\n");
+            errSemantico("Tipo di ritorno diverso dal tipo della funzione\n", n);
     } else {
         if (tipoFun != VOIDE)
-            printf("Tipo di ritorno diverso dal tipo della funzione\n");
+            errSemantico("Tipo di ritorno diverso dal tipo della funzione\n", n);
     }
 }
 
 void forStat(Pnode n, Table *table) {
     if (lookUp(n->b->value.sval, table) == NULL) {
-        printf("ERRSEMANTICO variabile del for %s non precedentemente dichiarata o fuori dallo scope %s\n",
-               n->b->value.sval, table->scope);
-        return;
+        char *s = malloc(LEN_ERR_MAX);
+        sprintf(s, "variabile del for %s non precedentemente dichiarata o fuori dallo scope %s\n",
+                n->b->value.sval, table->scope);
+        errSemantico(s, n->b);
     }
     if (lookUp(n->b->value.sval, table)->classe != VAR && lookUp(n->b->value.sval, table)->classe != PAR)
-        printf("ERRSEMANTICO la variabile del for di assegnamento non e' ne var ne par\n");
+        errSemantico("la variabile del for di assegnamento non e' ne var ne par\n", n->b);
     if (lookUp(n->b->value.sval, table)->tipo != INTE)
-        printf("ERRSEMANTICO la variabile del for non e' di tipo intero, non e' consentito\n");
+        errSemantico("la variabile del for non e' di tipo intero, non e' consentito\n", n->b);
     if (expr(n->b->b, table) != INTE)
-        printf("ERRSEMANTICO expr1 del for non e' di tipo intero, non e' consentito\n");
+        errSemantico("expr1 del for non e' di tipo intero, non e' consentito\n", n->b->b);
     if (expr(n->c1, table) != INTE)
-        printf("ERRSEMANTICO expr2 del for non e' di tipo intero, non e' consentito\n");
+        errSemantico("expr2 del for non e' di tipo intero, non e' consentito\n", n->c1);
     Pnode temp = n->c2;
     while (temp != NULL) {
         if (temp->type == T_NONTERMINAL && temp->value.ival == NASSIGN_STAT) {
             if (strcmp(temp->c1->value.sval, n->b->value.sval) == 0)
-                printf("ERRSEMANTICO Il for ID non puo' essere usato come LHS di un assegnamento in stat list\n");
+                errSemantico("Il for ID non puo' essere usato come LHS di un assegnamento in stat list\n", temp);
         }
         temp = temp->b;
     }
@@ -181,28 +179,33 @@ void forStat(Pnode n, Table *table) {
 
 void whileStat(Pnode n, Table *table) {
     if (expr(n->c1, table) != BOOLE)
-        printf("ERRSEMANTICO while stat senza condizione booleana\n");
+        errSemantico("while stat senza condizione booleana\n", n->c1);
 }
 
 void ifStat(Pnode n, Table *table) {
     if (expr(n->c1, table) != BOOLE)
-        printf("ERRSEMANTICO if stat senza condizione booleana\n");
+        errSemantico("if stat senza condizione booleana\n", n->c1);
 }
 
 void assignStat(Pnode n, Table *table) {
     if (lookUp(n->c1->value.sval, table) == NULL) {
-        printf("ERRSEMANTICO variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
-               n->c1->value.sval, table->scope);
+        char *s = malloc(LEN_ERR_MAX);
+        sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
+                n->c1->value.sval, table->scope);
+        errSemantico(s, n);
         return;
     }
 
     if (lookUp(n->c1->value.sval, table)->classe != VAR && lookUp(n->c1->value.sval, table)->classe != PAR)
-        printf("ERRSEMANTICO la variabile di assegnamento non e' ne var ne par\n");
+        errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
 
     HashType tipo = (lookUp(n->c1->value.sval, table))->tipo; //tipo var, da confrontare con expr
     HashType tipoExpr = expr(n->c2, table);
-    if (tipo != tipoExpr)
-        printf("ERRSEMANTICO variabile %s non compatbile con l'expr\n", n->c1->value.sval);
+    if (tipo != tipoExpr) {
+        char *s = malloc(LEN_ERR_MAX);
+        sprintf(s, "variabile %s non compatbile con l'expr\n", n->c1->value.sval);
+        errSemantico(s, n);
+    }
 
 }
 
@@ -213,9 +216,9 @@ HashType expr(Pnode n, Table *table) {
     if (n->type == T_AND || n->type == T_OR) {
         exprType = BOOLE;
         if (expr(n->c1, table) != exprType)
-            printf("Errore semantico, espressioni di tipi non compatibili\n");
+            errSemantico("Ramo sinistro del confronto and/or non booleano\n", n);
         if (boolterm(n->c2, table) != exprType)
-            printf("Errore semantico boolterm di tipo non compatibile\n");
+            errSemantico("Ramo destro del confronto and/or non booleano\n", n);
         return exprType;
     } else return boolterm(n, table);
 }
@@ -230,7 +233,7 @@ HashType boolterm(Pnode n, Table *table) {
         || n->type == T_LEQ) {
         boolType = BOOLE;
         if (relTerm(n->c1, table) != relTerm(n->c2, table))
-            errSemantico("relTerm (>,<,==,>=,<=) di tipo non compatibile\n",n);
+            errSemantico("relTerm (>,<,==,>=,<=) di tipo non compatibile\n", n);
         return boolType;
     } else return relTerm(n, table);
 }
@@ -241,7 +244,7 @@ HashType relTerm(Pnode n, Table *table) {
     if (n->type == T_PLUS || (n->type == T_MINUS && n->c2 != NULL)) {
         relType = relTerm(n->c1, table);
         if (relType != lowTerm(n->c2, table))
-            errSemantico("relterm lowterm (+,-) di tipo non compatibile\n",n);
+            errSemantico("relterm lowterm (+,-) di tipo non compatibile\n", n);
         return relType;
     } else return lowTerm(n, table);
 }
@@ -251,7 +254,7 @@ HashType lowTerm(Pnode n, Table *table) {
     if (n->type == T_STAR || n->type == T_DIV) {
         lowType = lowTerm(n->c1, table);
         if (lowType != factor(n->c2, table))
-            errSemantico("lowtype factor (*,/) di tipo non compatibile\n",n);
+            errSemantico("lowtype factor (*,/) di tipo non compatibile\n", n);
         return lowType;
     } else return factor(n, table);
 }
@@ -263,11 +266,11 @@ HashType factor(Pnode n, Table *table) {
         if (n->type == T_MINUS) {
             factorType = factor(n->c1, table);
             if (factorType != INTE && factorType != REALE)
-                errSemantico("unary_op tipo incompatibile\n",n);
+                errSemantico("unary_op tipo incompatibile\n", n);
         } else {
             factorType = factor(n->c1, table);
             if (factorType != BOOLE)
-                errSemantico("unary_op tipo incompatibile\n",n);
+                errSemantico("unary_op tipo incompatibile\n", n);
         }
         return factorType;
     }
@@ -278,7 +281,13 @@ HashType factor(Pnode n, Table *table) {
 
         //id
     else if (n->type == T_ID) {
-        factorType = lookUp(n->value.sval, table)->tipo;
+        Entry *e = lookUp(n->value.sval, table);
+        if (e == NULL) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "variabile %s non dichiarata o fuori scope\n", n->value.sval);
+            errSemantico(s, n);
+        }
+        factorType = e->tipo;
         return factorType;
     }
         //const
@@ -390,9 +399,9 @@ HashType funcCall(Pnode n, Table *table) {
             temp = temp->b;
         } while (temp != NULL);
 
-        if (nArgs != funEntry->nformali){
+        if (nArgs != funEntry->nformali) {
             char *s = malloc(LEN_ERR_MAX);
-            sprintf(s,"numero argomenti differenti dalla firma nella funzione %s\n", n->c1->value.sval);
+            sprintf(s, "numero argomenti differenti dalla firma nella funzione %s\n", n->c1->value.sval);
             errSemantico(s, n->c1);
         }
 

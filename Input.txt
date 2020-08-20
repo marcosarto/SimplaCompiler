@@ -1,7 +1,12 @@
 numero:integer;
-func pi(n:integer):void
-body writeln("Ciao");
+ciao: boolean;
+s1,s2:string;
+func pi(numer:integer):void
+body
+    write("ciao");
 end;
 body
-numero=true>false;
+   s1 = "ciao";
+   s2 = "ciao";
+   numero = if s1==s2 then 5 else 6 end;
 end.
