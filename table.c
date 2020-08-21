@@ -104,20 +104,26 @@ int getOid(char *s,Table *tableP) {
 void print(Table *tableP)
 {
     int i;
+    char *toWrite = malloc(sizeof(char)*200);
+    sprintf(toWrite,"Tabella interna di %s (ID|TIPO|OID)\n",tableP->scope);
+    writeToFile(toWrite);
     for(i = 0; i < TOT; i++)
     {
         Entry *temp = tableP->entry[i];
         if(temp)
         {
-            printf("chain[%d]-->", i);
+            sprintf(toWrite,"chain[%d]-->", i);
+            writeToFile(toWrite);
             while (temp)
             {
-                printf("%s|%s|%d -->", temp->key,tipiToString[(int)temp->tipo],temp->oid);
+                sprintf(toWrite,"%s|%s|%d -->", temp->key,tipiToString[(int)temp->tipo],temp->oid);
+                writeToFile(toWrite);
                 temp = temp->next;
             }
-            printf("NULL\n");
+            writeToFile("NULL\n");
         }
     }
+    writeToFile("\n\n");
 }
 
 void initTable()

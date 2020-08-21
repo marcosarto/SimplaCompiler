@@ -3,6 +3,7 @@
 #include "table.h"
 #include "semantica.h"
 #include "interprete.h"
+#include "writeToFile.h"
 #define YYSTYPE Pnode
 extern char *yytext;
 extern Value lexval;
@@ -90,10 +91,10 @@ while_stat : WHILE expr DO stat_list END {$$ = nontermnode(NWHILE_STAT);
                                         $$->c2 = $4;}
         ;
 for_stat : FOR ID {$$ = idnode();} EQUAL expr TO expr DO stat_list END{$$ = nontermnode(NFOR_STAT);
-                                                                $$->c1 = $7;
+                                                                $$->c1 = $3;
                                                                 $$->c2 = $9;
-                                                                $$->b = $3;
-                                                                $3->b = $5;}
+                                                                $3->c1 = $5;
+                                                                $3->c2 = $7;}
         ;
 return_stat : RETURN opt_expr {$$ = nontermnode(NRETURN_STAT);
                         $$->c1 = $2;}
@@ -238,6 +239,7 @@ int main()
 {
     int result;
     initTable();
+    initWriteToFile();
 
     yyin = fopen("Input.txt", "r");
 
@@ -246,9 +248,9 @@ int main()
         //treeprint(root,0);
         Pnode semCheckRoot = root;
         evalType(semCheckRoot);
-        printf("TABELLA GLOBALE\n");
         print(getGlobale());
         runCode(root);
+        closeWriteToFile();
         }
     return(result);
 }

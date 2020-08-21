@@ -22,4 +22,5 @@ void returnStat(Pnode n, Table *table);
 void readStat(Pnode n, Table *table);
 HashType funcCall(Pnode n,Table *table);
 void errSemantico(char *s,Pnode n);
+void breakStat(Pnode n,Table *table);
 #endif //PROVATECNOLOGIE_SEMANTICA_H

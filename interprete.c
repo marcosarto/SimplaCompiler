@@ -6,10 +6,11 @@
 extern Ostackrecord *op;
 extern Astack *ap, *aproot;
 Pnode rootAST;
-int funInterrupt = 0;
+int funInterrupt = 0,toExit=0;
 
 void runCode(Pnode root) {
     initRunStructure();
+    initStringPool();
 
     rootAST = root;
 
@@ -26,6 +27,7 @@ void runCode(Pnode root) {
     bodyex(root->b);
 
     printAStack();
+    printStringPoolStructure();
 }
 
 void varDeclListex(Pnode n) {
@@ -59,31 +61,39 @@ void varDeclListex(Pnode n) {
 void bodyex(Pnode n) {
     while (n != NULL) {
         if(funInterrupt) return;
-        switch (n->value.ival) {
-            case NASSIGN_STAT:
-                assignStatex(n);
-                break;
-            case NIF_STAT:
-                ifStatex(n);
-                break;
-            case NFOR_STAT:
-                forStatex(n);
-                break;
-            case NRETURN_STAT:
-                returnStatex(n);
-                return;
-            case NFUNC_CALL:
-                funcCallex(n);
-                break;
-            case NREAD_STAT:
-                readStatex(n);
-                break;
-            case NWRITE_STAT:
-                writeStatex(n);
-                break;
+        if(n->type == T_BREAK)
+            breakStatex(n);
+        else {
+            switch (n->value.ival) {
+                case NASSIGN_STAT:
+                    assignStatex(n);
+                    break;
+                case NIF_STAT:
+                    ifStatex(n);
+                    break;
+                case NFOR_STAT:
+                    forStatex(n);
+                    break;
+                case NRETURN_STAT:
+                    returnStatex(n);
+                    return;
+                case NFUNC_CALL:
+                    funcCallex(n);
+                    break;
+                case NREAD_STAT:
+                    readStatex(n);
+                    break;
+                case NWRITE_STAT:
+                    writeStatex(n);
+                    break;
+            }
         }
         n = n->b;
     }
+}
+
+void breakStatex(Pnode n){
+    toExit = 1;
 }
 
 void assignStatex(Pnode n) {
@@ -176,7 +186,7 @@ void readStatex(Pnode n) {
                 Ostackrecord os;
                 Value val;
                 os.tipo = STRINGE;
-                val.sval = newstring(str);
+                val.sval = addString(str);
                 os.val = val;
                 *op = os;
                 aumentaOp();
@@ -189,22 +199,22 @@ void readStatex(Pnode n) {
 
 void forStatex(Pnode n) {
 
-    exprex(n->b->b);
-    cambiaValInStack(n->b->value.sval);
+    exprex(n->c1->c1);
+    cambiaValInStack(n->c1->value.sval);
 
     int uscita;
     do {
-        exprex(n->c1);
+        exprex(n->c1->c2);
 
         uscita = 1;
         //Controllo se la variabile e' locale
-        int Oid = getOid(n->b->value.sval,(ap-1)->table);
+        int Oid = getOid(n->c1->value.sval,(ap-1)->table);
         if (Oid != -1) {
             if (((ap - 1)->startPoint + Oid)->val.ival <= (op - 1)->val.ival) {
                 uscita = 0;
             }
         } else {
-            Oid = getOid(n->b->value.sval, getGlobale());
+            Oid = getOid(n->c1->value.sval, getGlobale());
             if (((aproot)->startPoint + Oid)->val.ival <= (op - 1)->val.ival) {
                 uscita = 0;
             }
@@ -215,17 +225,22 @@ void forStatex(Pnode n) {
         //Runno il corpo del for se uscita = 0;
         if (!uscita) {
             bodyex(n->c2);
+
+            if(toExit)
+                break;
+
+            //Aumento di 1
+            int prec = getValueVarStack(n->c1->value.sval).ival;
+            prec++;
+            Ostackrecord os;
+            os.tipo = INTE;
+            os.val.ival = prec;
+            *op = os;
+            aumentaOp();
+            cambiaValInStack(n->c1->value.sval);
         }
-        //Aumento di 1
-        int prec = getValueVarStack(n->b->value.sval).ival;
-        prec++;
-        Ostackrecord os;
-        os.tipo = INTE;
-        os.val.ival = prec;
-        *op = os;
-        aumentaOp();
-        cambiaValInStack(n->b->value.sval);
     } while (uscita != 1);
+    toExit = 0;
 }
 
 void ifStatex(Pnode n) {
@@ -612,7 +627,9 @@ void factorex(Pnode n) {
             break;
         case T_STRCONST:
             os.tipo = STRINGE;
-            os.val = n->value;
+            Value toAdd;
+            toAdd.sval = addStringLiteral(n->value.sval);
+            os.val = toAdd;
             *op = os;
             aumentaOp();
             break;
@@ -741,5 +758,6 @@ Value getValueVarStack(char *s) {
 }
 
 void errRunTime() {
+    closeWriteToFile();
     exit(-1);
 }

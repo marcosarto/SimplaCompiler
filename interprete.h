@@ -8,6 +8,7 @@
 #include "table.h"
 #include "semantica.h"
 #include "runStructure.h"
+#include "stringPoolStructure.h"
 void runCode(Pnode root);
 void varDeclListex(Pnode n);
 void bodyex(Pnode n);
@@ -26,6 +27,7 @@ void factorex(Pnode n);
 void aumentaOp();
 void diminuisciOp();
 void createRA(char *funName);
+void breakStatex(Pnode n);
 void cambiaValInStack(char *s);
 void errRunTime();
 int isInt(char *s);

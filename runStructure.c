@@ -24,27 +24,33 @@ void initRunStructure(){
 
 
 void printAStack(){
-    printf("----------------OSTACK------------------\n");
+    char *toWrite = malloc(sizeof(char)*200);
+    writeToFile("--------------OSTACK(TIPO|VAL)--------------\n");
     for(Ostackrecord *ostackr = ostack;ostackr<op;ostackr++){
-        printf("[ ");
+        writeToFile("[ ");
         switch (ostackr->tipo) {
             case BOOLE:
             case INTE:
-                printf("%s | %d",tipiToStringr[ostackr->tipo],ostackr->val.ival);
+                sprintf(toWrite,"%s | %d",tipiToStringr[ostackr->tipo],ostackr->val.ival);
+                writeToFile(toWrite);
                 break;
             case REALE:
-                printf("%s | %f",tipiToStringr[ostackr->tipo],ostackr->val.rval);
+                sprintf(toWrite,"%s | %f",tipiToStringr[ostackr->tipo],ostackr->val.rval);
+                writeToFile(toWrite);
                 break;
             case STRINGE:
-                printf("%s | %s",tipiToStringr[ostackr->tipo],ostackr->val.sval);
+                sprintf(toWrite,"%s | %s",tipiToStringr[ostackr->tipo],ostackr->val.sval);
+                writeToFile(toWrite);
                 break;
         }
-        printf(" ]\n");
+        writeToFile(" ]\n");
     }
-    printf("----------------ASTACK------------------\n");
+    writeToFile("--------ASTACK(nOggetti|Val del primo)--------\n");
     for(Astack *astackr = astack;astackr<ap;astackr++){
-        printf("[ ");
-        printf("%d | %d",astackr->nObjs,astackr->startPoint->val.ival);
-        printf(" ]\n");
+        writeToFile("[ ");
+        sprintf(toWrite,"%d | %d",astackr->nObjs,astackr->startPoint->val.ival);
+        writeToFile(toWrite);
+        writeToFile(" ]\n");
     }
+    writeToFile("\n\n");
 }

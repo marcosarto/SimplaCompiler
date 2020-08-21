@@ -6,18 +6,21 @@
 #include "string.h"
 #include "stdio.h"
 #include "stringHeap.h"
+#include "writeToFile.h"
 
-typedef struct sentry Entryr;
+typedef struct sentryr Entryr;
 
-struct sentry{
+struct sentryr{
     char* key;
     Entryr* next;
 };
 
-typedef struct stable{
+typedef struct stabler{
     Entryr* entry[TOTR];
 }Tabler;
 
 void initStringPool();
 char* addString(char *e);
+void printStringPoolStructure();
+char* addStringLiteral(char *e);
 #endif //PROVATECNOLOGIE_STRINGPOOLSTRUCTURE_H

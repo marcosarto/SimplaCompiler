@@ -1,12 +1,18 @@
 numero:integer;
-ciao: boolean;
-s1,s2:string;
-func pi(numer:integer):void
+func pi():integer
+i : integer;
 body
-    write("ciao");
+    for i = 0 to 10 do
+        if i == 5 then break; end;
+    end;
+    return i;
 end;
 body
-   s1 = "ciao";
-   s2 = "ciao";
-   numero = if s1==s2 then 5 else 6 end;
+    for numero = 0 to 10 do
+        if numero < 2 then
+            writeln(pi());
+        else
+            writeln("FINE FOR CON NUM CHE VALE :",numero);
+        end;
+    end;
 end.

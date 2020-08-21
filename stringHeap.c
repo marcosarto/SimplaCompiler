@@ -16,3 +16,20 @@ char *addToHeap(char *toAdd){
     return pointerToStringStartingPoint;
 }
 
+void printHeap(){
+    char* toWrite = malloc(sizeof(char)*200);
+    writeToFile("CONTENUTO HEAP\n");
+    for(int i=0;i<STRING_HEAP;i++){
+        if(heap[i]=='\0'){
+            if(i+1<STRING_HEAP&&heap[i+1]=='\0') {
+                break;
+            } else
+                writeToFile("|");
+        }
+        else {
+            sprintf(toWrite, "%c", heap[i]);
+            writeToFile(toWrite);
+        }
+    }
+    writeToFile("\n");
+}

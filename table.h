@@ -3,7 +3,7 @@
 #define TOT 1013
 #define SHIFT 4
 #include "def.h"
-
+#include "writeToFile.h"
 typedef struct stable Table;
 typedef struct sentry Entry;
 typedef enum{

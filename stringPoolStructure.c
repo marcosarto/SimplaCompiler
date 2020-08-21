@@ -35,7 +35,7 @@ char* addString(char *e){
         while(temp)
         {
             if (strcmp(temp->key,e)==0) {
-                printf("Esiste nel heap uguale");
+                //printf("Esiste nel heap uguale\n");
                 return temp->key;
             }
             if(temp->next == NULL) {
@@ -49,4 +49,38 @@ char* addString(char *e){
         temp->next = nuovoNodo;
         return nuovoNodo->key;
     }
+}
+
+char* addStringLiteral(char *e){
+    //Rimuovo le ""
+    if(e[0]=='"')
+        e = e+1;
+    if(e[strlen(e)-1]=='"')
+        e[strlen(e)-1] = '\0';
+    return addString(e);
+}
+
+void printStringPoolStructure()
+{
+    char* toWrite = malloc(sizeof(char)*200);
+    int i;
+    writeToFile("Hashmap delle stringhe presenti\n");
+    for(i = 0; i < TOTR; i++)
+    {
+        Entryr *temp = sp->entry[i];
+        if(temp)
+        {
+            sprintf(toWrite,"chain[%d]-->", i);
+            writeToFile(toWrite);
+            while (temp)
+            {
+                sprintf(toWrite,"%s -->", temp->key);
+                writeToFile(toWrite);
+                temp = temp->next;
+            }
+            writeToFile("NULL\n");
+        }
+    }
+    writeToFile("\n");
+    printHeap();
 }
