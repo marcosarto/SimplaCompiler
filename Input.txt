@@ -1,18 +1,10 @@
-numero:integer;
-func pi():integer
-i : integer;
+a, b, res: integer;
 body
-    for i = 0 to 10 do
-        if i == 5 then break; end;
-    end;
-    return i;
+a=15;
+b=3;
+res = 0;
+while a >= b do
+    res = res + 1;
+    a = a - b;
 end;
-body
-    for numero = 0 to 10 do
-        if numero < 2 then
-            writeln(pi());
-        else
-            writeln("FINE FOR CON NUM CHE VALE :",numero);
-        end;
-    end;
 end.

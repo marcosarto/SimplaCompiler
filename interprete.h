@@ -28,6 +28,7 @@ void aumentaOp();
 void diminuisciOp();
 void createRA(char *funName);
 void breakStatex(Pnode n);
+void whileStatex(Pnode n);
 void cambiaValInStack(char *s);
 void errRunTime();
 int isInt(char *s);

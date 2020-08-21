@@ -1,19 +1,19 @@
-Tabella interna di pi (ID|TIPO|OID)
-chain[105]-->i|INTEGER|0 -->NULL
-
-
 Tabella interna di Globale (ID|TIPO|OID)
-chain[627]-->numero|INTEGER|0 -->NULL
-chain[884]-->pi|INTEGER|1 -->NULL
+chain[97]-->a|INTEGER|0 -->NULL
+chain[98]-->b|INTEGER|1 -->NULL
+chain[525]-->res|INTEGER|2 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
-[ INTEGER | 11 ]
+[ INTEGER | 0 ]
+[ INTEGER | 3 ]
+[ INTEGER | 5 ]
+[ BOOLEAN | 0 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 1 | 11 ]
+[ 4 | 0 ]
 
 
-Hashmap delle stringhe presentichain[463]-->FINE FOR CON NUM CHE VALE : -->NULL
+Hashmap delle stringhe presenti
 
 CONTENUTO HEAP
-FINE FOR CON NUM CHE VALE :
+

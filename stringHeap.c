@@ -18,6 +18,7 @@ char *addToHeap(char *toAdd){
 
 void printHeap(){
     char* toWrite = malloc(sizeof(char)*200);
+
     writeToFile("CONTENUTO HEAP\n");
     for(int i=0;i<STRING_HEAP;i++){
         if(heap[i]=='\0'){

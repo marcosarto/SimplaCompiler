@@ -54,7 +54,7 @@ char* addString(char *e){
 char* addStringLiteral(char *e){
     //Rimuovo le ""
     if(e[0]=='"')
-        e = e+1;
+        e++;
     if(e[strlen(e)-1]=='"')
         e[strlen(e)-1] = '\0';
     return addString(e);
@@ -65,6 +65,7 @@ void printStringPoolStructure()
     char* toWrite = malloc(sizeof(char)*200);
     int i;
     writeToFile("Hashmap delle stringhe presenti\n");
+
     for(i = 0; i < TOTR; i++)
     {
         Entryr *temp = sp->entry[i];

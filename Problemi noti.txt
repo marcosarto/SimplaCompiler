@@ -1,0 +1,3 @@
+Se una stringa literal inizia con una lettera strana
+tipo 'è' la funzione di hash puo' restituire un numero
+negativo.

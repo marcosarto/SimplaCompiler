@@ -74,6 +74,9 @@ void bodyex(Pnode n) {
                 case NFOR_STAT:
                     forStatex(n);
                     break;
+                case NWHILE_STAT:
+                    whileStatex(n);
+                    break;
                 case NRETURN_STAT:
                     returnStatex(n);
                     return;
@@ -90,6 +93,17 @@ void bodyex(Pnode n) {
         }
         n = n->b;
     }
+}
+
+void whileStatex(Pnode n){
+    do {
+        exprex(n->c1);
+        if ((op - 1)->val.bval == TRUE) {
+            diminuisciOp();
+            bodyex(n->c2);
+        } else
+            return;
+    }while(1); //forse non e' considerata buona programmazione
 }
 
 void breakStatex(Pnode n){

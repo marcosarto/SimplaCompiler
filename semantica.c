@@ -180,7 +180,7 @@ void forStat(Pnode n, Table *table) {
     Pnode temp = n->c2;
     while (temp != NULL) {
         if (temp->type == T_NONTERMINAL && temp->value.ival == NASSIGN_STAT) {
-            if (strcmp(temp->c1->value.sval, n->b->value.sval) == 0)
+            if (strcmp(temp->c1->value.sval, n->c1->value.sval) == 0)
                 errSemantico("Il for ID non puo' essere usato come LHS di un assegnamento in stat list\n", temp);
         }
         temp = temp->b;
