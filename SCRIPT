@@ -1,0 +1,3 @@
+#!/bin/bash
+cc -o run lexer.c parser.c semantica.c table.c tree.c runStructure.c interprete.c stringPoolStructure.c stringHeap.c writeToFile.c
+./run
