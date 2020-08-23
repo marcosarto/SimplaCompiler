@@ -1,10 +1,9 @@
-a, b, res: integer;
+numero,a: integer;
 body
-a=15;
-b=3;
-res = 0;
-while a >= b do
-    res = res + 1;
-    a = a - b;
-end;
+  read(numero);
+  while numero > 0 do
+  numero = numero - 1;
+  a = 5+3+2+1+0;
+  writeln(a);
+  end;
 end.

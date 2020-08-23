@@ -365,7 +365,7 @@ HashType factor(Pnode n, Table *table) {
 
 }
 
-HashType getHashTypeN(Pnode n, int ancheFunzioni) { //aggiunto n per conflitto, risolvi nome dopo
+HashType getHashTypeN(Pnode n, int ancheFunzioni) {
     HashType tipo = -1;
     switch (n->type) {
         case T_INTEGER:

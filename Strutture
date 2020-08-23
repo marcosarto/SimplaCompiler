@@ -1,16 +1,13 @@
 Tabella interna di Globale (ID|TIPO|OID)
-chain[97]-->a|INTEGER|0 -->NULL
-chain[98]-->b|INTEGER|1 -->NULL
-chain[525]-->res|INTEGER|2 -->NULL
+chain[97]-->a|INTEGER|1 -->NULL
+chain[627]-->numero|INTEGER|0 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
 [ INTEGER | 0 ]
-[ INTEGER | 3 ]
-[ INTEGER | 5 ]
-[ BOOLEAN | 0 ]
+[ INTEGER | 11 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 4 | 0 ]
+[ 2 | 0 ]
 
 
 Hashmap delle stringhe presenti

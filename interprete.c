@@ -101,8 +101,10 @@ void whileStatex(Pnode n){
         if ((op - 1)->val.bval == TRUE) {
             diminuisciOp();
             bodyex(n->c2);
-        } else
+        } else {
+            diminuisciOp();
             return;
+        }
     }while(1); //forse non e' considerata buona programmazione
 }
 

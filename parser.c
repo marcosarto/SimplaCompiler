@@ -2181,7 +2181,7 @@ int yywrap()
 
 void yyerror()
 {
-  fprintf(stderr, "Line %d: syntax error on symbol \"%s\"\n",
+  fprintf(stderr, "Line %d: errSintattico del simbolo \"%s\"\n",
           line, yytext);
   exit(-1);
 }
