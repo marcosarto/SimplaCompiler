@@ -61,8 +61,10 @@ void varDeclListex(Pnode n) {
 void bodyex(Pnode n) {
     while (n != NULL) {
         if(funInterrupt) return;
-        if(n->type == T_BREAK)
+        if(n->type == T_BREAK||toExit) {
             breakStatex(n);
+            return;
+        }
         else {
             switch (n->value.ival) {
                 case NASSIGN_STAT:
@@ -101,11 +103,14 @@ void whileStatex(Pnode n){
         if ((op - 1)->val.bval == TRUE) {
             diminuisciOp();
             bodyex(n->c2);
+            if(toExit)
+                break;
         } else {
             diminuisciOp();
-            return;
+            break;
         }
     }while(1); //forse non e' considerata buona programmazione
+    toExit = 0;
 }
 
 void breakStatex(Pnode n){

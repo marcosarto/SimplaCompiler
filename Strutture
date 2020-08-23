@@ -1,16 +1,30 @@
+Tabella interna di fattoriale (ID|TIPO|OID)
+chain[110]-->n|INTEGER|0 -->NULL
+chain[630]-->fact|INTEGER|1 -->NULL
+
+
+Tabella interna di stampaFattoriali (ID|TIPO|OID)
+chain[102]-->f|INTEGER|2 -->NULL
+chain[105]-->i|INTEGER|1 -->NULL
+chain[185]-->tot|INTEGER|0 -->NULL
+
+
 Tabella interna di Globale (ID|TIPO|OID)
-chain[97]-->a|INTEGER|1 -->NULL
+chain[229]-->fattoriale|INTEGER|1 -->NULL
+chain[455]-->stampaFattoriali|VOID|2 -->NULL
 chain[627]-->numero|INTEGER|0 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
-[ INTEGER | 0 ]
-[ INTEGER | 11 ]
+[ INTEGER | 6 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 2 | 0 ]
+[ 1 | 6 ]
 
 
 Hashmap delle stringhe presenti
+chain[463]-->Il fattoriale di  -->NULL
+chain[569]--> e'  -->NULL
+chain[936]-->Inserisci numero di cui fare i fattoriali -->NULL
 
 CONTENUTO HEAP
-
+Inserisci numero di cui fare i fattoriali|Il fattoriale di | e' 
