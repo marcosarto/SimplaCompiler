@@ -19,6 +19,7 @@ sugar		[(){}:;,'.']
 comment		#.*\n
 %%
 {spacing}   ;
+[ \t\r\n]   ;
 {acapo}     {line++;}
 {comment}   {printf("riconosciuto commento");}
 integer     {return(INTEGER);}

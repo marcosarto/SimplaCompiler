@@ -235,15 +235,19 @@ Pnode newnode(Typenode tnode)
   p->c1 = p->c2 = p->b = NULL;
   return(p);
 }
-int main()
+int main(int argc, char **argv)
 {
     int result;
     initTable();
     initWriteToFile();
 
-    yyin = fopen("Input.txt", "r");
+    if(argc!=2) {
+            printf("Inserisci un solo argomento\n");
+            exit(-5);
+        }
 
-    //yyin = stdin;
+    yyin = fopen(argv[1], "r");
+
     if((result = yyparse()) == 0){
         //treeprint(root,0);
         Pnode semCheckRoot = root;

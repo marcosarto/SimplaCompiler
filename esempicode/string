@@ -1,0 +1,14 @@
+a, b: string;
+
+body
+  write("Inserisci una stringa: ");
+  read(a);
+  write("Inserisci un'altra stringa: ");
+  read(b);
+  if a == b then
+    writeln("Le due stringhe sono uguali");
+  else
+    writeln("La stringa ", a, " è diversa dalla stringa ", b);
+  end;
+end.
+	

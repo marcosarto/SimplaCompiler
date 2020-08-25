@@ -6,10 +6,8 @@ il suo os) ho sempre usato questo comando per creare
 un eseguibile: 
 cc -o run lexer.c parser.c semantica.c table.c tree.c runStructure.c interprete.c stringPoolStructure.c stringHeap.c writeToFile.c
 
-e poi ./run
+e poi ./run PATH_FILE_DA_ESEGUIRE
 
-Le lascio uno script bash(SCRIPT) che fa le azioni sopra citate
-oltre ad un run già compilato.
 Nel caso questo procedimento non funzionasse mi avvisi
 che provo a risolvere.
 Grazie

@@ -9,6 +9,7 @@ Pnode rootAST;
 int funInterrupt = 0,toExit=0;
 
 void runCode(Pnode root) {
+    //Pulisco lo stdin per eventuali input dell'utente
     initRunStructure();
     initStringPool();
 
@@ -291,7 +292,6 @@ void cambiaValInStack(char *s) {
 }
 
 void returnStatex(Pnode n) {
-    funInterrupt = 1;
     if (n->c1 != NULL) {
         exprex(n->c1);
         (((ap - 2)->startPoint) + (ap - 2)->nObjs - 1)->val = (op - 1)->val;
@@ -303,6 +303,7 @@ void returnStatex(Pnode n) {
         ap--;
         op = (ap - 1)->startPoint + (ap - 1)->nObjs;
     }
+    funInterrupt = 1;
 }
 
 void funcCallex(Pnode n) {
@@ -551,6 +552,7 @@ void relTermex(Pnode n) {
         case T_PLUS:
             relTermex(n->c1);
             lowTermex(n->c2);
+            printAStack();
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival + (op - 1)->val.ival;
@@ -608,6 +610,7 @@ void lowTermex(Pnode n) {
         case T_DIV:
             lowTermex(n->c1);
             factorex(n->c2);
+            printAStack();
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival / (op - 1)->val.ival;
@@ -698,10 +701,12 @@ void factorex(Pnode n) {
         case T_INTEGER:
             exprex(n->c1);
             (op - 1)->val.ival = (int) (op - 1)->val.rval;
+            (op - 1)->tipo = INTE;
             break;
         case T_REAL:
             exprex(n->c1);
-            (op - 1)->val.rval = (op - 1)->val.ival;
+            (op - 1)->val.rval = (float) (op - 1)->val.ival;
+            (op - 1)->tipo = REALE;
             break;
         default:
             exprex(n);
