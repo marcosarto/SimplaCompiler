@@ -6,7 +6,8 @@ Value lexval;
 %}                                                              
 %option noyywrap
 delimiter	[ \t]
-acapo		[\r\n]{2,}
+acapow		\r\n
+acapol      \n
 spacing		{delimiter}+
 letter		[A-Za-z]
 digit		[0-9]
@@ -19,8 +20,8 @@ sugar		[(){}:;,'.']
 comment		#.*\n
 %%
 {spacing}   ;
-[ \t\r\n]   ;
-{acapo}     {line++;}
+{acapow}     {line++;}
+{acapol}    {line++;}
 {comment}   {printf("riconosciuto commento");}
 integer     {return(INTEGER);}
 real        {return(REAL);}

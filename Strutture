@@ -1,22 +1,15 @@
 Tabella interna di Globale (ID|TIPO|OID)
-chain[97]-->a|STRING|0 -->NULL
-chain[98]-->b|STRING|1 -->NULL
+chain[392]-->int|INTEGER|0 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
-[ STRING | io ]
-[ STRING | ds ]
+[ INTEGER | -858381461 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 2 | -1334385608 ]
+[ 1 | -858381461 ]
 
 
 Hashmap delle stringhe presenti
-chain[197]-->Inserisci un'altra stringa:  -->NULL
-chain[206]--> è diversa dalla stringa  -->NULL
-chain[614]-->La stringa  -->NULL
-chain[702]-->ds -->NULL
-chain[778]-->io -->NULL
-chain[895]-->Inserisci una stringa:  -->NULL
+chain[380]-->SA -->NULL
 
 CONTENUTO HEAP
-Inserisci una stringa: |io|Inserisci un'altra stringa: |ds|La stringa | è diversa dalla stringa 
+SA

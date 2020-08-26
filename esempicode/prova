@@ -1,0 +1,8 @@
+int : integer;
+
+
+
+
+body
+writeln("SA");
+end.
