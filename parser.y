@@ -74,14 +74,10 @@ stat : assign_stat
 | func_call
 | BREAK {$$ = keynode(T_BREAK);}
 ;
-assign_stat : ID {$$ = idnode();} EQUAL opt_new_expr {$$ = nontermnode(NASSIGN_STAT);
+assign_stat : ID {$$ = idnode();} EQUAL expr {$$ = nontermnode(NASSIGN_STAT);
                                                     $$->c1 = $2;
                                                     $$->c2 = $4;}
         ;
-opt_new_expr : NEW '(' expr ')' {$$ = nontermnode(NNEW);
-                                $$->c1 = $3;}
-             | expr
-             ;
 if_stat : IF expr THEN stat_list opt_else_stat END {$$ = nontermnode(NIF_STAT);
                                                 $$->c1 = $2;
                                                 $$->c2 = $4;

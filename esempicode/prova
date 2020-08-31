@@ -1,9 +1,16 @@
-a : integer;
+a,*b : integer;
 func somma(a:integer,b:integer,*riporto:integer):void
+temp : integer;
 body
-    *riporto = a + b;
+    fun(a,b,&temp);
+    *riporto = temp;
+end;
+func fun(primo:integer,secondo:integer,*addr:integer):void
+body
+    *addr = 10;
 end;
 body
     somma(5,6,&a);
+    b = &a;
     writeln(a);
 end.

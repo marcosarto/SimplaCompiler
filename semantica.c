@@ -34,7 +34,7 @@ void varDeclListInterno(Pnode n, Table *table) {
         Entry *entry = malloc(sizeof(Entry));
         entry->key = temp->value.sval;
         entry->classe = VAR;
-        if(entry->key[0]=='*')
+        if (entry->key[0] == '*')
             entry->pointer = 1;
         else
             entry->pointer = 0;
@@ -106,8 +106,8 @@ void funDeclList(Pnode n) {
 
 void body(Pnode n, Table *table) {
     while (n != NULL) {
-        if(n->type==T_BREAK)
-            breakStat(n,table);
+        if (n->type == T_BREAK)
+            breakStat(n, table);
         else {
             switch (n->value.ival) {
                 case NASSIGN_STAT:
@@ -205,34 +205,62 @@ void ifStat(Pnode n, Table *table) {
 }
 
 void assignStat(Pnode n, Table *table) {
-    if (lookUp(n->c1->value.sval, table) == NULL) {
-        char *s = malloc(LEN_ERR_MAX);
-        sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
-                n->c1->value.sval, table->scope);
-        errSemantico(s, n);
-        return;
-    }
+    if (n->c2->type == T_ADDR) {
 
-    if (lookUp(n->c1->value.sval, table)->classe != VAR && lookUp(n->c1->value.sval, table)->classe != PAR)
-        errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
+        char *toCheck = malloc(sizeof(char) * (strlen(n->c1->value.sval) + 1));
+        toCheck[0] = '*';
+        for (int i = 0; i < strlen(n->c1->value.sval); i++) {
+            toCheck[i + 1] = n->c1->value.sval[i];
+        }
 
-    HashType tipo = (lookUp(n->c1->value.sval, table))->tipo; //tipo var, da confrontare con expr
-    HashType tipoExpr;
-    if(n->c2->type==T_NONTERMINAL && n->c2->value.ival==NNEW)
-        tipoExpr = expr(n->c2->c1,table);
-    else
+        if (lookUp(toCheck, table) == NULL) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
+                    toCheck, table->scope);
+            errSemantico(s, n);
+            return;
+        }
+
+        if (lookUp(toCheck, table)->classe != VAR && lookUp(toCheck, table)->classe != PAR)
+            errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
+
+        HashType tipo = (lookUp(toCheck, table))->tipo; //tipo var, da confrontare con expr
+        HashType tipoExpr;
+
+        tipoExpr = expr(n->c2,table);
+        if (tipo != tipoExpr) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "variabile %s non compatbile con l'expr\n", n->c1->value.sval);
+            errSemantico(s, n);
+        }
+
+    } else {
+        if (lookUp(n->c1->value.sval, table) == NULL) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
+                    n->c1->value.sval, table->scope);
+            errSemantico(s, n);
+            return;
+        }
+
+        if (lookUp(n->c1->value.sval, table)->classe != VAR && lookUp(n->c1->value.sval, table)->classe != PAR)
+            errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
+
+        HashType tipo = (lookUp(n->c1->value.sval, table))->tipo; //tipo var, da confrontare con expr
+        HashType tipoExpr;
         tipoExpr = expr(n->c2, table);
-    if (tipo != tipoExpr) {
-        char *s = malloc(LEN_ERR_MAX);
-        sprintf(s, "variabile %s non compatbile con l'expr\n", n->c1->value.sval);
-        errSemantico(s, n);
-    }
+        if (tipo != tipoExpr) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "variabile %s non compatbile con l'expr\n", n->c1->value.sval);
+            errSemantico(s, n);
+        }
 
+    }
 }
 
-void breakStat(Pnode n,Table *table){
-    if(!dentroCiclo)
-        errSemantico("istruzione break al di fuori di un ciclo\n",n);
+void breakStat(Pnode n, Table *table) {
+    if (!dentroCiclo)
+        errSemantico("istruzione break al di fuori di un ciclo\n", n);
 }
 
 HashType expr(Pnode n, Table *table) {
@@ -269,8 +297,8 @@ HashType relTerm(Pnode n, Table *table) {
     //Controllo aggiuntivo n->c2!=NULL per differenziare il meno della negazione
     if (n->type == T_PLUS || (n->type == T_MINUS && n->c2 != NULL)) {
         relType = relTerm(n->c1, table);
-        if(relType!=INTE&&relType!=REALE)
-            errSemantico("tipi incompatibili gli operatori matematici non consentono questa operazione\n",n);
+        if (relType != INTE && relType != REALE)
+            errSemantico("tipi incompatibili gli operatori matematici non consentono questa operazione\n", n);
         if (relType != lowTerm(n->c2, table))
             errSemantico("relterm lowterm (+,-) di tipo non compatibile\n", n);
         return relType;
@@ -281,8 +309,8 @@ HashType lowTerm(Pnode n, Table *table) {
     HashType lowType;
     if (n->type == T_STAR || n->type == T_DIV) {
         lowType = lowTerm(n->c1, table);
-        if(lowType!=INTE&&lowType!=REALE)
-            errSemantico("tipi incompatibili gli operatori matematici non consentono questa operazione\n",n);
+        if (lowType != INTE && lowType != REALE)
+            errSemantico("tipi incompatibili gli operatori matematici non consentono questa operazione\n", n);
         if (lowType != factor(n->c2, table))
             errSemantico("lowtype factor (*,/) di tipo non compatibile\n", n);
         return lowType;
@@ -319,8 +347,7 @@ HashType factor(Pnode n, Table *table) {
         }
         factorType = e->tipo;
         return factorType;
-    }
-    else if (n->type == T_ADDR){
+    } else if (n->type == T_ADDR) {
         Entry *e = lookUp(n->c1->value.sval, table);
         if (e == NULL) {
             char *s = malloc(LEN_ERR_MAX);

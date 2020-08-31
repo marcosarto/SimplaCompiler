@@ -2,29 +2,27 @@ Tabella interna di somma (ID|TIPO|OID)
 chain[97]-->a|INTEGER|0 -->NULL
 chain[98]-->b|INTEGER|1 -->NULL
 chain[120]-->*riporto|INTEGER|2 -->NULL
+chain[400]-->temp|INTEGER|3 -->NULL
+
+
+Tabella interna di fun (ID|TIPO|OID)
+chain[156]-->primo|INTEGER|0 -->NULL
+chain[370]-->*addr|INTEGER|2 -->NULL
+chain[970]-->secondo|INTEGER|1 -->NULL
 
 
 Tabella interna di Globale (ID|TIPO|OID)
 chain[97]-->a|INTEGER|0 -->NULL
-chain[107]-->somma|VOID|1 -->NULL
+chain[107]-->somma|VOID|2 -->NULL
+chain[743]-->fun|VOID|3 -->NULL
+chain[770]-->*b|INTEGER|1 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
-[ INTEGER | -2011547011 ]
-[ INTEGER | 5 ]
-[ INTEGER | 6 ]
-[ INTEGER | -2011495416 ]
-[ INTEGER | 5 ]
-[ INTEGER | 6 ]
+[ INTEGER | 10 ]
+[ INTEGER | 2036978696 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 1 | -2011547011 ]
-[ 5 | 5 ]
-
-
---------------OSTACK(TIPO|VAL)--------------
-[ INTEGER | 11 ]
---------ASTACK(nOggetti|Val del primo)--------
-[ 1 | 11 ]
+[ 2 | 10 ]
 
 
 Hashmap delle stringhe presenti

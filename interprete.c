@@ -6,7 +6,7 @@
 extern Ostackrecord *op;
 extern Astack *ap, *aproot;
 Pnode rootAST;
-int funInterrupt = 0,toExit=0;
+int funInterrupt = 0, toExit = 0;
 
 void runCode(Pnode root) {
     //Pulisco lo stdin per eventuali input dell'utente
@@ -61,12 +61,11 @@ void varDeclListex(Pnode n) {
 
 void bodyex(Pnode n) {
     while (n != NULL) {
-        if(funInterrupt) return;
-        if(n->type == T_BREAK||toExit) {
+        if (funInterrupt) return;
+        if (n->type == T_BREAK || toExit) {
             breakStatex(n);
             return;
-        }
-        else {
+        } else {
             switch (n->value.ival) {
                 case NASSIGN_STAT:
                     assignStatex(n);
@@ -98,55 +97,48 @@ void bodyex(Pnode n) {
     }
 }
 
-void whileStatex(Pnode n){
+void whileStatex(Pnode n) {
     do {
         exprex(n->c1);
         if ((op - 1)->val.bval == TRUE) {
             diminuisciOp();
             bodyex(n->c2);
-            if(toExit)
+            if (toExit)
                 break;
         } else {
             diminuisciOp();
             break;
         }
-    }while(1); //forse non e' considerata buona programmazione
+    } while (1); //forse non e' considerata buona programmazione
     toExit = 0;
 }
 
-void breakStatex(Pnode n){
+void breakStatex(Pnode n) {
     toExit = 1;
 }
 
 void assignStatex(Pnode n) {
-    if(n->c2->type == T_NONTERMINAL && n->c2->value.ival == NNEW){
-        exprex(n->c2->c1);
-        int Oid = getOid(n->c1->value.sval, (ap - 1)->table);
+    exprex(n->c2);
+    char *toCheck = malloc(sizeof(char) * (strlen(n->c1->value.sval) + 1));
+    toCheck[0] = '*';
+    for (int i = 0; i < strlen(n->c1->value.sval); i++) {
+        toCheck[i + 1] = n->c1->value.sval[i];
+    }
+    if (n->c2->type == T_ADDR) {
+        int Oid = getOid(toCheck, (ap - 1)->table);
         if (Oid != -1) {
-            ((ap - 1)->startPoint + Oid)->val.pointer = addToHeapValue((op-1)->val);
+            ((ap - 1)->startPoint + Oid)->val.pointer = (op - 1)->val.pointer;
             diminuisciOp();
         } else {
-            Oid = getOid(n->c1->value.sval, getGlobale());
-            ((aproot)->startPoint + Oid)->val.pointer = addToHeapValue((op-1)->val);
+            Oid = getOid(toCheck, getGlobale());
+            ((aproot)->startPoint + Oid)->val.pointer = (op - 1)->val.pointer;
             diminuisciOp();
         }
     } else {
-        exprex(n->c2);
-        if (n->c2->type == T_ADDR) {
-            int Oid = getOid(n->c1->value.sval, (ap - 1)->table);
-            if (Oid != -1) {
-                ((ap - 1)->startPoint + Oid)->val.pointer = (op - 1)->val.pointer;
-                diminuisciOp();
-            } else {
-                Oid = getOid(n->c1->value.sval, getGlobale());
-                ((aproot)->startPoint + Oid)->val.pointer = (op - 1)->val.pointer;
-                diminuisciOp();
-            }
-        } else {
-            cambiaValInStack(n->c1->value.sval);
-        }
+        cambiaValInStack(n->c1->value.sval);
     }
 }
+
 
 void writeStatex(Pnode n) {
     Pnode temp = n->c2;
@@ -255,7 +247,7 @@ void forStatex(Pnode n) {
 
         uscita = 1;
         //Controllo se la variabile e' locale
-        int Oid = getOid(n->c1->value.sval,(ap-1)->table);
+        int Oid = getOid(n->c1->value.sval, (ap - 1)->table);
         if (Oid != -1) {
             if (((ap - 1)->startPoint + Oid)->val.ival <= (op - 1)->val.ival) {
                 uscita = 0;
@@ -273,7 +265,7 @@ void forStatex(Pnode n) {
         if (!uscita) {
             bodyex(n->c2);
 
-            if(toExit)
+            if (toExit)
                 break;
 
             //Aumento di 1
@@ -302,7 +294,7 @@ void ifStatex(Pnode n) {
 }
 
 void cambiaValInStack(char *s) {
-    if(s[0]=='*'){
+    if (s[0] == '*') {
         //Controllo se la variabile e' locale
         int Oid = getOid(s, (ap - 1)->table);
         if (Oid != -1) {
@@ -338,8 +330,7 @@ void returnStatex(Pnode n) {
         ap--;
         //Riaggiusto il puntatore op
         op = (ap - 1)->startPoint + (ap - 1)->nObjs;
-    }
-    else{
+    } else {
         ap--;
         op = (ap - 1)->startPoint + (ap - 1)->nObjs;
     }
@@ -372,9 +363,9 @@ void funcCallex(Pnode n) {
         //Computo l'expr passata come argomento
         exprex(temp);
         if (temp->type == T_ADDR)
-            (op-2)->val.pointer = (op-1)->val.pointer;
+            (op - 2)->val.pointer = (op - 1)->val.pointer;
         else
-            (op-2)->val = (op-1)->val;
+            (op - 2)->val = (op - 1)->val;
         diminuisciOp();
         temp = temp->b;
     }
@@ -382,8 +373,8 @@ void funcCallex(Pnode n) {
     *ap = as;
     ap++;
     //Spiega questa parte nella presentazione (necessita' ap precedente)
-    for(int i = 0; i < e->nformali; i++)
-        (ap-1)->nObjs++;
+    for (int i = 0; i < e->nformali; i++)
+        (ap - 1)->nObjs++;
     //Creo sullo stack le variabili locali della funzione
     int exit = 0;
     Pnode funPointer = rootAST->c2;
@@ -397,9 +388,9 @@ void funcCallex(Pnode n) {
     } while (exit != 1);
     //Eseguo il corpo della funzione chiamata, sullo stack c'e' gia tutto
     bodyex(funPointer->c2->c1);
-    if(funInterrupt)
+    if (funInterrupt)
         funInterrupt = 0;
-    //Entro qui solo se sono in una funzione void senza return esplicito
+        //Entro qui solo se sono in una funzione void senza return esplicito
     else {
         ap--;
         op = (ap - 1)->startPoint + (ap - 1)->nObjs;
@@ -413,7 +404,7 @@ void exprex(Pnode n) {
             exprex(n->c1);
             if (!(op - 1)->val.bval) {
                 os.val.bval = FALSE;
-            }else{
+            } else {
                 booltermex(n->c2);
                 os.val.bval = (op - 1)->val.bval;
                 diminuisciOp();
@@ -425,9 +416,9 @@ void exprex(Pnode n) {
             break;
         case T_OR:
             exprex(n->c1);
-            if((op-1)->val.bval) {
+            if ((op - 1)->val.bval) {
                 os.val.bval = TRUE;
-            }else {
+            } else {
                 booltermex(n->c2);
                 os.val.bval = (op - 1)->val.bval;
                 diminuisciOp();
@@ -729,7 +720,7 @@ void factorex(Pnode n) {
             }
             break;
         case T_ID:
-            if(n->value.sval[0]=='*'){
+            if (n->value.sval[0] == '*') {
                 if (getOid(n->value.sval, (ap - 1)->table) != -1) {
                     os.tipo = lookUp(n->value.sval, (ap - 1)->table)->tipo;
                     os.val = *((ap - 1)->startPoint + getOid(n->value.sval, (ap - 1)->table))->val.pointer;
@@ -741,8 +732,7 @@ void factorex(Pnode n) {
                     *op = os;
                     aumentaOp();
                 }
-            }
-            else {
+            } else {
                 if (getOid(n->value.sval, (ap - 1)->table) != -1) {
                     os.tipo = lookUp(n->value.sval, (ap - 1)->table)->tipo;
                     os.val = ((ap - 1)->startPoint + getOid(n->value.sval, (ap - 1)->table))->val;
@@ -759,7 +749,7 @@ void factorex(Pnode n) {
         case T_ADDR:
             if (getOid(n->c1->value.sval, (ap - 1)->table) != -1) {
                 os.tipo = lookUp(n->c1->value.sval, (ap - 1)->table)->tipo;
-                os.val.pointer = &(((ap - 1)->startPoint + getOid(n->c1->value.sval,(ap-1)->table))->val);
+                os.val.pointer = &(((ap - 1)->startPoint + getOid(n->c1->value.sval, (ap - 1)->table))->val);
                 *op = os;
                 aumentaOp();
             } else {
@@ -796,24 +786,24 @@ void diminuisciOp() {
 }
 
 int isInt(char *s) {
-    int i = 0,almenoUno=0;
-    if(s[i]=='-')
+    int i = 0, almenoUno = 0;
+    if (s[i] == '-')
         i++;
 
-    for (i ; i < strlen(s); i++) {
+    for (i; i < strlen(s); i++) {
         if (!(s[i] >= '0' && s[i] <= '9'))
             return 0;
         else
             almenoUno = 1;
     }
-    if(almenoUno)
+    if (almenoUno)
         return 1;
     else return 0;
 }
 
 int isReale(char *s) {
     int i = 0;
-    if(s[i]=='-')
+    if (s[i] == '-')
         i++;
 
     int almenoUno = 0, punto = 0, almenoUnoDec = 0;

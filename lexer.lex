@@ -37,7 +37,6 @@ return      {return(RETURN);}
 void        {return(VOID);}
 for         {return(FOR);}
 to          {return(TO);}
-new         {return(NEW);}
 do          {return(DO);}
 writeln     {return(WRITELN);}
 write       {return(WRITE);}

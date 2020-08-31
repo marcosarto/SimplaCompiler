@@ -13,7 +13,6 @@ typedef enum
     NPARAM_DECL,
     NASSIGN_STAT,
     NIF_STAT,
-    NNEW,
     NWHILE_STAT,
     NFOR_STAT,
     NRETURN_STAT,
