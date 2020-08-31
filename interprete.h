@@ -9,7 +9,6 @@
 #include "semantica.h"
 #include "runStructure.h"
 #include "stringPoolStructure.h"
-#include "heap.h"
 void runCode(Pnode root);
 void varDeclListex(Pnode n);
 void bodyex(Pnode n);

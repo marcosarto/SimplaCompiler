@@ -7,10 +7,10 @@ body
 end;
 func fun(primo:integer,secondo:integer,*addr:integer):void
 body
-    *addr = 10;
+    *addr = primo+secondo;
 end;
 body
-    somma(5,6,&a);
+    somma(5,16,&a);
     b = &a;
     writeln(a);
 end.
