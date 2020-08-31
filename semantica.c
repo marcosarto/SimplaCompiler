@@ -34,6 +34,10 @@ void varDeclListInterno(Pnode n, Table *table) {
         Entry *entry = malloc(sizeof(Entry));
         entry->key = temp->value.sval;
         entry->classe = VAR;
+        if(entry->key[0]=='*')
+            entry->pointer = 1;
+        else
+            entry->pointer = 0;
         entry->tipo = tipo;
         entry->next = NULL;
         if (!insertInto(entry, table)) {
@@ -213,7 +217,11 @@ void assignStat(Pnode n, Table *table) {
         errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
 
     HashType tipo = (lookUp(n->c1->value.sval, table))->tipo; //tipo var, da confrontare con expr
-    HashType tipoExpr = expr(n->c2, table);
+    HashType tipoExpr;
+    if(n->c2->type==T_NONTERMINAL && n->c2->value.ival==NNEW)
+        tipoExpr = expr(n->c2->c1,table);
+    else
+        tipoExpr = expr(n->c2, table);
     if (tipo != tipoExpr) {
         char *s = malloc(LEN_ERR_MAX);
         sprintf(s, "variabile %s non compatbile con l'expr\n", n->c1->value.sval);
@@ -304,6 +312,16 @@ HashType factor(Pnode n, Table *table) {
         //id
     else if (n->type == T_ID) {
         Entry *e = lookUp(n->value.sval, table);
+        if (e == NULL) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "variabile %s non dichiarata o fuori scope\n", n->value.sval);
+            errSemantico(s, n);
+        }
+        factorType = e->tipo;
+        return factorType;
+    }
+    else if (n->type == T_ADDR){
+        Entry *e = lookUp(n->c1->value.sval, table);
         if (e == NULL) {
             char *s = malloc(LEN_ERR_MAX);
             sprintf(s, "variabile %s non dichiarata o fuori scope\n", n->value.sval);

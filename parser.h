@@ -87,7 +87,9 @@ extern int yydebug;
     STAR = 293,
     MINUS = 294,
     EQUAL = 295,
-    DIV = 296
+    DIV = 296,
+    ADDR = 297,
+    NEW = 298
   };
 #endif
 

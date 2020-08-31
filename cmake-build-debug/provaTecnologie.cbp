@@ -83,6 +83,18 @@
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/def.h">
 			<Option target="provaTecnologie"/>
 		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/heap.c">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/heap.h">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/interprete.c">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/interprete.h">
+			<Option target="provaTecnologie"/>
+		</Unit>
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/lexer.c">
 			<Option target="provaTecnologie"/>
 		</Unit>
@@ -92,10 +104,28 @@
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/parser.h">
 			<Option target="provaTecnologie"/>
 		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/runStructure.c">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/runStructure.h">
+			<Option target="provaTecnologie"/>
+		</Unit>
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/semantica.c">
 			<Option target="provaTecnologie"/>
 		</Unit>
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/semantica.h">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/stringHeap.c">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/stringHeap.h">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/stringPoolStructure.c">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/stringPoolStructure.h">
 			<Option target="provaTecnologie"/>
 		</Unit>
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/table.c">
@@ -107,7 +137,10 @@
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/tree.c">
 			<Option target="provaTecnologie"/>
 		</Unit>
-		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/tree.h">
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/writeToFile.c">
+			<Option target="provaTecnologie"/>
+		</Unit>
+		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/writeToFile.h">
 			<Option target="provaTecnologie"/>
 		</Unit>
 		<Unit filename="C:/Users/marco/Desktop/code/provaTecnologie/CMakeLists.txt">

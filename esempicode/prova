@@ -1,8 +1,9 @@
-int : integer;
-
-
-
-
+a : integer;
+func somma(a:integer,b:integer,*riporto:integer):void
 body
-writeln("SA");
+    *riporto = a + b;
+end;
+body
+    somma(5,6,&a);
+    writeln(a);
 end.

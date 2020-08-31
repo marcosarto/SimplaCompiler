@@ -119,8 +119,33 @@ void breakStatex(Pnode n){
 }
 
 void assignStatex(Pnode n) {
-    exprex(n->c2);
-    cambiaValInStack(n->c1->value.sval);
+    if(n->c2->type == T_NONTERMINAL && n->c2->value.ival == NNEW){
+        exprex(n->c2->c1);
+        int Oid = getOid(n->c1->value.sval, (ap - 1)->table);
+        if (Oid != -1) {
+            ((ap - 1)->startPoint + Oid)->val.pointer = addToHeapValue((op-1)->val);
+            diminuisciOp();
+        } else {
+            Oid = getOid(n->c1->value.sval, getGlobale());
+            ((aproot)->startPoint + Oid)->val.pointer = addToHeapValue((op-1)->val);
+            diminuisciOp();
+        }
+    } else {
+        exprex(n->c2);
+        if (n->c2->type == T_ADDR) {
+            int Oid = getOid(n->c1->value.sval, (ap - 1)->table);
+            if (Oid != -1) {
+                ((ap - 1)->startPoint + Oid)->val.pointer = (op - 1)->val.pointer;
+                diminuisciOp();
+            } else {
+                Oid = getOid(n->c1->value.sval, getGlobale());
+                ((aproot)->startPoint + Oid)->val.pointer = (op - 1)->val.pointer;
+                diminuisciOp();
+            }
+        } else {
+            cambiaValInStack(n->c1->value.sval);
+        }
+    }
 }
 
 void writeStatex(Pnode n) {
@@ -277,17 +302,32 @@ void ifStatex(Pnode n) {
 }
 
 void cambiaValInStack(char *s) {
-    //Controllo se la variabile e' locale
-    int Oid = getOid(s,(ap-1)->table);
-    if (Oid != -1) {
-        ((ap - 1)->startPoint + Oid)->val = (op - 1)->val;
-        diminuisciOp();
-    }
-        //E' globale e io non sono nel main
-    else {
-        Oid = getOid(s, getGlobale());
-        ((aproot)->startPoint + Oid)->val = (op - 1)->val;
-        diminuisciOp();
+    if(s[0]=='*'){
+        //Controllo se la variabile e' locale
+        int Oid = getOid(s, (ap - 1)->table);
+        if (Oid != -1) {
+            *((ap - 1)->startPoint + Oid)->val.pointer = (op - 1)->val;
+            diminuisciOp();
+        }
+            //E' globale e io non sono nel main
+        else {
+            Oid = getOid(s, getGlobale());
+            *((aproot)->startPoint + Oid)->val.pointer = (op - 1)->val;
+            diminuisciOp();
+        }
+    } else {
+        //Controllo se la variabile e' locale
+        int Oid = getOid(s, (ap - 1)->table);
+        if (Oid != -1) {
+            ((ap - 1)->startPoint + Oid)->val = (op - 1)->val;
+            diminuisciOp();
+        }
+            //E' globale e io non sono nel main
+        else {
+            Oid = getOid(s, getGlobale());
+            ((aproot)->startPoint + Oid)->val = (op - 1)->val;
+            diminuisciOp();
+        }
     }
 }
 
@@ -331,7 +371,10 @@ void funcCallex(Pnode n) {
         op++;
         //Computo l'expr passata come argomento
         exprex(temp);
-        (op-2)->val = (op-1)->val;
+        if (temp->type == T_ADDR)
+            (op-2)->val.pointer = (op-1)->val.pointer;
+        else
+            (op-2)->val = (op-1)->val;
         diminuisciOp();
         temp = temp->b;
     }
@@ -686,14 +729,42 @@ void factorex(Pnode n) {
             }
             break;
         case T_ID:
-            if (getOid(n->value.sval, (ap - 1)->table) != -1) {
-                os.tipo = lookUp(n->value.sval, (ap - 1)->table)->tipo;
-                os.val = ((ap - 1)->startPoint + getOid(n->value.sval,(ap-1)->table))->val;
+            if(n->value.sval[0]=='*'){
+                if (getOid(n->value.sval, (ap - 1)->table) != -1) {
+                    os.tipo = lookUp(n->value.sval, (ap - 1)->table)->tipo;
+                    os.val = *((ap - 1)->startPoint + getOid(n->value.sval, (ap - 1)->table))->val.pointer;
+                    *op = os;
+                    aumentaOp();
+                } else {
+                    os.tipo = lookUp(n->value.sval, getGlobale())->tipo;
+                    os.val = *((aproot)->startPoint + getOid(n->value.sval, getGlobale()))->val.pointer;
+                    *op = os;
+                    aumentaOp();
+                }
+            }
+            else {
+                if (getOid(n->value.sval, (ap - 1)->table) != -1) {
+                    os.tipo = lookUp(n->value.sval, (ap - 1)->table)->tipo;
+                    os.val = ((ap - 1)->startPoint + getOid(n->value.sval, (ap - 1)->table))->val;
+                    *op = os;
+                    aumentaOp();
+                } else {
+                    os.tipo = lookUp(n->value.sval, getGlobale())->tipo;
+                    os.val = ((aproot)->startPoint + getOid(n->value.sval, getGlobale()))->val;
+                    *op = os;
+                    aumentaOp();
+                }
+            }
+            break;
+        case T_ADDR:
+            if (getOid(n->c1->value.sval, (ap - 1)->table) != -1) {
+                os.tipo = lookUp(n->c1->value.sval, (ap - 1)->table)->tipo;
+                os.val.pointer = &(((ap - 1)->startPoint + getOid(n->c1->value.sval,(ap-1)->table))->val);
                 *op = os;
                 aumentaOp();
             } else {
-                os.tipo = lookUp(n->value.sval, getGlobale())->tipo;
-                os.val = ((aproot)->startPoint + getOid(n->value.sval, getGlobale()))->val;
+                os.tipo = lookUp(n->c1->value.sval, getGlobale())->tipo;
+                os.val.pointer = &(((aproot)->startPoint + getOid(n->c1->value.sval, getGlobale()))->val);
                 *op = os;
                 aumentaOp();
             }

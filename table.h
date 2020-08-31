@@ -24,6 +24,7 @@ struct sentry{
     char* key;
     Classi classe;
     int oid;
+    int pointer;
     HashType tipo;
     Table* ambiente;
     int nformali;

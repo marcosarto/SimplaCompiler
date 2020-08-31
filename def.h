@@ -13,6 +13,7 @@ typedef enum
     NPARAM_DECL,
     NASSIGN_STAT,
     NIF_STAT,
+    NNEW,
     NWHILE_STAT,
     NFOR_STAT,
     NRETURN_STAT,
@@ -46,6 +47,7 @@ typedef enum
     T_NOT,
     T_ID,
     T_BREAK,
+    T_ADDR,
     T_INTCONST,
     T_STRCONST,
     T_BOOLCONST,
@@ -55,12 +57,13 @@ typedef enum
 
 typedef enum {FALSE, TRUE} Boolean;
 
-typedef union
+typedef union uvalue
 {
     int ival;
     float rval;
     char *sval;
     Boolean bval;
+    union uvalue *pointer;
 } Value;
 
 typedef struct snode

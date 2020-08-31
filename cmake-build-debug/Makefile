@@ -122,6 +122,60 @@ provaTecnologie/fast:
 	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/build
 .PHONY : provaTecnologie/fast
 
+heap.obj: heap.c.obj
+
+.PHONY : heap.obj
+
+# target to build an object file
+heap.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/heap.c.obj
+.PHONY : heap.c.obj
+
+heap.i: heap.c.i
+
+.PHONY : heap.i
+
+# target to preprocess a source file
+heap.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/heap.c.i
+.PHONY : heap.c.i
+
+heap.s: heap.c.s
+
+.PHONY : heap.s
+
+# target to generate assembly for a file
+heap.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/heap.c.s
+.PHONY : heap.c.s
+
+interprete.obj: interprete.c.obj
+
+.PHONY : interprete.obj
+
+# target to build an object file
+interprete.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/interprete.c.obj
+.PHONY : interprete.c.obj
+
+interprete.i: interprete.c.i
+
+.PHONY : interprete.i
+
+# target to preprocess a source file
+interprete.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/interprete.c.i
+.PHONY : interprete.c.i
+
+interprete.s: interprete.c.s
+
+.PHONY : interprete.s
+
+# target to generate assembly for a file
+interprete.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/interprete.c.s
+.PHONY : interprete.c.s
+
 lexer.obj: lexer.c.obj
 
 .PHONY : lexer.obj
@@ -176,6 +230,33 @@ parser.c.s:
 	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/parser.c.s
 .PHONY : parser.c.s
 
+runStructure.obj: runStructure.c.obj
+
+.PHONY : runStructure.obj
+
+# target to build an object file
+runStructure.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/runStructure.c.obj
+.PHONY : runStructure.c.obj
+
+runStructure.i: runStructure.c.i
+
+.PHONY : runStructure.i
+
+# target to preprocess a source file
+runStructure.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/runStructure.c.i
+.PHONY : runStructure.c.i
+
+runStructure.s: runStructure.c.s
+
+.PHONY : runStructure.s
+
+# target to generate assembly for a file
+runStructure.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/runStructure.c.s
+.PHONY : runStructure.c.s
+
 semantica.obj: semantica.c.obj
 
 .PHONY : semantica.obj
@@ -202,6 +283,60 @@ semantica.s: semantica.c.s
 semantica.c.s:
 	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/semantica.c.s
 .PHONY : semantica.c.s
+
+stringHeap.obj: stringHeap.c.obj
+
+.PHONY : stringHeap.obj
+
+# target to build an object file
+stringHeap.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/stringHeap.c.obj
+.PHONY : stringHeap.c.obj
+
+stringHeap.i: stringHeap.c.i
+
+.PHONY : stringHeap.i
+
+# target to preprocess a source file
+stringHeap.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/stringHeap.c.i
+.PHONY : stringHeap.c.i
+
+stringHeap.s: stringHeap.c.s
+
+.PHONY : stringHeap.s
+
+# target to generate assembly for a file
+stringHeap.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/stringHeap.c.s
+.PHONY : stringHeap.c.s
+
+stringPoolStructure.obj: stringPoolStructure.c.obj
+
+.PHONY : stringPoolStructure.obj
+
+# target to build an object file
+stringPoolStructure.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/stringPoolStructure.c.obj
+.PHONY : stringPoolStructure.c.obj
+
+stringPoolStructure.i: stringPoolStructure.c.i
+
+.PHONY : stringPoolStructure.i
+
+# target to preprocess a source file
+stringPoolStructure.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/stringPoolStructure.c.i
+.PHONY : stringPoolStructure.c.i
+
+stringPoolStructure.s: stringPoolStructure.c.s
+
+.PHONY : stringPoolStructure.s
+
+# target to generate assembly for a file
+stringPoolStructure.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/stringPoolStructure.c.s
+.PHONY : stringPoolStructure.c.s
 
 table.obj: table.c.obj
 
@@ -257,6 +392,33 @@ tree.c.s:
 	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/tree.c.s
 .PHONY : tree.c.s
 
+writeToFile.obj: writeToFile.c.obj
+
+.PHONY : writeToFile.obj
+
+# target to build an object file
+writeToFile.c.obj:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/writeToFile.c.obj
+.PHONY : writeToFile.c.obj
+
+writeToFile.i: writeToFile.c.i
+
+.PHONY : writeToFile.i
+
+# target to preprocess a source file
+writeToFile.c.i:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/writeToFile.c.i
+.PHONY : writeToFile.c.i
+
+writeToFile.s: writeToFile.c.s
+
+.PHONY : writeToFile.s
+
+# target to generate assembly for a file
+writeToFile.c.s:
+	$(MAKE) -f CMakeFiles\provaTecnologie.dir\build.make CMakeFiles/provaTecnologie.dir/writeToFile.c.s
+.PHONY : writeToFile.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -266,21 +428,39 @@ help:
 	@echo ... edit_cache
 	@echo ... provaTecnologie
 	@echo ... rebuild_cache
+	@echo ... heap.obj
+	@echo ... heap.i
+	@echo ... heap.s
+	@echo ... interprete.obj
+	@echo ... interprete.i
+	@echo ... interprete.s
 	@echo ... lexer.obj
 	@echo ... lexer.i
 	@echo ... lexer.s
 	@echo ... parser.obj
 	@echo ... parser.i
 	@echo ... parser.s
+	@echo ... runStructure.obj
+	@echo ... runStructure.i
+	@echo ... runStructure.s
 	@echo ... semantica.obj
 	@echo ... semantica.i
 	@echo ... semantica.s
+	@echo ... stringHeap.obj
+	@echo ... stringHeap.i
+	@echo ... stringHeap.s
+	@echo ... stringPoolStructure.obj
+	@echo ... stringPoolStructure.i
+	@echo ... stringPoolStructure.s
 	@echo ... table.obj
 	@echo ... table.i
 	@echo ... table.s
 	@echo ... tree.obj
 	@echo ... tree.i
 	@echo ... tree.s
+	@echo ... writeToFile.obj
+	@echo ... writeToFile.i
+	@echo ... writeToFile.s
 .PHONY : help
 
 

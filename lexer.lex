@@ -15,7 +15,7 @@ intconst	{digit}+
 realconst	{digit}+\.{digit}+
 strconst	\"([^\"])*\"
 boolconst	false|true
-id		{letter}({letter}|{digit})*
+id		    \*?{letter}({letter}|{digit})*
 sugar		[(){}:;,'.']
 comment		#.*\n
 %%
@@ -37,12 +37,14 @@ return      {return(RETURN);}
 void        {return(VOID);}
 for         {return(FOR);}
 to          {return(TO);}
+new         {return(NEW);}
 do          {return(DO);}
 writeln     {return(WRITELN);}
 write       {return(WRITE);}
 read        {return(READ);}
 while       {return(WHILE);}
 break       {return(BREAK);}
+&           {return(ADDR);}
 "+"         {return(PLUS);}
 "-"         {return(MINUS);}
 "*"         {return(STAR);}

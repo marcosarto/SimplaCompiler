@@ -1,0 +1,33 @@
+Tabella interna di somma (ID|TIPO|OID)
+chain[97]-->a|INTEGER|0 -->NULL
+chain[98]-->b|INTEGER|1 -->NULL
+chain[120]-->*riporto|INTEGER|2 -->NULL
+
+
+Tabella interna di Globale (ID|TIPO|OID)
+chain[97]-->a|INTEGER|0 -->NULL
+chain[107]-->somma|VOID|1 -->NULL
+
+
+--------------OSTACK(TIPO|VAL)--------------
+[ INTEGER | -2011547011 ]
+[ INTEGER | 5 ]
+[ INTEGER | 6 ]
+[ INTEGER | -2011495416 ]
+[ INTEGER | 5 ]
+[ INTEGER | 6 ]
+--------ASTACK(nOggetti|Val del primo)--------
+[ 1 | -2011547011 ]
+[ 5 | 5 ]
+
+
+--------------OSTACK(TIPO|VAL)--------------
+[ INTEGER | 11 ]
+--------ASTACK(nOggetti|Val del primo)--------
+[ 1 | 11 ]
+
+
+Hashmap delle stringhe presenti
+
+CONTENUTO HEAP
+

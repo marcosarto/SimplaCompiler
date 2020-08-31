@@ -3,4 +3,4 @@ project(provaTecnologie)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(provaTecnologie parser.h def.h table.h table.c parser.c lexer.c tree.c semantica.h semantica.c tree.h htype.h genCode.h genCode.c interprete.h interprete.c runStructure.c runStructure.h interprete.c stringPoolStructure.c stringPoolStructure.h stringHeap.h stringHeap.c saveToFile.h saveToFile.cpp writeToFile.c writeToFile.h)
+add_executable(provaTecnologie def.h heap.h heap.c interprete.h interprete.c lexer.c parser.h parser.c runStructure.c runStructure.h semantica.h semantica.c stringHeap.c stringHeap.h stringPoolStructure.c stringPoolStructure.h table.h table.c tree.c writeToFile.h writeToFile.c)
