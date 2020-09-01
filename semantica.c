@@ -205,56 +205,34 @@ void ifStat(Pnode n, Table *table) {
 }
 
 void assignStat(Pnode n, Table *table) {
-    if (n->c2->type == T_ADDR) {
+    char *toCheck = malloc(sizeof(char) * (strlen(n->c1->value.sval) + 1));
 
-        char *toCheck = malloc(sizeof(char) * (strlen(n->c1->value.sval) + 1));
-        toCheck[0] = '*';
-        for (int i = 0; i < strlen(n->c1->value.sval); i++) {
-            toCheck[i + 1] = n->c1->value.sval[i];
-        }
+    toCheck[0] = '*';
+    for (int i = 0; i < strlen(n->c1->value.sval); i++) {
+        toCheck[i + 1] = n->c1->value.sval[i];
+    }
+    if (lookUp(toCheck, table) == NULL)
+        toCheck = n->c1->value.sval;
 
-        if (lookUp(toCheck, table) == NULL) {
-            char *s = malloc(LEN_ERR_MAX);
-            sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
-                    toCheck, table->scope);
-            errSemantico(s, n);
-            return;
-        }
+    if (lookUp(toCheck, table) == NULL) {
+        char *s = malloc(LEN_ERR_MAX);
+        sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
+                toCheck, table->scope);
+        errSemantico(s, n);
+        return;
+    }
 
-        if (lookUp(toCheck, table)->classe != VAR && lookUp(toCheck, table)->classe != PAR)
-            errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
+    if (lookUp(toCheck, table)->classe != VAR && lookUp(toCheck, table)->classe != PAR)
+        errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
 
-        HashType tipo = (lookUp(toCheck, table))->tipo; //tipo var, da confrontare con expr
-        HashType tipoExpr;
+    HashType tipo = (lookUp(toCheck, table))->tipo; //tipo var, da confrontare con expr
+    HashType tipoExpr;
+    tipoExpr = expr(n->c2, table);
 
-        tipoExpr = expr(n->c2,table);
-        if (tipo != tipoExpr) {
-            char *s = malloc(LEN_ERR_MAX);
-            sprintf(s, "variabile %s non compatbile con l'expr\n", n->c1->value.sval);
-            errSemantico(s, n);
-        }
-
-    } else {
-        if (lookUp(n->c1->value.sval, table) == NULL) {
-            char *s = malloc(LEN_ERR_MAX);
-            sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
-                    n->c1->value.sval, table->scope);
-            errSemantico(s, n);
-            return;
-        }
-
-        if (lookUp(n->c1->value.sval, table)->classe != VAR && lookUp(n->c1->value.sval, table)->classe != PAR)
-            errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
-
-        HashType tipo = (lookUp(n->c1->value.sval, table))->tipo; //tipo var, da confrontare con expr
-        HashType tipoExpr;
-        tipoExpr = expr(n->c2, table);
-        if (tipo != tipoExpr) {
-            char *s = malloc(LEN_ERR_MAX);
-            sprintf(s, "variabile %s non compatbile con l'expr\n", n->c1->value.sval);
-            errSemantico(s, n);
-        }
-
+    if (tipo != tipoExpr) {
+        char *s = malloc(LEN_ERR_MAX);
+        sprintf(s, "variabile %s non compatbile con l'expr\n", toCheck);
+        errSemantico(s, n);
     }
 }
 
@@ -339,7 +317,18 @@ HashType factor(Pnode n, Table *table) {
 
         //id
     else if (n->type == T_ID) {
-        Entry *e = lookUp(n->value.sval, table);
+        char *toCheck = malloc(sizeof(char) * (strlen(n->value.sval) + 1));
+        toCheck[0] = '*';
+        for (int i = 0; i < strlen(n->value.sval); i++) {
+            toCheck[i + 1] = n->value.sval[i];
+        }
+        Entry *e;
+
+        if (lookUp(toCheck, table) != NULL)
+            e = lookUp(toCheck, table);
+        else
+            e = lookUp(n->value.sval, table);
+
         if (e == NULL) {
             char *s = malloc(LEN_ERR_MAX);
             sprintf(s, "variabile %s non dichiarata o fuori scope\n", n->value.sval);
@@ -347,8 +336,11 @@ HashType factor(Pnode n, Table *table) {
         }
         factorType = e->tipo;
         return factorType;
+
     } else if (n->type == T_ADDR) {
-        Entry *e = lookUp(n->c1->value.sval, table);
+        Entry *e;
+        e = lookUp(n->c1->value.sval, table);
+
         if (e == NULL) {
             char *s = malloc(LEN_ERR_MAX);
             sprintf(s, "variabile %s non dichiarata o fuori scope\n", n->value.sval);

@@ -1,16 +1,16 @@
-a,*b : integer;
-func somma(a:integer,b:integer,*riporto:integer):void
+a : integer;
+func somma(a : integer, b : integer, *riporto : integer) : void
 temp : integer;
 body
-    fun(a,b,&temp);
-    *riporto = temp;
+    fun(a,b,riporto);
 end;
-func fun(primo:integer,secondo:integer,*addr:integer):void
+
+func fun(primo : integer, secondo : integer, *addr : integer) : void
 body
-    *addr = primo+secondo;
+    *addr = primo + secondo;
 end;
+
 body
     somma(5,16,&a);
-    b = &a;
     writeln(a);
 end.
