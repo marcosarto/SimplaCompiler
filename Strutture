@@ -20,12 +20,12 @@ chain[743]-->fun|VOID|4 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
-[ INTEGER | 31 ]
+[ INTEGER | 30 ]
 [ INTEGER | 1 ]
-[ INTEGER | -1315777405 ]
+[ INTEGER | -155732577 ]
 [ INTEGER | 1 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 4 | 31 ]
+[ 4 | 30 ]
 
 
 Hashmap delle stringhe presenti

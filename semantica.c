@@ -5,6 +5,7 @@
 #define LEN_ERR_MAX 180
 
 int dentroCiclo = 0;
+int totreturns = 0;
 
 void evalType(Pnode n) {
 
@@ -114,6 +115,12 @@ void funDeclList(Pnode n) {
     while (originalN != NULL) {
         Table *tableFun = lookUp(originalN->c2->value.sval, getGlobale())->ambiente;
         body(originalN->c2->c1, tableFun);
+        if(totreturns == 0 && originalN->c2->b->type!=VOIDE){
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "La funzione %s non copre tutti i possibili percorsi con return\n", originalN->c2->value.sval);
+            errSemantico(s, originalN->c2->c1);
+        }
+        totreturns = 0;
         originalN = originalN->b;
     }
 }
@@ -169,6 +176,7 @@ void readStat(Pnode n, Table *table) {
 }
 
 void returnStat(Pnode n, Table *table) {
+    totreturns++;
     HashType tipoFun = lookUp(table->scope, getGlobale())->tipo;
     if (n->c1 != NULL) {
         if (tipoFun != expr(n->c1, table))
@@ -216,6 +224,18 @@ void whileStat(Pnode n, Table *table) {
 void ifStat(Pnode n, Table *table) {
     if (expr(n->c1, table) != BOOLE)
         errSemantico("if stat senza condizione booleana\n", n->c1);
+
+    int prebody = totreturns;
+    body(n->c2,table);
+    int ifsReturns = totreturns - prebody;
+    int elsesReturns = 0;
+    prebody = totreturns;
+    if(n->c1->b != NULL){
+        body(n->c1->b,table);
+        elsesReturns = totreturns - prebody;
+    }
+    if(!(ifsReturns>0 && elsesReturns > 0))
+        totreturns = totreturns - ifsReturns - elsesReturns;
 }
 
 void assignStat(Pnode n, Table *table) {

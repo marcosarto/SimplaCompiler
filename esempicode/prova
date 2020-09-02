@@ -1,5 +1,5 @@
 a,b,c : integer;
-func somma(a : integer, b : integer, *riporto : integer) : integer
+func somma(a : integer, b : integer, *riporto : integer) : void
 temp : integer;
 body
     fun(a,b,&riporto);
