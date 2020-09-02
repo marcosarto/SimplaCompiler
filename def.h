@@ -62,8 +62,8 @@ typedef union uvalue
     float rval;
     char *sval;
     Boolean bval;
-    union uvalue *pointer;
-} Value;
+    int mem;
+}Value;
 
 typedef struct snode
 {

@@ -15,7 +15,7 @@ intconst	{digit}+
 realconst	{digit}+\.{digit}+
 strconst	\"([^\"])*\"
 boolconst	false|true
-id		    \*?{letter}({letter}|{digit})*
+id		    \**{letter}({letter}|{digit})*
 sugar		[(){}:;,'.']
 comment		#.*\n
 %%

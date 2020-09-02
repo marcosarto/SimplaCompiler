@@ -3,7 +3,7 @@
 
 Ostackrecord ostack[MAX_STACK];
 Astack astack[MAX_STACK];
-Ostackrecord *op;
+Ostackrecord *op,*oproot;
 Astack *ap,*aproot;
 
 
@@ -19,7 +19,7 @@ char* tipiToStringr[] =
 
 void initRunStructure(){
     ap = aproot = astack;
-    op = ostack;
+    op = oproot = ostack;
 }
 
 

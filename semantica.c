@@ -2,7 +2,7 @@
 #include "table.h"
 #include <string.h>
 
-#define LEN_ERR_MAX 100
+#define LEN_ERR_MAX 180
 
 int dentroCiclo = 0;
 
@@ -32,12 +32,17 @@ void varDeclListInterno(Pnode n, Table *table) {
     Pnode temp = n->c1;
     while (temp) {
         Entry *entry = malloc(sizeof(Entry));
-        entry->key = temp->value.sval;
-        entry->classe = VAR;
-        if (entry->key[0] == '*')
+        if (temp->value.sval[0] == '*')
             entry->pointer = 1;
         else
             entry->pointer = 0;
+        int i = 0;
+        while (temp->value.sval[i] == '*') {
+            i++;
+        }
+        entry->nstars = i;
+        entry->key = temp->value.sval + i;
+        entry->classe = VAR;
         entry->tipo = tipo;
         entry->next = NULL;
         if (!insertInto(entry, table)) {
@@ -70,7 +75,16 @@ void funDeclList(Pnode n) {
             int i = 0;
             while (temp != NULL) {
                 Entry *entryt = malloc(sizeof(Entry));
-                entryt->key = temp->c1->value.sval;
+                if (temp->c1->value.sval[0] == '*')
+                    entryt->pointer = 1;
+                else
+                    entryt->pointer = 0;
+                int j = 0;
+                while (temp->c1->value.sval[j] == '*') {
+                    j++;
+                }
+                entryt->nstars = j;
+                entryt->key = temp->c1->value.sval + j;
                 entryt->classe = PAR;
                 HashType tipot = getHashTypeN(temp->c2, 0);
                 entryt->tipo = tipot;
@@ -205,34 +219,73 @@ void ifStat(Pnode n, Table *table) {
 }
 
 void assignStat(Pnode n, Table *table) {
-    char *toCheck = malloc(sizeof(char) * (strlen(n->c1->value.sval) + 1));
-
-    toCheck[0] = '*';
-    for (int i = 0; i < strlen(n->c1->value.sval); i++) {
-        toCheck[i + 1] = n->c1->value.sval[i];
-    }
-    if (lookUp(toCheck, table) == NULL)
-        toCheck = n->c1->value.sval;
-
-    if (lookUp(toCheck, table) == NULL) {
+    if (lookUpCond(n->c1->value.sval, table, 0) == NULL) {
         char *s = malloc(LEN_ERR_MAX);
         sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
-                toCheck, table->scope);
+                n->c1->value.sval, table->scope);
         errSemantico(s, n);
         return;
     }
+    if (lookUpCond(n->c1->value.sval, table, 0)->pointer && n->c1->value.sval[0] != '*') {
+        if (n->c2->type == T_ID) {
+            Entry *e1 = lookUpCond(n->c1->value.sval, table, 0);
+            Entry *e2 = lookUpCond(n->c2->value.sval, table, 0);
+            if (e2 == NULL) {
+                char *s = malloc(LEN_ERR_MAX);
+                sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
+                        n->c2->value.sval, table->scope);
+                errSemantico(s, n);
+                return;
+            }
+            if (e1->nstars != e2->nstars) {
+                char *s = malloc(LEN_ERR_MAX);
+                sprintf(s, "i puntatori hanno livelli diversi, %s livello %d, %s livello %d\n", e1->key,
+                        e1->nstars, e2->key, e2->nstars);
+                errSemantico(s, n);
+            }
+        } else if (n->c2->type == T_ADDR) {
+            Entry *e1 = lookUpCond(n->c1->value.sval, table, 0);
+            Entry *e2 = lookUpCond(n->c2->c1->value.sval, table, 0);
+            if (e2 == NULL) {
+                char *s = malloc(LEN_ERR_MAX);
+                sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
+                        n->c2->c1->value.sval, table->scope);
+                errSemantico(s, n);
+                return;
+            }
+            if (e1->nstars != (e2->nstars + 1)) {
+                char *s = malloc(LEN_ERR_MAX);
+                sprintf(s, "i puntatori hanno livelli diversi, %s livello %d, %s livello %d\n", e1->key,
+                        e1->nstars, e2->key, e2->nstars + 1);
+                errSemantico(s, n);
+            }
+        } else {
+            char *str = malloc(LEN_ERR_MAX);
+            sprintf(str, "Un puntatore senza carattere '*' puo' essere solo assegnato ad un puntatore di pari livello o"
+                         "livello inferiore con '&'\n");
+            errSemantico(str, n);
+        }
+    } else {
+        if (lookUp(n->c1->value.sval, table) == NULL) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "variabile %s non precedentemente dichiarata o fuori dallo scope %s\n",
+                    n->c1->value.sval, table->scope);
+            errSemantico(s, n);
+            return;
+        }
+        if (lookUp(n->c1->value.sval, table)->classe != VAR && lookUp(n->c1->value.sval, table)->classe != PAR)
+            errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
 
-    if (lookUp(toCheck, table)->classe != VAR && lookUp(toCheck, table)->classe != PAR)
-        errSemantico("la variabile di assegnamento non e' ne var ne par\n", n);
+        HashType tipo = (lookUp(n->c1->value.sval, table))->tipo; //tipo var, da confrontare con expr
+        HashType tipoExpr;
+        tipoExpr = expr(n->c2, table);
 
-    HashType tipo = (lookUp(toCheck, table))->tipo; //tipo var, da confrontare con expr
-    HashType tipoExpr;
-    tipoExpr = expr(n->c2, table);
+        if (tipo != tipoExpr) {
+            char *s = malloc(LEN_ERR_MAX);
+            sprintf(s, "variabile %s non compatbile con l'expr\n", n->c1->value.sval);
+            errSemantico(s, n);
+        }
 
-    if (tipo != tipoExpr) {
-        char *s = malloc(LEN_ERR_MAX);
-        sprintf(s, "variabile %s non compatbile con l'expr\n", toCheck);
-        errSemantico(s, n);
     }
 }
 
@@ -317,17 +370,8 @@ HashType factor(Pnode n, Table *table) {
 
         //id
     else if (n->type == T_ID) {
-        char *toCheck = malloc(sizeof(char) * (strlen(n->value.sval) + 1));
-        toCheck[0] = '*';
-        for (int i = 0; i < strlen(n->value.sval); i++) {
-            toCheck[i + 1] = n->value.sval[i];
-        }
         Entry *e;
-
-        if (lookUp(toCheck, table) != NULL)
-            e = lookUp(toCheck, table);
-        else
-            e = lookUp(n->value.sval, table);
+        e = lookUp(n->value.sval, table);
 
         if (e == NULL) {
             char *s = malloc(LEN_ERR_MAX);
@@ -466,10 +510,31 @@ HashType funcCall(Pnode n, Table *table) {
 
         temp = n->c1->c1;
         for (int i = 0; i < nArgs; i++) {
-            if (funEntry->dformali[i]->tipo != expr(temp, table)) {
-                char *s = malloc(LEN_ERR_MAX);
-                sprintf(s, "tipo argomenti della funzione %s non compatibili con la firma\n", n->c1->value.sval);
-                errSemantico(s, n->c1);
+            if (temp->type == T_ID) {
+                Entry *e1 = lookUpCond(temp->value.sval, table, 0);
+
+                if (e1->nstars != funEntry->dformali[i]->nstars) {
+                    char *s = malloc(LEN_ERR_MAX);
+                    sprintf(s, "i puntatori della funzione %s hanno livelli diversi, %s livello %d, %s livello %d\n",
+                            funEntry->key, e1->key, e1->nstars, funEntry->dformali[i]->key,
+                            funEntry->dformali[i]->nstars);
+                    errSemantico(s, n);
+                }
+            }else if(temp->type==T_ADDR){
+                Entry *e1 = lookUpCond(temp->c1->value.sval,table,0);
+
+                if(e1->nstars+1!=(funEntry->dformali[i]->nstars)) {
+                    char *s = malloc(LEN_ERR_MAX);
+                    sprintf(s, "i puntatori della funzione %s hanno livelli diversi, %s livello %d, %s livello %d\n",
+                            funEntry->key,e1->key,e1->nstars, funEntry->dformali[i]->key, funEntry->dformali[i]->nstars + 1);
+                    errSemantico(s, n);
+                }
+            }else {
+                if (funEntry->dformali[i]->tipo != expr(temp, table)) {
+                    char *s = malloc(LEN_ERR_MAX);
+                    sprintf(s, "tipo argomenti della funzione %s non compatibili con la firma\n", n->c1->value.sval);
+                    errSemantico(s, n->c1);
+                }
             }
             temp = temp->b;
         }

@@ -6,25 +6,28 @@
 #include "writeToFile.h"
 typedef struct stable Table;
 typedef struct sentry Entry;
+typedef enum hashtypeenum HashType;
+
 typedef enum{
     VAR,
     PAR,
     FUN
 }Classi;
 
-typedef enum{
+enum hashtypeenum{
     INTE,
     REALE,
     STRINGE,
     BOOLE,
-    VOIDE
-}HashType;
+    VOIDE,
+};
 
 struct sentry{
     char* key;
     Classi classe;
     int oid;
     int pointer;
+    int nstars;
     HashType tipo;
     Table* ambiente;
     int nformali;
@@ -43,6 +46,8 @@ int hash(char* id);
 int insert (Entry *entry);
 int insertInto(Entry *entry,Table *tableP);
 void initTable();
+Entry *lookUpCond(char *s,Table *tableP,int checkStars);
+int getOidP(char *s, Table *tableP);
 Entry* lookUp(char *s,Table *tableP);
 void print(Table *table);
 Table* creaAmbiente();

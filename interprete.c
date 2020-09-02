@@ -3,7 +3,7 @@
 
 #define MAX_INPUT 100
 
-extern Ostackrecord *op;
+extern Ostackrecord *op, *oproot;
 extern Astack *ap, *aproot;
 Pnode rootAST;
 int funInterrupt = 0, toExit = 0;
@@ -118,23 +118,70 @@ void breakStatex(Pnode n) {
 }
 
 void assignStatex(Pnode n) {
-    exprex(n->c2);
-    char *toCheck = malloc(sizeof(char) * (strlen(n->c1->value.sval) + 1));
-    toCheck[0] = '*';
-    for (int i = 0; i < strlen(n->c1->value.sval); i++) {
-        toCheck[i + 1] = n->c1->value.sval[i];
-    }
-    if (n->c2->type == T_ADDR||(n->c2->type==T_ID && lookUp(n->c2->value.sval,(ap-1)->table)==NULL)) {
-        int Oid = getOid(toCheck, (ap - 1)->table);
-        if (Oid != -1) {
-            ((ap - 1)->startPoint + Oid)->val.pointer = (op - 1)->val.pointer;
-            diminuisciOp();
+    if (lookUpCond(n->c1->value.sval, (ap - 1)->table, 0)->pointer && n->c1->value.sval[0] != '*') {
+        if (n->c2->type == T_ID) {
+            int Oid = getOidP(n->c1->value.sval, (ap - 1)->table);
+            int Oid2 = getOidP(n->c2->value.sval, (ap - 1)->table);
+            if (Oid != -1) {
+                if (Oid2 != -1)
+                    ((ap - 1)->startPoint + Oid)->val.ival = ((ap - 1)->startPoint + Oid2)->val.ival;
+                else {
+                    Oid2 = getOidP(n->c2->value.sval, getGlobale());
+                    ((ap - 1)->startPoint + Oid)->val.ival = ((aproot)->startPoint + Oid2)->val.ival;
+                }
+            } else {
+                Oid = getOidP(n->c1->value.sval, getGlobale());
+                if (Oid2 != -1)
+                    ((aproot)->startPoint + Oid)->val.ival = ((ap - 1)->startPoint + Oid2)->val.ival;
+                else {
+                    Oid2 = getOidP(n->c2->value.sval, getGlobale());
+                    ((aproot)->startPoint + Oid)->val.ival = ((aproot)->startPoint + Oid2)->val.ival;
+                }
+            }
         } else {
-            Oid = getOid(toCheck, getGlobale());
-            ((aproot)->startPoint + Oid)->val.pointer = (op - 1)->val.pointer;
-            diminuisciOp();
+            //la variabile dopo & e' un puntatore
+//            if (lookUpCond(n->c2->c1->value.sval, (ap - 1)->table, 0)->pointer) {
+//                int Oid = getOidP(n->c1->value.sval, (ap - 1)->table);
+//                int Oid2 = getOidP(n->c2->c1->value.sval, (ap - 1)->table);
+//                if (Oid != -1) {
+//                    if (Oid2 != -1)
+//                        ((ap - 1)->startPoint + Oid)->val.pointer = &((ap - 1)->startPoint + Oid2)->val.pointer;
+//                    else {
+//                        Oid2 = getOidP(n->c2->c1->value.sval, getGlobale());
+//                        ((ap - 1)->startPoint + Oid)->val.pointer = &((aproot)->startPoint + Oid2)->val.pointer;
+//                    }
+//                } else {
+//                    Oid = getOidP(n->c1->value.sval, getGlobale());
+//                    if (Oid2 != -1)
+//                        ((aproot)->startPoint + Oid)->val.pointer = &((ap - 1)->startPoint + Oid2)->val.pointer;
+//                    else {
+//                        Oid2 = getOidP(n->c2->c1->value.sval, getGlobale());
+//                        ((aproot)->startPoint + Oid)->val.pointer = &((aproot)->startPoint + Oid2)->val.pointer;
+//                    }
+//                }
+//            } else {
+            int Oid = getOidP(n->c1->value.sval, (ap - 1)->table);
+            int Oid2 = getOidP(n->c2->c1->value.sval, (ap - 1)->table);
+            if (Oid != -1) {
+                if (Oid2 != -1)
+                    ((ap - 1)->startPoint + Oid)->val.ival = (((ap - 1)->startPoint + Oid2) - oproot);
+                else {
+                    Oid2 = getOidP(n->c2->c1->value.sval, getGlobale());
+                    ((ap - 1)->startPoint + Oid)->val.ival = (((aproot)->startPoint + Oid2)- oproot);
+                }
+            } else {
+                Oid = getOidP(n->c1->value.sval, getGlobale());
+                if (Oid2 != -1)
+                    ((aproot)->startPoint + Oid)->val.ival = (((ap - 1)->startPoint + Oid2)- oproot);
+                else {
+                    Oid2 = getOidP(n->c2->c1->value.sval, getGlobale());
+                    ((aproot)->startPoint + Oid)->val.ival = (((aproot)->startPoint + Oid2) - oproot);
+                }
+            }
+            //}
         }
-    }else{
+    } else {
+        exprex(n->c2);
         cambiaValInStack(n->c1->value.sval);
     }
 }
@@ -295,18 +342,24 @@ void ifStatex(Pnode n) {
 
 void cambiaValInStack(char *s) {
     if (s[0] == '*') {
-        //Controllo se la variabile e' locale
-        int Oid = getOid(s, (ap - 1)->table);
-        if (Oid != -1) {
-            *((ap - 1)->startPoint + Oid)->val.pointer = (op - 1)->val;
-            diminuisciOp();
+
+        int i = 0;
+        Ostackrecord os;
+        if (getOidP(s, (ap - 1)->table) != -1) {
+            os.tipo = lookUpCond(s, (ap - 1)->table, 0)->tipo;
+            os.val.ival = ((ap - 1)->startPoint + getOidP(s, (ap - 1)->table))->val.ival;
+        } else {
+            os.tipo = lookUpCond(s, getGlobale(), 0)->tipo;
+            os.val.ival = ((aproot)->startPoint + getOidP(s, getGlobale()))->val.ival;
         }
-            //E' globale e io non sono nel main
-        else {
-            Oid = getOid(s, getGlobale());
-            *((aproot)->startPoint + Oid)->val.pointer = (op - 1)->val;
-            diminuisciOp();
+        while (s[i] == '*') {
+            i++;
+            if(s[i]!='*')
+                break;
+            os.val.ival = oproot[os.val.ival].val.ival;
         }
+        oproot[os.val.ival].val = (op-1)->val;
+        diminuisciOp();
     } else {
         //Controllo se la variabile e' locale
         int Oid = getOid(s, (ap - 1)->table);
@@ -362,10 +415,7 @@ void funcCallex(Pnode n) {
         op++;
         //Computo l'expr passata come argomento
         exprex(temp);
-        if (temp->type == T_ADDR)
-            (op - 2)->val.pointer = (op - 1)->val.pointer;
-        else
-            (op - 2)->val = (op - 1)->val;
+        (op - 2)->val = (op - 1)->val;
         diminuisciOp();
         temp = temp->b;
     }
@@ -586,7 +636,6 @@ void relTermex(Pnode n) {
         case T_PLUS:
             relTermex(n->c1);
             lowTermex(n->c2);
-            printAStack();
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival + (op - 1)->val.ival;
@@ -644,7 +693,6 @@ void lowTermex(Pnode n) {
         case T_DIV:
             lowTermex(n->c1);
             factorex(n->c2);
-            printAStack();
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival / (op - 1)->val.ival;
@@ -721,60 +769,47 @@ void factorex(Pnode n) {
             break;
         case T_ID:
             if (n->value.sval[0] == '*') {
-                if (getOid(n->value.sval, (ap - 1)->table) != -1) {
-                    os.tipo = lookUp(n->value.sval, (ap - 1)->table)->tipo;
-                    os.val = *((ap - 1)->startPoint + getOid(n->value.sval, (ap - 1)->table))->val.pointer;
+                int i = 0;
+
+                if (getOidP(n->value.sval, (ap - 1)->table) != -1) {
+                    os.tipo = lookUpCond(n->value.sval, (ap - 1)->table, 0)->tipo;
+                    os.val.ival = ((ap - 1)->startPoint + getOidP(n->value.sval, (ap - 1)->table))->val.ival;
+                } else {
+                    os.tipo = lookUpCond(n->value.sval, getGlobale(), 0)->tipo;
+                    os.val.ival = ((aproot)->startPoint + getOidP(n->value.sval, getGlobale()))->val.ival;
+                }
+                while (n->value.sval[i] == '*') {
+                    i++;
+                    if(n->value.sval[i]!='*')
+                        break;
+                    os.val.ival = oproot[os.val.ival].val.ival;
+                }
+                os.val = oproot[os.val.ival].val;
+                *op = os;
+                aumentaOp();
+            } else if (lookUpCond(n->value.sval, (ap - 1)->table, 0) != NULL) {
+                if (getOidP(n->value.sval, (ap - 1)->table) != -1) {
+                    os.tipo = lookUpCond(n->value.sval, (ap - 1)->table, 0)->tipo;
+                    os.val = ((ap - 1)->startPoint + getOidP(n->value.sval, (ap - 1)->table))->val;
                     *op = os;
                     aumentaOp();
                 } else {
-                    os.tipo = lookUp(n->value.sval, getGlobale())->tipo;
-                    os.val = *((aproot)->startPoint + getOid(n->value.sval, getGlobale()))->val.pointer;
+                    os.tipo = lookUpCond(n->value.sval, getGlobale(), 0)->tipo;
+                    os.val = ((aproot)->startPoint + getOidP(n->value.sval, getGlobale()))->val;
                     *op = os;
                     aumentaOp();
-                }
-            } else if(lookUp(n->value.sval,(ap-1)->table)!=NULL){
-                if (getOid(n->value.sval, (ap - 1)->table) != -1) {
-                    os.tipo = lookUp(n->value.sval, (ap - 1)->table)->tipo;
-                    os.val = ((ap - 1)->startPoint + getOid(n->value.sval, (ap - 1)->table))->val;
-                    *op = os;
-                    aumentaOp();
-                } else {
-                    os.tipo = lookUp(n->value.sval, getGlobale())->tipo;
-                    os.val = ((aproot)->startPoint + getOid(n->value.sval, getGlobale()))->val;
-                    *op = os;
-                    aumentaOp();
-                }
-            }
-            else {
-                char *toCheck = malloc(sizeof(char) * (strlen(n->value.sval) + 1));
-                toCheck[0] = '*';
-                for (int i = 0; i < strlen(n->value.sval); i++) {
-                    toCheck[i + 1] = n->value.sval[i];
-                }
-                if (lookUp(toCheck, (ap - 1)->table) != NULL) {
-                    if (getOid(toCheck, (ap - 1)->table) != -1) {
-                        os.tipo = lookUp(toCheck, (ap - 1)->table)->tipo;
-                        os.val.pointer = ((ap - 1)->startPoint + getOid(toCheck, (ap - 1)->table))->val.pointer;
-                        *op = os;
-                        aumentaOp();
-                    } else {
-                        os.tipo = lookUp(toCheck, getGlobale())->tipo;
-                        os.val.pointer = ((aproot)->startPoint + getOid(toCheck, getGlobale()))->val.pointer;
-                        *op = os;
-                        aumentaOp();
-                    }
                 }
             }
             break;
         case T_ADDR:
-            if (getOid(n->c1->value.sval, (ap - 1)->table) != -1) {
-                os.tipo = lookUp(n->c1->value.sval, (ap - 1)->table)->tipo;
-                os.val.pointer = &(((ap - 1)->startPoint + getOid(n->c1->value.sval, (ap - 1)->table))->val);
+            if (getOidP(n->c1->value.sval, (ap - 1)->table) != -1) {
+                os.tipo = lookUpCond(n->c1->value.sval, (ap - 1)->table, 0)->tipo;
+                os.val.ival = (((ap - 1)->startPoint + getOidP(n->c1->value.sval, (ap - 1)->table))- oproot);
                 *op = os;
                 aumentaOp();
             } else {
-                os.tipo = lookUp(n->c1->value.sval, getGlobale())->tipo;
-                os.val.pointer = &(((aproot)->startPoint + getOid(n->c1->value.sval, getGlobale()))->val);
+                os.tipo = lookUpCond(n->c1->value.sval, getGlobale(), 0)->tipo;
+                os.val.ival = (((aproot)->startPoint + getOidP(n->c1->value.sval, getGlobale()))- oproot);
                 *op = os;
                 aumentaOp();
             }
