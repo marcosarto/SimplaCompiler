@@ -221,8 +221,8 @@ void readStatex(Pnode n) {
         switch (lookUp(temp->value.sval, (ap - 1)->table)->tipo) {
             case INTE:
                 if (!isInt(str)) {
-                    printf("Read stat %s e' intero, l'input e' invece di tipo non compatibile\n",
-                           temp->value.sval);
+                    printf("Linea %d : ERRORE RUNTIME Read stat %s e' intero, l'input e' invece di tipo non compatibile\n",
+                           temp->linen,temp->value.sval);
                     errRunTime();
                 } else {
                     Ostackrecord os;
@@ -237,8 +237,8 @@ void readStatex(Pnode n) {
                 break;
             case REALE:
                 if (!isReale(str)) {
-                    printf("Read stat %s e' real, l'input e' invece di tipo non compatibile\n",
-                           temp->value.sval);
+                    printf("Linea %d : ERRORE RUNTIME Read stat %s e' real, l'input e' invece di tipo non compatibile\n",
+                           temp->linen,temp->value.sval);
                     errRunTime();
                 } else {
                     Ostackrecord os;
@@ -253,8 +253,8 @@ void readStatex(Pnode n) {
                 break;
             case BOOLE:
                 if (!isBool(str)) {
-                    printf("Read stat %s e' boolean, l'input e' invece di tipo non compatibile\n",
-                           temp->value.sval);
+                    printf("Linea %d : ERRORE RUNTIME Read stat %s e' boolean, l'input e' invece di tipo non compatibile\n",
+                           temp->linen,temp->value.sval);
                     errRunTime();
                 } else {
                     Ostackrecord os;
@@ -695,9 +695,17 @@ void lowTermex(Pnode n) {
             factorex(n->c2);
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
+                if((op-1)->val.ival == 0){
+                    printf("Linea %d : ERRORE RUNTIME Divisione per 0 non accettabile\n",n->c2->linen);
+                    errRunTime();
+                }
                 os.val.ival = (op - 2)->val.ival / (op - 1)->val.ival;
             } else {
                 os.tipo = REALE;
+                if((op-1)->val.rval == 0.0){
+                    printf("Linea %d : ERRORE RUNTIME Divisione per 0 non accettabile\n",n->c2->linen);
+                    errRunTime();
+                }
                 os.val.rval = (op - 2)->val.rval / (op - 1)->val.rval;
             }
             diminuisciOp();

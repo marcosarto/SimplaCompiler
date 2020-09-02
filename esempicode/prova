@@ -1,4 +1,5 @@
 a,b,c : integer;
+r : real;
 func somma(a : integer, b : integer, *riporto : integer) : void
 temp : integer;
 body
@@ -11,6 +12,8 @@ body
 end;
 
 body
+    read(a);
+    read(r);
     a = 5*5+5;
     b = 1;
     somma(a,b,&a);

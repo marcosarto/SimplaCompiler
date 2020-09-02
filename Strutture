@@ -15,17 +15,18 @@ Tabella interna di Globale (ID|TIPO|OID)
 chain[97]-->a|INTEGER|0 -->NULL
 chain[98]-->b|INTEGER|1 -->NULL
 chain[99]-->c|INTEGER|2 -->NULL
-chain[107]-->somma|INTEGER|3 -->NULL
-chain[743]-->fun|VOID|4 -->NULL
+chain[107]-->somma|VOID|4 -->NULL
+chain[114]-->r|REAL|3 -->NULL
+chain[743]-->fun|VOID|5 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
-[ INTEGER | 30 ]
+[ INTEGER | 31 ]
 [ INTEGER | 1 ]
-[ INTEGER | -155732577 ]
-[ INTEGER | 1 ]
+[ INTEGER | 241141301 ]
+[ REAL | 2.500000 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 4 | 30 ]
+[ 4 | 31 ]
 
 
 Hashmap delle stringhe presenti
