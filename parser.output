@@ -55,248 +55,254 @@ Grammar
    31     | read_stat
    32     | write_stat
    33     | func_call
-   34     | BREAK
+   34     | print_stack
+   35     | BREAK
 
-   35 @4: %empty
+   36 @4: %empty
 
-   36 assign_stat: ID @4 EQUAL expr
+   37 assign_stat: ID @4 EQUAL expr
 
-   37 if_stat: IF expr THEN stat_list opt_else_stat END
+   38 if_stat: IF expr THEN stat_list opt_else_stat END
 
-   38 opt_else_stat: ELSE stat_list
-   39              | %empty
+   39 opt_else_stat: ELSE stat_list
+   40              | %empty
 
-   40 while_stat: WHILE expr DO stat_list END
+   41 print_stack: PRINTSTACK '(' ')'
 
-   41 @5: %empty
+   42 while_stat: WHILE expr DO stat_list END
 
-   42 for_stat: FOR ID @5 EQUAL expr TO expr DO stat_list END
+   43 @5: %empty
 
-   43 return_stat: RETURN opt_expr
+   44 for_stat: FOR ID @5 EQUAL expr TO expr DO stat_list END
 
-   44 opt_expr: expr
-   45         | %empty
+   45 return_stat: RETURN opt_expr
 
-   46 read_stat: READ '(' id_list ')'
+   46 opt_expr: expr
+   47         | %empty
 
-   47 write_stat: write_op '(' expr_list ')'
+   48 read_stat: READ '(' id_list ')'
 
-   48 write_op: WRITE
-   49         | WRITELN
+   49 write_stat: write_op '(' expr_list ')'
 
-   50 expr_list: expr ',' expr_list
-   51          | expr
+   50 write_op: WRITE
+   51         | WRITELN
 
-   52 expr: expr logic_op bool_term
-   53     | bool_term
+   52 expr_list: expr ',' expr_list
+   53          | expr
 
-   54 logic_op: AND
-   55         | OR
+   54 expr: expr logic_op bool_term
+   55     | bool_term
 
-   56 bool_term: rel_term rel_op rel_term
-   57          | rel_term
+   56 logic_op: AND
+   57         | OR
 
-   58 rel_op: EQU
-   59       | NEQ
-   60       | GRT
-   61       | GEQ
-   62       | LSS
-   63       | LEQ
+   58 bool_term: rel_term rel_op rel_term
+   59          | rel_term
 
-   64 rel_term: rel_term low_prec_op low_term
-   65         | low_term
+   60 rel_op: EQU
+   61       | NEQ
+   62       | GRT
+   63       | GEQ
+   64       | LSS
+   65       | LEQ
 
-   66 low_prec_op: PLUS
-   67            | MINUS
+   66 rel_term: rel_term low_prec_op low_term
+   67         | low_term
 
-   68 low_term: low_term high_prec_op factor
-   69         | factor
+   68 low_prec_op: PLUS
+   69            | MINUS
 
-   70 high_prec_op: STAR
-   71             | DIV
+   70 low_term: low_term high_prec_op factor
+   71         | factor
 
-   72 factor: unary_op factor
-   73       | '(' expr ')'
-   74       | ID
+   72 high_prec_op: STAR
+   73             | DIV
 
-   75 @6: %empty
+   74 factor: unary_op factor
+   75       | '(' expr ')'
+   76       | ID
 
-   76 factor: ADDR ID @6
-   77       | const
-   78       | func_call
-   79       | cond_expr
-   80       | cast '(' expr ')'
+   77 @6: %empty
 
-   81 unary_op: MINUS
-   82         | NOT
+   78 factor: ADDR ID @6
+   79       | const
+   80       | func_call
+   81       | cond_expr
+   82       | cast '(' expr ')'
 
-   83 const: INTCONST
-   84      | REALCONST
-   85      | STRCONST
-   86      | BOOLCONST
+   83 unary_op: MINUS
+   84         | NOT
 
-   87 @7: %empty
+   85 const: INTCONST
+   86      | REALCONST
+   87      | STRCONST
+   88      | BOOLCONST
 
-   88 func_call: ID @7 '(' opt_expr_list ')'
+   89 @7: %empty
 
-   89 opt_expr_list: expr_list
-   90              | %empty
+   90 func_call: ID @7 '(' opt_expr_list ')'
 
-   91 cond_expr: IF expr THEN expr ELSE expr END
+   91 opt_expr_list: expr_list
+   92              | %empty
 
-   92 cast: INTEGER
-   93     | REAL
+   93 cond_expr: IF expr THEN expr ELSE expr END
+
+   94 cast: INTEGER
+   95     | REAL
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'(' (40) 16 46 47 73 80 88
-')' (41) 16 46 47 73 80 88
-',' (44) 6 19 50
+'(' (40) 16 41 48 49 75 82 90
+')' (41) 16 41 48 49 75 82 90
+',' (44) 6 19 52
 '.' (46) 1
 ':' (58) 4 16 22
 ';' (59) 4 16 24 25
 error (256)
-INTEGER (258) 8 92
-REAL (259) 9 93
+INTEGER (258) 8 94
+REAL (259) 9 95
 STRING (260) 10
 BOOLEAN (261) 11
 VOID (262) 12
-ID (263) 6 7 16 22 36 42 74 76 88
+ID (263) 6 7 16 22 37 44 76 78 90
 FUNC (264) 16
 BODY (265) 23
-END (266) 23 37 40 42 91
-BREAK (267) 34
-EQU (268) 58
-NEQ (269) 59
-GEQ (270) 61
-LEQ (271) 63
-AND (272) 54
-OR (273) 55
-IF (274) 37 91
-ELSE (275) 38 91
-INTCONST (276) 83
-NOT (277) 82
-REALCONST (278) 84
-STRCONST (279) 85
-THEN (280) 37 91
-BOOLCONST (281) 86
-DO (282) 40 42
-FOR (283) 42
-READ (284) 46
-RETURN (285) 43
-TO (286) 42
-WHILE (287) 40
-GRT (288) 60
-LSS (289) 62
-WRITE (290) 48
-WRITELN (291) 49
-PLUS (292) 66
-STAR (293) 70
-MINUS (294) 67 81
-EQUAL (295) 36 42
-DIV (296) 71
-ADDR (297) 76
+END (266) 23 38 42 44 93
+BREAK (267) 35
+EQU (268) 60
+NEQ (269) 61
+GEQ (270) 63
+LEQ (271) 65
+AND (272) 56
+OR (273) 57
+IF (274) 38 93
+ELSE (275) 39 93
+INTCONST (276) 85
+NOT (277) 84
+REALCONST (278) 86
+STRCONST (279) 87
+THEN (280) 38 93
+BOOLCONST (281) 88
+DO (282) 42 44
+FOR (283) 44
+READ (284) 48
+RETURN (285) 45
+TO (286) 44
+WHILE (287) 42
+GRT (288) 62
+LSS (289) 64
+WRITE (290) 50
+WRITELN (291) 51
+PLUS (292) 68
+STAR (293) 72
+MINUS (294) 69 83
+EQUAL (295) 37 44
+DIV (296) 73
+ADDR (297) 78
 NEW (298)
+PRINTSTACK (299) 41
 
 
 Nonterminals, with rules where they appear
 
-$accept (50)
+$accept (51)
     on left: 0
-program (51)
+program (52)
     on left: 1, on right: 0
-var_decl_list (52)
+var_decl_list (53)
     on left: 2 3, on right: 1 2 16
-var_decl (53)
+var_decl (54)
     on left: 4, on right: 2
-id_list (54)
-    on left: 6 7, on right: 4 6 46
-@1 (55)
+id_list (55)
+    on left: 6 7, on right: 4 6 48
+@1 (56)
     on left: 5, on right: 6
-type (56)
+type (57)
     on left: 8 9 10 11 12, on right: 4 16 22
-func_decl_list (57)
+func_decl_list (58)
     on left: 13 14, on right: 1 13
-func_decl (58)
+func_decl (59)
     on left: 16, on right: 13
-@2 (59)
+@2 (60)
     on left: 15, on right: 16
-opt_param_list (60)
+opt_param_list (61)
     on left: 17 18, on right: 16
-param_list (61)
+param_list (62)
     on left: 19 20, on right: 17 19
-param_decl (62)
+param_decl (63)
     on left: 22, on right: 19 20
-@3 (63)
+@3 (64)
     on left: 21, on right: 22
-body (64)
+body (65)
     on left: 23, on right: 1 16
-stat_list (65)
-    on left: 24 25, on right: 23 24 37 38 40 42
-stat (66)
-    on left: 26 27 28 29 30 31 32 33 34, on right: 24 25
-assign_stat (67)
-    on left: 36, on right: 26
-@4 (68)
-    on left: 35, on right: 36
-if_stat (69)
-    on left: 37, on right: 27
-opt_else_stat (70)
-    on left: 38 39, on right: 37
-while_stat (71)
-    on left: 40, on right: 28
-for_stat (72)
-    on left: 42, on right: 29
-@5 (73)
-    on left: 41, on right: 42
-return_stat (74)
-    on left: 43, on right: 30
-opt_expr (75)
-    on left: 44 45, on right: 43
-read_stat (76)
-    on left: 46, on right: 31
-write_stat (77)
-    on left: 47, on right: 32
-write_op (78)
-    on left: 48 49, on right: 47
-expr_list (79)
-    on left: 50 51, on right: 47 50 89
-expr (80)
-    on left: 52 53, on right: 36 37 40 42 44 50 51 52 73 80 91
-logic_op (81)
-    on left: 54 55, on right: 52
-bool_term (82)
-    on left: 56 57, on right: 52 53
-rel_op (83)
-    on left: 58 59 60 61 62 63, on right: 56
-rel_term (84)
-    on left: 64 65, on right: 56 57 64
-low_prec_op (85)
-    on left: 66 67, on right: 64
-low_term (86)
-    on left: 68 69, on right: 64 65 68
-high_prec_op (87)
-    on left: 70 71, on right: 68
-factor (88)
-    on left: 72 73 74 76 77 78 79 80, on right: 68 69 72
-@6 (89)
-    on left: 75, on right: 76
-unary_op (90)
-    on left: 81 82, on right: 72
-const (91)
-    on left: 83 84 85 86, on right: 77
-func_call (92)
-    on left: 88, on right: 33 78
-@7 (93)
-    on left: 87, on right: 88
-opt_expr_list (94)
-    on left: 89 90, on right: 88
-cond_expr (95)
-    on left: 91, on right: 79
-cast (96)
-    on left: 92 93, on right: 80
+stat_list (66)
+    on left: 24 25, on right: 23 24 38 39 42 44
+stat (67)
+    on left: 26 27 28 29 30 31 32 33 34 35, on right: 24 25
+assign_stat (68)
+    on left: 37, on right: 26
+@4 (69)
+    on left: 36, on right: 37
+if_stat (70)
+    on left: 38, on right: 27
+opt_else_stat (71)
+    on left: 39 40, on right: 38
+print_stack (72)
+    on left: 41, on right: 34
+while_stat (73)
+    on left: 42, on right: 28
+for_stat (74)
+    on left: 44, on right: 29
+@5 (75)
+    on left: 43, on right: 44
+return_stat (76)
+    on left: 45, on right: 30
+opt_expr (77)
+    on left: 46 47, on right: 45
+read_stat (78)
+    on left: 48, on right: 31
+write_stat (79)
+    on left: 49, on right: 32
+write_op (80)
+    on left: 50 51, on right: 49
+expr_list (81)
+    on left: 52 53, on right: 49 52 91
+expr (82)
+    on left: 54 55, on right: 37 38 42 44 46 52 53 54 75 82 93
+logic_op (83)
+    on left: 56 57, on right: 54
+bool_term (84)
+    on left: 58 59, on right: 54 55
+rel_op (85)
+    on left: 60 61 62 63 64 65, on right: 58
+rel_term (86)
+    on left: 66 67, on right: 58 59 66
+low_prec_op (87)
+    on left: 68 69, on right: 66
+low_term (88)
+    on left: 70 71, on right: 66 67 70
+high_prec_op (89)
+    on left: 72 73, on right: 70
+factor (90)
+    on left: 74 75 76 78 79 80 81 82, on right: 70 71 74
+@6 (91)
+    on left: 77, on right: 78
+unary_op (92)
+    on left: 83 84, on right: 74
+const (93)
+    on left: 85 86 87 88, on right: 79
+func_call (94)
+    on left: 90, on right: 33 80
+@7 (95)
+    on left: 89, on right: 90
+opt_expr_list (96)
+    on left: 91 92, on right: 90
+cond_expr (97)
+    on left: 93, on right: 81
+cast (98)
+    on left: 94 95, on right: 82
 
 
 State 0
@@ -447,34 +453,36 @@ State 15
 
    23 body: BODY . stat_list END
 
-    ID       shift, and go to state 26
-    BREAK    shift, and go to state 27
-    IF       shift, and go to state 28
-    FOR      shift, and go to state 29
-    READ     shift, and go to state 30
-    RETURN   shift, and go to state 31
-    WHILE    shift, and go to state 32
-    WRITE    shift, and go to state 33
-    WRITELN  shift, and go to state 34
+    ID          shift, and go to state 26
+    BREAK       shift, and go to state 27
+    IF          shift, and go to state 28
+    FOR         shift, and go to state 29
+    READ        shift, and go to state 30
+    RETURN      shift, and go to state 31
+    WHILE       shift, and go to state 32
+    WRITE       shift, and go to state 33
+    WRITELN     shift, and go to state 34
+    PRINTSTACK  shift, and go to state 35
 
-    stat_list    go to state 35
-    stat         go to state 36
-    assign_stat  go to state 37
-    if_stat      go to state 38
-    while_stat   go to state 39
-    for_stat     go to state 40
-    return_stat  go to state 41
-    read_stat    go to state 42
-    write_stat   go to state 43
-    write_op     go to state 44
-    func_call    go to state 45
+    stat_list    go to state 36
+    stat         go to state 37
+    assign_stat  go to state 38
+    if_stat      go to state 39
+    print_stack  go to state 40
+    while_stat   go to state 41
+    for_stat     go to state 42
+    return_stat  go to state 43
+    read_stat    go to state 44
+    write_stat   go to state 45
+    write_op     go to state 46
+    func_call    go to state 47
 
 
 State 16
 
     1 program: var_decl_list func_decl_list body . '.'
 
-    '.'  shift, and go to state 46
+    '.'  shift, and go to state 48
 
 
 State 17
@@ -523,7 +531,7 @@ State 23
 
     4 var_decl: id_list ':' type . ';'
 
-    ';'  shift, and go to state 47
+    ';'  shift, and go to state 49
 
 
 State 24
@@ -537,1316 +545,1350 @@ State 25
 
    16 func_decl: FUNC ID @2 . '(' opt_param_list ')' ':' type var_decl_list body ';'
 
-    '('  shift, and go to state 48
+    '('  shift, and go to state 50
 
 
 State 26
 
-   36 assign_stat: ID . @4 EQUAL expr
-   88 func_call: ID . @7 '(' opt_expr_list ')'
+   37 assign_stat: ID . @4 EQUAL expr
+   90 func_call: ID . @7 '(' opt_expr_list ')'
 
-    '('       reduce using rule 87 (@7)
-    $default  reduce using rule 35 (@4)
+    '('       reduce using rule 89 (@7)
+    $default  reduce using rule 36 (@4)
 
-    @4  go to state 49
-    @7  go to state 50
+    @4  go to state 51
+    @7  go to state 52
 
 
 State 27
 
-   34 stat: BREAK .
+   35 stat: BREAK .
 
-    $default  reduce using rule 34 (stat)
+    $default  reduce using rule 35 (stat)
 
 
 State 28
 
-   37 if_stat: IF . expr THEN stat_list opt_else_stat END
+   38 if_stat: IF . expr THEN stat_list opt_else_stat END
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    expr       go to state 63
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    expr       go to state 65
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 29
 
-   42 for_stat: FOR . ID @5 EQUAL expr TO expr DO stat_list END
+   44 for_stat: FOR . ID @5 EQUAL expr TO expr DO stat_list END
 
-    ID  shift, and go to state 73
+    ID  shift, and go to state 75
 
 
 State 30
 
-   46 read_stat: READ . '(' id_list ')'
+   48 read_stat: READ . '(' id_list ')'
 
-    '('  shift, and go to state 74
+    '('  shift, and go to state 76
 
 
 State 31
 
-   43 return_stat: RETURN . opt_expr
+   45 return_stat: RETURN . opt_expr
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    $default  reduce using rule 45 (opt_expr)
+    $default  reduce using rule 47 (opt_expr)
 
-    opt_expr   go to state 75
-    expr       go to state 76
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    opt_expr   go to state 77
+    expr       go to state 78
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 32
 
-   40 while_stat: WHILE . expr DO stat_list END
+   42 while_stat: WHILE . expr DO stat_list END
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    expr       go to state 77
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    expr       go to state 79
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 33
 
-   48 write_op: WRITE .
+   50 write_op: WRITE .
 
-    $default  reduce using rule 48 (write_op)
+    $default  reduce using rule 50 (write_op)
 
 
 State 34
 
-   49 write_op: WRITELN .
+   51 write_op: WRITELN .
 
-    $default  reduce using rule 49 (write_op)
+    $default  reduce using rule 51 (write_op)
 
 
 State 35
 
-   23 body: BODY stat_list . END
+   41 print_stack: PRINTSTACK . '(' ')'
 
-    END  shift, and go to state 78
+    '('  shift, and go to state 80
 
 
 State 36
 
-   24 stat_list: stat . ';' stat_list
-   25          | stat . ';'
+   23 body: BODY stat_list . END
 
-    ';'  shift, and go to state 79
+    END  shift, and go to state 81
 
 
 State 37
+
+   24 stat_list: stat . ';' stat_list
+   25          | stat . ';'
+
+    ';'  shift, and go to state 82
+
+
+State 38
 
    26 stat: assign_stat .
 
     $default  reduce using rule 26 (stat)
 
 
-State 38
+State 39
 
    27 stat: if_stat .
 
     $default  reduce using rule 27 (stat)
 
 
-State 39
+State 40
+
+   34 stat: print_stack .
+
+    $default  reduce using rule 34 (stat)
+
+
+State 41
 
    28 stat: while_stat .
 
     $default  reduce using rule 28 (stat)
 
 
-State 40
+State 42
 
    29 stat: for_stat .
 
     $default  reduce using rule 29 (stat)
 
 
-State 41
+State 43
 
    30 stat: return_stat .
 
     $default  reduce using rule 30 (stat)
 
 
-State 42
+State 44
 
    31 stat: read_stat .
 
     $default  reduce using rule 31 (stat)
 
 
-State 43
+State 45
 
    32 stat: write_stat .
 
     $default  reduce using rule 32 (stat)
 
 
-State 44
+State 46
 
-   47 write_stat: write_op . '(' expr_list ')'
+   49 write_stat: write_op . '(' expr_list ')'
 
-    '('  shift, and go to state 80
+    '('  shift, and go to state 83
 
 
-State 45
+State 47
 
    33 stat: func_call .
 
     $default  reduce using rule 33 (stat)
 
 
-State 46
+State 48
 
     1 program: var_decl_list func_decl_list body '.' .
 
     $default  reduce using rule 1 (program)
 
 
-State 47
+State 49
 
     4 var_decl: id_list ':' type ';' .
 
     $default  reduce using rule 4 (var_decl)
 
 
-State 48
+State 50
 
    16 func_decl: FUNC ID @2 '(' . opt_param_list ')' ':' type var_decl_list body ';'
 
-    ID  shift, and go to state 81
+    ID  shift, and go to state 84
 
     $default  reduce using rule 18 (opt_param_list)
 
-    opt_param_list  go to state 82
-    param_list      go to state 83
-    param_decl      go to state 84
-
-
-State 49
-
-   36 assign_stat: ID @4 . EQUAL expr
-
-    EQUAL  shift, and go to state 85
-
-
-State 50
-
-   88 func_call: ID @7 . '(' opt_expr_list ')'
-
-    '('  shift, and go to state 86
+    opt_param_list  go to state 85
+    param_list      go to state 86
+    param_decl      go to state 87
 
 
 State 51
 
-   92 cast: INTEGER .
+   37 assign_stat: ID @4 . EQUAL expr
 
-    $default  reduce using rule 92 (cast)
+    EQUAL  shift, and go to state 88
 
 
 State 52
 
-   93 cast: REAL .
+   90 func_call: ID @7 . '(' opt_expr_list ')'
 
-    $default  reduce using rule 93 (cast)
+    '('  shift, and go to state 89
 
 
 State 53
 
-   74 factor: ID .
-   88 func_call: ID . @7 '(' opt_expr_list ')'
+   94 cast: INTEGER .
 
-    '('       reduce using rule 87 (@7)
-    $default  reduce using rule 74 (factor)
-
-    @7  go to state 50
+    $default  reduce using rule 94 (cast)
 
 
 State 54
 
-   91 cond_expr: IF . expr THEN expr ELSE expr END
+   95 cast: REAL .
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    expr       go to state 87
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    $default  reduce using rule 95 (cast)
 
 
 State 55
 
-   83 const: INTCONST .
+   76 factor: ID .
+   90 func_call: ID . @7 '(' opt_expr_list ')'
 
-    $default  reduce using rule 83 (const)
+    '('       reduce using rule 89 (@7)
+    $default  reduce using rule 76 (factor)
+
+    @7  go to state 52
 
 
 State 56
 
-   82 unary_op: NOT .
+   93 cond_expr: IF . expr THEN expr ELSE expr END
 
-    $default  reduce using rule 82 (unary_op)
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    expr       go to state 90
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 57
 
-   84 const: REALCONST .
-
-    $default  reduce using rule 84 (const)
-
-
-State 58
-
-   85 const: STRCONST .
+   85 const: INTCONST .
 
     $default  reduce using rule 85 (const)
 
 
+State 58
+
+   84 unary_op: NOT .
+
+    $default  reduce using rule 84 (unary_op)
+
+
 State 59
 
-   86 const: BOOLCONST .
+   86 const: REALCONST .
 
     $default  reduce using rule 86 (const)
 
 
 State 60
 
-   81 unary_op: MINUS .
+   87 const: STRCONST .
 
-    $default  reduce using rule 81 (unary_op)
+    $default  reduce using rule 87 (const)
 
 
 State 61
 
-   76 factor: ADDR . ID @6
+   88 const: BOOLCONST .
 
-    ID  shift, and go to state 88
+    $default  reduce using rule 88 (const)
 
 
 State 62
 
-   73 factor: '(' . expr ')'
+   83 unary_op: MINUS .
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    expr       go to state 89
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    $default  reduce using rule 83 (unary_op)
 
 
 State 63
 
-   37 if_stat: IF expr . THEN stat_list opt_else_stat END
-   52 expr: expr . logic_op bool_term
+   78 factor: ADDR . ID @6
 
-    AND   shift, and go to state 90
-    OR    shift, and go to state 91
-    THEN  shift, and go to state 92
-
-    logic_op  go to state 93
+    ID  shift, and go to state 91
 
 
 State 64
 
-   53 expr: bool_term .
+   75 factor: '(' . expr ')'
 
-    $default  reduce using rule 53 (expr)
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    expr       go to state 92
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 65
 
-   56 bool_term: rel_term . rel_op rel_term
-   57          | rel_term .
-   64 rel_term: rel_term . low_prec_op low_term
+   38 if_stat: IF expr . THEN stat_list opt_else_stat END
+   54 expr: expr . logic_op bool_term
 
-    EQU    shift, and go to state 94
-    NEQ    shift, and go to state 95
-    GEQ    shift, and go to state 96
-    LEQ    shift, and go to state 97
-    GRT    shift, and go to state 98
-    LSS    shift, and go to state 99
-    PLUS   shift, and go to state 100
-    MINUS  shift, and go to state 101
+    AND   shift, and go to state 93
+    OR    shift, and go to state 94
+    THEN  shift, and go to state 95
 
-    $default  reduce using rule 57 (bool_term)
-
-    rel_op       go to state 102
-    low_prec_op  go to state 103
+    logic_op  go to state 96
 
 
 State 66
 
-   65 rel_term: low_term .
-   68 low_term: low_term . high_prec_op factor
+   55 expr: bool_term .
 
-    STAR  shift, and go to state 104
-    DIV   shift, and go to state 105
-
-    $default  reduce using rule 65 (rel_term)
-
-    high_prec_op  go to state 106
+    $default  reduce using rule 55 (expr)
 
 
 State 67
 
-   69 low_term: factor .
+   58 bool_term: rel_term . rel_op rel_term
+   59          | rel_term .
+   66 rel_term: rel_term . low_prec_op low_term
 
-    $default  reduce using rule 69 (low_term)
+    EQU    shift, and go to state 97
+    NEQ    shift, and go to state 98
+    GEQ    shift, and go to state 99
+    LEQ    shift, and go to state 100
+    GRT    shift, and go to state 101
+    LSS    shift, and go to state 102
+    PLUS   shift, and go to state 103
+    MINUS  shift, and go to state 104
+
+    $default  reduce using rule 59 (bool_term)
+
+    rel_op       go to state 105
+    low_prec_op  go to state 106
 
 
 State 68
 
-   72 factor: unary_op . factor
+   67 rel_term: low_term .
+   70 low_term: low_term . high_prec_op factor
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    STAR  shift, and go to state 107
+    DIV   shift, and go to state 108
 
-    factor     go to state 107
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    $default  reduce using rule 67 (rel_term)
+
+    high_prec_op  go to state 109
 
 
 State 69
 
-   77 factor: const .
+   71 low_term: factor .
 
-    $default  reduce using rule 77 (factor)
+    $default  reduce using rule 71 (low_term)
 
 
 State 70
 
-   78 factor: func_call .
+   74 factor: unary_op . factor
 
-    $default  reduce using rule 78 (factor)
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    factor     go to state 110
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 71
 
-   79 factor: cond_expr .
+   79 factor: const .
 
     $default  reduce using rule 79 (factor)
 
 
 State 72
 
-   80 factor: cast . '(' expr ')'
+   80 factor: func_call .
 
-    '('  shift, and go to state 108
+    $default  reduce using rule 80 (factor)
 
 
 State 73
 
-   42 for_stat: FOR ID . @5 EQUAL expr TO expr DO stat_list END
+   81 factor: cond_expr .
 
-    $default  reduce using rule 41 (@5)
-
-    @5  go to state 109
+    $default  reduce using rule 81 (factor)
 
 
 State 74
 
-   46 read_stat: READ '(' . id_list ')'
+   82 factor: cast . '(' expr ')'
 
-    ID  shift, and go to state 1
-
-    id_list  go to state 110
+    '('  shift, and go to state 111
 
 
 State 75
 
-   43 return_stat: RETURN opt_expr .
+   44 for_stat: FOR ID . @5 EQUAL expr TO expr DO stat_list END
 
-    $default  reduce using rule 43 (return_stat)
+    $default  reduce using rule 43 (@5)
+
+    @5  go to state 112
 
 
 State 76
 
-   44 opt_expr: expr .
-   52 expr: expr . logic_op bool_term
+   48 read_stat: READ '(' . id_list ')'
 
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
+    ID  shift, and go to state 1
 
-    $default  reduce using rule 44 (opt_expr)
-
-    logic_op  go to state 93
+    id_list  go to state 113
 
 
 State 77
 
-   40 while_stat: WHILE expr . DO stat_list END
-   52 expr: expr . logic_op bool_term
+   45 return_stat: RETURN opt_expr .
 
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
-    DO   shift, and go to state 111
-
-    logic_op  go to state 93
+    $default  reduce using rule 45 (return_stat)
 
 
 State 78
+
+   46 opt_expr: expr .
+   54 expr: expr . logic_op bool_term
+
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
+
+    $default  reduce using rule 46 (opt_expr)
+
+    logic_op  go to state 96
+
+
+State 79
+
+   42 while_stat: WHILE expr . DO stat_list END
+   54 expr: expr . logic_op bool_term
+
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
+    DO   shift, and go to state 114
+
+    logic_op  go to state 96
+
+
+State 80
+
+   41 print_stack: PRINTSTACK '(' . ')'
+
+    ')'  shift, and go to state 115
+
+
+State 81
 
    23 body: BODY stat_list END .
 
     $default  reduce using rule 23 (body)
 
 
-State 79
+State 82
 
    24 stat_list: stat ';' . stat_list
    25          | stat ';' .
 
-    ID       shift, and go to state 26
-    BREAK    shift, and go to state 27
-    IF       shift, and go to state 28
-    FOR      shift, and go to state 29
-    READ     shift, and go to state 30
-    RETURN   shift, and go to state 31
-    WHILE    shift, and go to state 32
-    WRITE    shift, and go to state 33
-    WRITELN  shift, and go to state 34
+    ID          shift, and go to state 26
+    BREAK       shift, and go to state 27
+    IF          shift, and go to state 28
+    FOR         shift, and go to state 29
+    READ        shift, and go to state 30
+    RETURN      shift, and go to state 31
+    WHILE       shift, and go to state 32
+    WRITE       shift, and go to state 33
+    WRITELN     shift, and go to state 34
+    PRINTSTACK  shift, and go to state 35
 
     $default  reduce using rule 25 (stat_list)
 
-    stat_list    go to state 112
-    stat         go to state 36
-    assign_stat  go to state 37
-    if_stat      go to state 38
-    while_stat   go to state 39
-    for_stat     go to state 40
-    return_stat  go to state 41
-    read_stat    go to state 42
-    write_stat   go to state 43
-    write_op     go to state 44
-    func_call    go to state 45
+    stat_list    go to state 116
+    stat         go to state 37
+    assign_stat  go to state 38
+    if_stat      go to state 39
+    print_stack  go to state 40
+    while_stat   go to state 41
+    for_stat     go to state 42
+    return_stat  go to state 43
+    read_stat    go to state 44
+    write_stat   go to state 45
+    write_op     go to state 46
+    func_call    go to state 47
 
 
-State 80
+State 83
 
-   47 write_stat: write_op '(' . expr_list ')'
+   49 write_stat: write_op '(' . expr_list ')'
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    expr_list  go to state 113
-    expr       go to state 114
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    expr_list  go to state 117
+    expr       go to state 118
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
-State 81
+State 84
 
    22 param_decl: ID . @3 ':' type
 
     $default  reduce using rule 21 (@3)
 
-    @3  go to state 115
+    @3  go to state 119
 
 
-State 82
+State 85
 
    16 func_decl: FUNC ID @2 '(' opt_param_list . ')' ':' type var_decl_list body ';'
 
-    ')'  shift, and go to state 116
+    ')'  shift, and go to state 120
 
 
-State 83
+State 86
 
    17 opt_param_list: param_list .
 
     $default  reduce using rule 17 (opt_param_list)
 
 
-State 84
+State 87
 
    19 param_list: param_decl . ',' param_list
    20           | param_decl .
 
-    ','  shift, and go to state 117
+    ','  shift, and go to state 121
 
     $default  reduce using rule 20 (param_list)
 
 
-State 85
-
-   36 assign_stat: ID @4 EQUAL . expr
-
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    expr       go to state 118
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
-
-
-State 86
-
-   88 func_call: ID @7 '(' . opt_expr_list ')'
-
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    $default  reduce using rule 90 (opt_expr_list)
-
-    expr_list      go to state 119
-    expr           go to state 114
-    bool_term      go to state 64
-    rel_term       go to state 65
-    low_term       go to state 66
-    factor         go to state 67
-    unary_op       go to state 68
-    const          go to state 69
-    func_call      go to state 70
-    opt_expr_list  go to state 120
-    cond_expr      go to state 71
-    cast           go to state 72
-
-
-State 87
-
-   52 expr: expr . logic_op bool_term
-   91 cond_expr: IF expr . THEN expr ELSE expr END
-
-    AND   shift, and go to state 90
-    OR    shift, and go to state 91
-    THEN  shift, and go to state 121
-
-    logic_op  go to state 93
-
-
 State 88
 
-   76 factor: ADDR ID . @6
+   37 assign_stat: ID @4 EQUAL . expr
 
-    $default  reduce using rule 75 (@6)
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    @6  go to state 122
+    expr       go to state 122
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 89
 
-   52 expr: expr . logic_op bool_term
-   73 factor: '(' expr . ')'
+   90 func_call: ID @7 '(' . opt_expr_list ')'
 
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
-    ')'  shift, and go to state 123
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    logic_op  go to state 93
+    $default  reduce using rule 92 (opt_expr_list)
+
+    expr_list      go to state 123
+    expr           go to state 118
+    bool_term      go to state 66
+    rel_term       go to state 67
+    low_term       go to state 68
+    factor         go to state 69
+    unary_op       go to state 70
+    const          go to state 71
+    func_call      go to state 72
+    opt_expr_list  go to state 124
+    cond_expr      go to state 73
+    cast           go to state 74
 
 
 State 90
 
-   54 logic_op: AND .
+   54 expr: expr . logic_op bool_term
+   93 cond_expr: IF expr . THEN expr ELSE expr END
 
-    $default  reduce using rule 54 (logic_op)
+    AND   shift, and go to state 93
+    OR    shift, and go to state 94
+    THEN  shift, and go to state 125
+
+    logic_op  go to state 96
 
 
 State 91
 
-   55 logic_op: OR .
+   78 factor: ADDR ID . @6
 
-    $default  reduce using rule 55 (logic_op)
+    $default  reduce using rule 77 (@6)
+
+    @6  go to state 126
 
 
 State 92
 
-   37 if_stat: IF expr THEN . stat_list opt_else_stat END
+   54 expr: expr . logic_op bool_term
+   75 factor: '(' expr . ')'
 
-    ID       shift, and go to state 26
-    BREAK    shift, and go to state 27
-    IF       shift, and go to state 28
-    FOR      shift, and go to state 29
-    READ     shift, and go to state 30
-    RETURN   shift, and go to state 31
-    WHILE    shift, and go to state 32
-    WRITE    shift, and go to state 33
-    WRITELN  shift, and go to state 34
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
+    ')'  shift, and go to state 127
 
-    stat_list    go to state 124
-    stat         go to state 36
-    assign_stat  go to state 37
-    if_stat      go to state 38
-    while_stat   go to state 39
-    for_stat     go to state 40
-    return_stat  go to state 41
-    read_stat    go to state 42
-    write_stat   go to state 43
-    write_op     go to state 44
-    func_call    go to state 45
+    logic_op  go to state 96
 
 
 State 93
 
-   52 expr: expr logic_op . bool_term
+   56 logic_op: AND .
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    bool_term  go to state 125
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    $default  reduce using rule 56 (logic_op)
 
 
 State 94
 
-   58 rel_op: EQU .
+   57 logic_op: OR .
 
-    $default  reduce using rule 58 (rel_op)
+    $default  reduce using rule 57 (logic_op)
 
 
 State 95
 
-   59 rel_op: NEQ .
+   38 if_stat: IF expr THEN . stat_list opt_else_stat END
 
-    $default  reduce using rule 59 (rel_op)
+    ID          shift, and go to state 26
+    BREAK       shift, and go to state 27
+    IF          shift, and go to state 28
+    FOR         shift, and go to state 29
+    READ        shift, and go to state 30
+    RETURN      shift, and go to state 31
+    WHILE       shift, and go to state 32
+    WRITE       shift, and go to state 33
+    WRITELN     shift, and go to state 34
+    PRINTSTACK  shift, and go to state 35
+
+    stat_list    go to state 128
+    stat         go to state 37
+    assign_stat  go to state 38
+    if_stat      go to state 39
+    print_stack  go to state 40
+    while_stat   go to state 41
+    for_stat     go to state 42
+    return_stat  go to state 43
+    read_stat    go to state 44
+    write_stat   go to state 45
+    write_op     go to state 46
+    func_call    go to state 47
 
 
 State 96
 
-   61 rel_op: GEQ .
+   54 expr: expr logic_op . bool_term
 
-    $default  reduce using rule 61 (rel_op)
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    bool_term  go to state 129
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 97
 
-   63 rel_op: LEQ .
-
-    $default  reduce using rule 63 (rel_op)
-
-
-State 98
-
-   60 rel_op: GRT .
+   60 rel_op: EQU .
 
     $default  reduce using rule 60 (rel_op)
 
 
+State 98
+
+   61 rel_op: NEQ .
+
+    $default  reduce using rule 61 (rel_op)
+
+
 State 99
 
-   62 rel_op: LSS .
+   63 rel_op: GEQ .
 
-    $default  reduce using rule 62 (rel_op)
+    $default  reduce using rule 63 (rel_op)
 
 
 State 100
 
-   66 low_prec_op: PLUS .
+   65 rel_op: LEQ .
 
-    $default  reduce using rule 66 (low_prec_op)
+    $default  reduce using rule 65 (rel_op)
 
 
 State 101
 
-   67 low_prec_op: MINUS .
+   62 rel_op: GRT .
 
-    $default  reduce using rule 67 (low_prec_op)
+    $default  reduce using rule 62 (rel_op)
 
 
 State 102
 
-   56 bool_term: rel_term rel_op . rel_term
+   64 rel_op: LSS .
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    rel_term   go to state 126
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    $default  reduce using rule 64 (rel_op)
 
 
 State 103
 
-   64 rel_term: rel_term low_prec_op . low_term
+   68 low_prec_op: PLUS .
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    low_term   go to state 127
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    $default  reduce using rule 68 (low_prec_op)
 
 
 State 104
 
-   70 high_prec_op: STAR .
+   69 low_prec_op: MINUS .
 
-    $default  reduce using rule 70 (high_prec_op)
+    $default  reduce using rule 69 (low_prec_op)
 
 
 State 105
 
-   71 high_prec_op: DIV .
+   58 bool_term: rel_term rel_op . rel_term
 
-    $default  reduce using rule 71 (high_prec_op)
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    rel_term   go to state 130
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 106
 
-   68 low_term: low_term high_prec_op . factor
+   66 rel_term: rel_term low_prec_op . low_term
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    factor     go to state 128
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    low_term   go to state 131
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 107
 
-   72 factor: unary_op factor .
+   72 high_prec_op: STAR .
 
-    $default  reduce using rule 72 (factor)
+    $default  reduce using rule 72 (high_prec_op)
 
 
 State 108
 
-   80 factor: cast '(' . expr ')'
+   73 high_prec_op: DIV .
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    expr       go to state 129
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    $default  reduce using rule 73 (high_prec_op)
 
 
 State 109
 
-   42 for_stat: FOR ID @5 . EQUAL expr TO expr DO stat_list END
+   70 low_term: low_term high_prec_op . factor
 
-    EQUAL  shift, and go to state 130
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    factor     go to state 132
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 110
 
-   46 read_stat: READ '(' id_list . ')'
+   74 factor: unary_op factor .
 
-    ')'  shift, and go to state 131
+    $default  reduce using rule 74 (factor)
 
 
 State 111
 
-   40 while_stat: WHILE expr DO . stat_list END
+   82 factor: cast '(' . expr ')'
 
-    ID       shift, and go to state 26
-    BREAK    shift, and go to state 27
-    IF       shift, and go to state 28
-    FOR      shift, and go to state 29
-    READ     shift, and go to state 30
-    RETURN   shift, and go to state 31
-    WHILE    shift, and go to state 32
-    WRITE    shift, and go to state 33
-    WRITELN  shift, and go to state 34
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    stat_list    go to state 132
-    stat         go to state 36
-    assign_stat  go to state 37
-    if_stat      go to state 38
-    while_stat   go to state 39
-    for_stat     go to state 40
-    return_stat  go to state 41
-    read_stat    go to state 42
-    write_stat   go to state 43
-    write_op     go to state 44
-    func_call    go to state 45
+    expr       go to state 133
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 112
+
+   44 for_stat: FOR ID @5 . EQUAL expr TO expr DO stat_list END
+
+    EQUAL  shift, and go to state 134
+
+
+State 113
+
+   48 read_stat: READ '(' id_list . ')'
+
+    ')'  shift, and go to state 135
+
+
+State 114
+
+   42 while_stat: WHILE expr DO . stat_list END
+
+    ID          shift, and go to state 26
+    BREAK       shift, and go to state 27
+    IF          shift, and go to state 28
+    FOR         shift, and go to state 29
+    READ        shift, and go to state 30
+    RETURN      shift, and go to state 31
+    WHILE       shift, and go to state 32
+    WRITE       shift, and go to state 33
+    WRITELN     shift, and go to state 34
+    PRINTSTACK  shift, and go to state 35
+
+    stat_list    go to state 136
+    stat         go to state 37
+    assign_stat  go to state 38
+    if_stat      go to state 39
+    print_stack  go to state 40
+    while_stat   go to state 41
+    for_stat     go to state 42
+    return_stat  go to state 43
+    read_stat    go to state 44
+    write_stat   go to state 45
+    write_op     go to state 46
+    func_call    go to state 47
+
+
+State 115
+
+   41 print_stack: PRINTSTACK '(' ')' .
+
+    $default  reduce using rule 41 (print_stack)
+
+
+State 116
 
    24 stat_list: stat ';' stat_list .
 
     $default  reduce using rule 24 (stat_list)
 
 
-State 113
-
-   47 write_stat: write_op '(' expr_list . ')'
-
-    ')'  shift, and go to state 133
-
-
-State 114
-
-   50 expr_list: expr . ',' expr_list
-   51          | expr .
-   52 expr: expr . logic_op bool_term
-
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
-    ','  shift, and go to state 134
-
-    $default  reduce using rule 51 (expr_list)
-
-    logic_op  go to state 93
-
-
-State 115
-
-   22 param_decl: ID @3 . ':' type
-
-    ':'  shift, and go to state 135
-
-
-State 116
-
-   16 func_decl: FUNC ID @2 '(' opt_param_list ')' . ':' type var_decl_list body ';'
-
-    ':'  shift, and go to state 136
-
-
 State 117
 
-   19 param_list: param_decl ',' . param_list
+   49 write_stat: write_op '(' expr_list . ')'
 
-    ID  shift, and go to state 81
-
-    param_list  go to state 137
-    param_decl  go to state 84
+    ')'  shift, and go to state 137
 
 
 State 118
 
-   36 assign_stat: ID @4 EQUAL expr .
-   52 expr: expr . logic_op bool_term
+   52 expr_list: expr . ',' expr_list
+   53          | expr .
+   54 expr: expr . logic_op bool_term
 
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
+    ','  shift, and go to state 138
 
-    $default  reduce using rule 36 (assign_stat)
+    $default  reduce using rule 53 (expr_list)
 
-    logic_op  go to state 93
+    logic_op  go to state 96
 
 
 State 119
 
-   89 opt_expr_list: expr_list .
+   22 param_decl: ID @3 . ':' type
 
-    $default  reduce using rule 89 (opt_expr_list)
+    ':'  shift, and go to state 139
 
 
 State 120
 
-   88 func_call: ID @7 '(' opt_expr_list . ')'
+   16 func_decl: FUNC ID @2 '(' opt_param_list ')' . ':' type var_decl_list body ';'
 
-    ')'  shift, and go to state 138
+    ':'  shift, and go to state 140
 
 
 State 121
 
-   91 cond_expr: IF expr THEN . expr ELSE expr END
+   19 param_list: param_decl ',' . param_list
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    ID  shift, and go to state 84
 
-    expr       go to state 139
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    param_list  go to state 141
+    param_decl  go to state 87
 
 
 State 122
 
-   76 factor: ADDR ID @6 .
+   37 assign_stat: ID @4 EQUAL expr .
+   54 expr: expr . logic_op bool_term
 
-    $default  reduce using rule 76 (factor)
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
+
+    $default  reduce using rule 37 (assign_stat)
+
+    logic_op  go to state 96
 
 
 State 123
 
-   73 factor: '(' expr ')' .
+   91 opt_expr_list: expr_list .
 
-    $default  reduce using rule 73 (factor)
+    $default  reduce using rule 91 (opt_expr_list)
 
 
 State 124
 
-   37 if_stat: IF expr THEN stat_list . opt_else_stat END
+   90 func_call: ID @7 '(' opt_expr_list . ')'
 
-    ELSE  shift, and go to state 140
-
-    $default  reduce using rule 39 (opt_else_stat)
-
-    opt_else_stat  go to state 141
+    ')'  shift, and go to state 142
 
 
 State 125
 
-   52 expr: expr logic_op bool_term .
+   93 cond_expr: IF expr THEN . expr ELSE expr END
 
-    $default  reduce using rule 52 (expr)
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    expr       go to state 143
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 126
 
-   56 bool_term: rel_term rel_op rel_term .
-   64 rel_term: rel_term . low_prec_op low_term
+   78 factor: ADDR ID @6 .
 
-    PLUS   shift, and go to state 100
-    MINUS  shift, and go to state 101
-
-    $default  reduce using rule 56 (bool_term)
-
-    low_prec_op  go to state 103
+    $default  reduce using rule 78 (factor)
 
 
 State 127
 
-   64 rel_term: rel_term low_prec_op low_term .
-   68 low_term: low_term . high_prec_op factor
+   75 factor: '(' expr ')' .
 
-    STAR  shift, and go to state 104
-    DIV   shift, and go to state 105
-
-    $default  reduce using rule 64 (rel_term)
-
-    high_prec_op  go to state 106
+    $default  reduce using rule 75 (factor)
 
 
 State 128
 
-   68 low_term: low_term high_prec_op factor .
+   38 if_stat: IF expr THEN stat_list . opt_else_stat END
 
-    $default  reduce using rule 68 (low_term)
+    ELSE  shift, and go to state 144
+
+    $default  reduce using rule 40 (opt_else_stat)
+
+    opt_else_stat  go to state 145
 
 
 State 129
 
-   52 expr: expr . logic_op bool_term
-   80 factor: cast '(' expr . ')'
+   54 expr: expr logic_op bool_term .
 
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
-    ')'  shift, and go to state 142
-
-    logic_op  go to state 93
+    $default  reduce using rule 54 (expr)
 
 
 State 130
 
-   42 for_stat: FOR ID @5 EQUAL . expr TO expr DO stat_list END
+   58 bool_term: rel_term rel_op rel_term .
+   66 rel_term: rel_term . low_prec_op low_term
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    PLUS   shift, and go to state 103
+    MINUS  shift, and go to state 104
 
-    expr       go to state 143
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    $default  reduce using rule 58 (bool_term)
+
+    low_prec_op  go to state 106
 
 
 State 131
 
-   46 read_stat: READ '(' id_list ')' .
+   66 rel_term: rel_term low_prec_op low_term .
+   70 low_term: low_term . high_prec_op factor
 
-    $default  reduce using rule 46 (read_stat)
+    STAR  shift, and go to state 107
+    DIV   shift, and go to state 108
+
+    $default  reduce using rule 66 (rel_term)
+
+    high_prec_op  go to state 109
 
 
 State 132
 
-   40 while_stat: WHILE expr DO stat_list . END
+   70 low_term: low_term high_prec_op factor .
 
-    END  shift, and go to state 144
+    $default  reduce using rule 70 (low_term)
 
 
 State 133
 
-   47 write_stat: write_op '(' expr_list ')' .
+   54 expr: expr . logic_op bool_term
+   82 factor: cast '(' expr . ')'
 
-    $default  reduce using rule 47 (write_stat)
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
+    ')'  shift, and go to state 146
+
+    logic_op  go to state 96
 
 
 State 134
 
-   50 expr_list: expr ',' . expr_list
+   44 for_stat: FOR ID @5 EQUAL . expr TO expr DO stat_list END
 
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
 
-    expr_list  go to state 145
-    expr       go to state 114
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
+    expr       go to state 147
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
 
 
 State 135
+
+   48 read_stat: READ '(' id_list ')' .
+
+    $default  reduce using rule 48 (read_stat)
+
+
+State 136
+
+   42 while_stat: WHILE expr DO stat_list . END
+
+    END  shift, and go to state 148
+
+
+State 137
+
+   49 write_stat: write_op '(' expr_list ')' .
+
+    $default  reduce using rule 49 (write_stat)
+
+
+State 138
+
+   52 expr_list: expr ',' . expr_list
+
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    expr_list  go to state 149
+    expr       go to state 118
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
+
+
+State 139
 
    22 param_decl: ID @3 ':' . type
 
@@ -1856,10 +1898,10 @@ State 135
     BOOLEAN  shift, and go to state 21
     VOID     shift, and go to state 22
 
-    type  go to state 146
+    type  go to state 150
 
 
-State 136
+State 140
 
    16 func_decl: FUNC ID @2 '(' opt_param_list ')' ':' . type var_decl_list body ';'
 
@@ -1869,110 +1911,112 @@ State 136
     BOOLEAN  shift, and go to state 21
     VOID     shift, and go to state 22
 
-    type  go to state 147
+    type  go to state 151
 
 
-State 137
+State 141
 
    19 param_list: param_decl ',' param_list .
 
     $default  reduce using rule 19 (param_list)
 
 
-State 138
-
-   88 func_call: ID @7 '(' opt_expr_list ')' .
-
-    $default  reduce using rule 88 (func_call)
-
-
-State 139
-
-   52 expr: expr . logic_op bool_term
-   91 cond_expr: IF expr THEN expr . ELSE expr END
-
-    AND   shift, and go to state 90
-    OR    shift, and go to state 91
-    ELSE  shift, and go to state 148
-
-    logic_op  go to state 93
-
-
-State 140
-
-   38 opt_else_stat: ELSE . stat_list
-
-    ID       shift, and go to state 26
-    BREAK    shift, and go to state 27
-    IF       shift, and go to state 28
-    FOR      shift, and go to state 29
-    READ     shift, and go to state 30
-    RETURN   shift, and go to state 31
-    WHILE    shift, and go to state 32
-    WRITE    shift, and go to state 33
-    WRITELN  shift, and go to state 34
-
-    stat_list    go to state 149
-    stat         go to state 36
-    assign_stat  go to state 37
-    if_stat      go to state 38
-    while_stat   go to state 39
-    for_stat     go to state 40
-    return_stat  go to state 41
-    read_stat    go to state 42
-    write_stat   go to state 43
-    write_op     go to state 44
-    func_call    go to state 45
-
-
-State 141
-
-   37 if_stat: IF expr THEN stat_list opt_else_stat . END
-
-    END  shift, and go to state 150
-
-
 State 142
 
-   80 factor: cast '(' expr ')' .
+   90 func_call: ID @7 '(' opt_expr_list ')' .
 
-    $default  reduce using rule 80 (factor)
+    $default  reduce using rule 90 (func_call)
 
 
 State 143
 
-   42 for_stat: FOR ID @5 EQUAL expr . TO expr DO stat_list END
-   52 expr: expr . logic_op bool_term
+   54 expr: expr . logic_op bool_term
+   93 cond_expr: IF expr THEN expr . ELSE expr END
 
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
-    TO   shift, and go to state 151
+    AND   shift, and go to state 93
+    OR    shift, and go to state 94
+    ELSE  shift, and go to state 152
 
-    logic_op  go to state 93
+    logic_op  go to state 96
 
 
 State 144
 
-   40 while_stat: WHILE expr DO stat_list END .
+   39 opt_else_stat: ELSE . stat_list
 
-    $default  reduce using rule 40 (while_stat)
+    ID          shift, and go to state 26
+    BREAK       shift, and go to state 27
+    IF          shift, and go to state 28
+    FOR         shift, and go to state 29
+    READ        shift, and go to state 30
+    RETURN      shift, and go to state 31
+    WHILE       shift, and go to state 32
+    WRITE       shift, and go to state 33
+    WRITELN     shift, and go to state 34
+    PRINTSTACK  shift, and go to state 35
+
+    stat_list    go to state 153
+    stat         go to state 37
+    assign_stat  go to state 38
+    if_stat      go to state 39
+    print_stack  go to state 40
+    while_stat   go to state 41
+    for_stat     go to state 42
+    return_stat  go to state 43
+    read_stat    go to state 44
+    write_stat   go to state 45
+    write_op     go to state 46
+    func_call    go to state 47
 
 
 State 145
 
-   50 expr_list: expr ',' expr_list .
+   38 if_stat: IF expr THEN stat_list opt_else_stat . END
 
-    $default  reduce using rule 50 (expr_list)
+    END  shift, and go to state 154
 
 
 State 146
+
+   82 factor: cast '(' expr ')' .
+
+    $default  reduce using rule 82 (factor)
+
+
+State 147
+
+   44 for_stat: FOR ID @5 EQUAL expr . TO expr DO stat_list END
+   54 expr: expr . logic_op bool_term
+
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
+    TO   shift, and go to state 155
+
+    logic_op  go to state 96
+
+
+State 148
+
+   42 while_stat: WHILE expr DO stat_list END .
+
+    $default  reduce using rule 42 (while_stat)
+
+
+State 149
+
+   52 expr_list: expr ',' expr_list .
+
+    $default  reduce using rule 52 (expr_list)
+
+
+State 150
 
    22 param_decl: ID @3 ':' type .
 
     $default  reduce using rule 22 (param_decl)
 
 
-State 147
+State 151
 
    16 func_decl: FUNC ID @2 '(' opt_param_list ')' ':' type . var_decl_list body ';'
 
@@ -1980,173 +2024,175 @@ State 147
 
     $default  reduce using rule 3 (var_decl_list)
 
-    var_decl_list  go to state 152
+    var_decl_list  go to state 156
     var_decl       go to state 4
     id_list        go to state 5
 
 
-State 148
-
-   91 cond_expr: IF expr THEN expr ELSE . expr END
-
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    expr       go to state 153
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
-
-
-State 149
-
-   38 opt_else_stat: ELSE stat_list .
-
-    $default  reduce using rule 38 (opt_else_stat)
-
-
-State 150
-
-   37 if_stat: IF expr THEN stat_list opt_else_stat END .
-
-    $default  reduce using rule 37 (if_stat)
-
-
-State 151
-
-   42 for_stat: FOR ID @5 EQUAL expr TO . expr DO stat_list END
-
-    INTEGER    shift, and go to state 51
-    REAL       shift, and go to state 52
-    ID         shift, and go to state 53
-    IF         shift, and go to state 54
-    INTCONST   shift, and go to state 55
-    NOT        shift, and go to state 56
-    REALCONST  shift, and go to state 57
-    STRCONST   shift, and go to state 58
-    BOOLCONST  shift, and go to state 59
-    MINUS      shift, and go to state 60
-    ADDR       shift, and go to state 61
-    '('        shift, and go to state 62
-
-    expr       go to state 154
-    bool_term  go to state 64
-    rel_term   go to state 65
-    low_term   go to state 66
-    factor     go to state 67
-    unary_op   go to state 68
-    const      go to state 69
-    func_call  go to state 70
-    cond_expr  go to state 71
-    cast       go to state 72
-
-
 State 152
+
+   93 cond_expr: IF expr THEN expr ELSE . expr END
+
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    expr       go to state 157
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
+
+
+State 153
+
+   39 opt_else_stat: ELSE stat_list .
+
+    $default  reduce using rule 39 (opt_else_stat)
+
+
+State 154
+
+   38 if_stat: IF expr THEN stat_list opt_else_stat END .
+
+    $default  reduce using rule 38 (if_stat)
+
+
+State 155
+
+   44 for_stat: FOR ID @5 EQUAL expr TO . expr DO stat_list END
+
+    INTEGER    shift, and go to state 53
+    REAL       shift, and go to state 54
+    ID         shift, and go to state 55
+    IF         shift, and go to state 56
+    INTCONST   shift, and go to state 57
+    NOT        shift, and go to state 58
+    REALCONST  shift, and go to state 59
+    STRCONST   shift, and go to state 60
+    BOOLCONST  shift, and go to state 61
+    MINUS      shift, and go to state 62
+    ADDR       shift, and go to state 63
+    '('        shift, and go to state 64
+
+    expr       go to state 158
+    bool_term  go to state 66
+    rel_term   go to state 67
+    low_term   go to state 68
+    factor     go to state 69
+    unary_op   go to state 70
+    const      go to state 71
+    func_call  go to state 72
+    cond_expr  go to state 73
+    cast       go to state 74
+
+
+State 156
 
    16 func_decl: FUNC ID @2 '(' opt_param_list ')' ':' type var_decl_list . body ';'
 
     BODY  shift, and go to state 15
 
-    body  go to state 155
-
-
-State 153
-
-   52 expr: expr . logic_op bool_term
-   91 cond_expr: IF expr THEN expr ELSE expr . END
-
-    END  shift, and go to state 156
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
-
-    logic_op  go to state 93
-
-
-State 154
-
-   42 for_stat: FOR ID @5 EQUAL expr TO expr . DO stat_list END
-   52 expr: expr . logic_op bool_term
-
-    AND  shift, and go to state 90
-    OR   shift, and go to state 91
-    DO   shift, and go to state 157
-
-    logic_op  go to state 93
-
-
-State 155
-
-   16 func_decl: FUNC ID @2 '(' opt_param_list ')' ':' type var_decl_list body . ';'
-
-    ';'  shift, and go to state 158
-
-
-State 156
-
-   91 cond_expr: IF expr THEN expr ELSE expr END .
-
-    $default  reduce using rule 91 (cond_expr)
+    body  go to state 159
 
 
 State 157
 
-   42 for_stat: FOR ID @5 EQUAL expr TO expr DO . stat_list END
+   54 expr: expr . logic_op bool_term
+   93 cond_expr: IF expr THEN expr ELSE expr . END
 
-    ID       shift, and go to state 26
-    BREAK    shift, and go to state 27
-    IF       shift, and go to state 28
-    FOR      shift, and go to state 29
-    READ     shift, and go to state 30
-    RETURN   shift, and go to state 31
-    WHILE    shift, and go to state 32
-    WRITE    shift, and go to state 33
-    WRITELN  shift, and go to state 34
+    END  shift, and go to state 160
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
 
-    stat_list    go to state 159
-    stat         go to state 36
-    assign_stat  go to state 37
-    if_stat      go to state 38
-    while_stat   go to state 39
-    for_stat     go to state 40
-    return_stat  go to state 41
-    read_stat    go to state 42
-    write_stat   go to state 43
-    write_op     go to state 44
-    func_call    go to state 45
+    logic_op  go to state 96
 
 
 State 158
+
+   44 for_stat: FOR ID @5 EQUAL expr TO expr . DO stat_list END
+   54 expr: expr . logic_op bool_term
+
+    AND  shift, and go to state 93
+    OR   shift, and go to state 94
+    DO   shift, and go to state 161
+
+    logic_op  go to state 96
+
+
+State 159
+
+   16 func_decl: FUNC ID @2 '(' opt_param_list ')' ':' type var_decl_list body . ';'
+
+    ';'  shift, and go to state 162
+
+
+State 160
+
+   93 cond_expr: IF expr THEN expr ELSE expr END .
+
+    $default  reduce using rule 93 (cond_expr)
+
+
+State 161
+
+   44 for_stat: FOR ID @5 EQUAL expr TO expr DO . stat_list END
+
+    ID          shift, and go to state 26
+    BREAK       shift, and go to state 27
+    IF          shift, and go to state 28
+    FOR         shift, and go to state 29
+    READ        shift, and go to state 30
+    RETURN      shift, and go to state 31
+    WHILE       shift, and go to state 32
+    WRITE       shift, and go to state 33
+    WRITELN     shift, and go to state 34
+    PRINTSTACK  shift, and go to state 35
+
+    stat_list    go to state 163
+    stat         go to state 37
+    assign_stat  go to state 38
+    if_stat      go to state 39
+    print_stack  go to state 40
+    while_stat   go to state 41
+    for_stat     go to state 42
+    return_stat  go to state 43
+    read_stat    go to state 44
+    write_stat   go to state 45
+    write_op     go to state 46
+    func_call    go to state 47
+
+
+State 162
 
    16 func_decl: FUNC ID @2 '(' opt_param_list ')' ':' type var_decl_list body ';' .
 
     $default  reduce using rule 16 (func_decl)
 
 
-State 159
+State 163
 
-   42 for_stat: FOR ID @5 EQUAL expr TO expr DO stat_list . END
+   44 for_stat: FOR ID @5 EQUAL expr TO expr DO stat_list . END
 
-    END  shift, and go to state 160
+    END  shift, and go to state 164
 
 
-State 160
+State 164
 
-   42 for_stat: FOR ID @5 EQUAL expr TO expr DO stat_list END .
+   44 for_stat: FOR ID @5 EQUAL expr TO expr DO stat_list END .
 
-    $default  reduce using rule 42 (for_stat)
+    $default  reduce using rule 44 (for_stat)

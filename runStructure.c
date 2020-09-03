@@ -21,7 +21,32 @@ void initRunStructure(){
     ap = aproot = astack;
     op = oproot = ostack;
 }
-
+void printAStackstout(){
+    printf("--------------OSTACK(TIPO|VAL)--------------\n");
+    for(Ostackrecord *ostackr = ostack;ostackr<op;ostackr++){
+        printf("[ ");
+        switch (ostackr->tipo) {
+            case BOOLE:
+            case INTE:
+                printf("%s | %d",tipiToStringr[ostackr->tipo],ostackr->val.ival);
+                break;
+            case REALE:
+                printf("%s | %f",tipiToStringr[ostackr->tipo],ostackr->val.rval);
+                break;
+            case STRINGE:
+                printf("%s | %s",tipiToStringr[ostackr->tipo],ostackr->val.sval);
+                break;
+        }
+        printf(" ]\n");
+    }
+    printf("--------ASTACK(nOggetti|Val del primo)--------\n");
+    for(Astack *astackr = astack;astackr<ap;astackr++){
+        printf("[ ");
+        printf("%d | %d",astackr->nObjs,astackr->startPoint->val.ival);
+        printf(" ]\n");
+    }
+    printf("\n\n");
+}
 
 void printAStack(){
     char *toWrite = malloc(sizeof(char)*200);

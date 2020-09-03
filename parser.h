@@ -89,7 +89,8 @@ extern int yydebug;
     EQUAL = 295,
     DIV = 296,
     ADDR = 297,
-    NEW = 298
+    NEW = 298,
+    PRINTSTACK = 299
   };
 #endif
 

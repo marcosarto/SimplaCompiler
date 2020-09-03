@@ -1,35 +1,25 @@
-Tabella interna di somma (ID|TIPO|OID)
-chain[97]-->a|INTEGER|0 -->NULL
-chain[98]-->b|INTEGER|1 -->NULL
-chain[400]-->temp|INTEGER|3 -->NULL
-chain[833]-->riporto|INTEGER|2 -->NULL
-
-
-Tabella interna di fun (ID|TIPO|OID)
-chain[156]-->primo|INTEGER|0 -->NULL
-chain[179]-->addr|INTEGER|2 -->NULL
-chain[970]-->secondo|INTEGER|1 -->NULL
-
-
 Tabella interna di Globale (ID|TIPO|OID)
-chain[97]-->a|INTEGER|0 -->NULL
-chain[98]-->b|INTEGER|1 -->NULL
-chain[99]-->c|INTEGER|2 -->NULL
-chain[107]-->somma|VOID|4 -->NULL
-chain[114]-->r|REAL|3 -->NULL
-chain[743]-->fun|VOID|5 -->NULL
+chain[97]-->a|REAL|0 -->NULL
+chain[828]-->p1|REAL|1 -->NULL
+chain[829]-->p2|REAL|2 -->NULL
+chain[830]-->p3|REAL|3 -->NULL
+chain[831]-->p4|REAL|4 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
-[ INTEGER | 31 ]
-[ INTEGER | 1 ]
-[ INTEGER | 241141301 ]
-[ REAL | 2.500000 ]
+[ REAL | 5.000000 ]
+[ REAL | 0.000000 ]
+[ REAL | 0.000000 ]
+[ REAL | 0.000000 ]
+[ REAL | 0.000000 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 4 | 31 ]
+[ 5 | 1084227584 ]
 
 
 Hashmap delle stringhe presenti
+chain[290]-->num, inutile poi sovrascritto (reale) :  -->NULL
+chain[782]-->-> -->NULL
+chain[900]-->Chain :  -->NULL
 
 CONTENUTO HEAP
-
+num, inutile poi sovrascritto (reale) : |Chain : |->

@@ -1,0 +1,8 @@
+a,*b,**c : string;
+body
+    a = "ciao";
+    b = &a;
+    c = &b;
+    **c = "ciaooooo";
+    writeln(**c);
+end.

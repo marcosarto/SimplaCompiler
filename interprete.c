@@ -91,6 +91,9 @@ void bodyex(Pnode n) {
                 case NWRITE_STAT:
                     writeStatex(n);
                     break;
+                case NPRINT_STACK:
+                    printAStackstout();
+                    break;
             }
         }
         n = n->b;

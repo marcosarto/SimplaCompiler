@@ -1,0 +1,13 @@
+a,*p1,**p2,**p3,***p4: real;
+
+body
+    writeln("num, inutile poi sovrascritto (reale) : ");
+    read(a);
+    p1 = &a;
+    p2 = &p1;
+    p3 = p2;
+    p4 = &p3;
+    ***p4 = 5.0;
+    writeln("Chain : ",&p4,"->",p4,"->",*p4,"->",**p4,"->",***p4);
+    printStack();
+end.

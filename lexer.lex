@@ -41,6 +41,7 @@ do          {return(DO);}
 writeln     {return(WRITELN);}
 write       {return(WRITE);}
 read        {return(READ);}
+printStack  {return(PRINTSTACK);}
 while       {return(WHILE);}
 break       {return(BREAK);}
 &           {return(ADDR);}

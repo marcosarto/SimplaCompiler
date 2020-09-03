@@ -15,5 +15,6 @@ typedef struct Astacks{
 
 void initRunStructure();
 void printAStack();
+void printAStackstout();
 
 #endif //PROVATECNOLOGIE_RUNSTRUCTURE_H

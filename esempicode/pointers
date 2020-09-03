@@ -1,0 +1,19 @@
+a,b: integer;
+func daSommare(a : integer, b : integer, *riporto : integer) : void
+temp : integer;
+body
+    somma(a,b,&riporto);
+end;
+
+func somma(a : integer, b : integer, **addr : integer) : void
+body
+    **addr = a + b;
+end;
+
+body
+    writeln("Numeri da sommare : ");
+    read(a);
+    read(b);
+    daSommare(a,b,&a);
+    writeln("Risultato della somma : ",a);
+end.

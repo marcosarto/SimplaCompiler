@@ -16,6 +16,7 @@ typedef enum
     NWHILE_STAT,
     NFOR_STAT,
     NRETURN_STAT,
+    NPRINT_STACK,
     NREAD_STAT,
     NWRITE_STAT,
     NCOND_EXPR,

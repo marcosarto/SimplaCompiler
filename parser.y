@@ -14,7 +14,7 @@ Pnode root = NULL;
 %token INTEGER REAL STRING BOOLEAN VOID ID FUNC BODY END BREAK
 %token EQU NEQ GEQ LEQ AND OR IF ELSE INTCONST NOT REALCONST
 %token STRCONST THEN BOOLCONST DO FOR READ RETURN TO WHILE GRT LSS
-%token WRITE WRITELN PLUS STAR MINUS EQUAL DIV ADDR NEW
+%token WRITE WRITELN PLUS STAR MINUS EQUAL DIV ADDR NEW PRINTSTACK
 %start program 
 %%
 program : var_decl_list func_decl_list body '.' {root = $$ = nontermnode(NPROGRAM);
@@ -72,6 +72,7 @@ stat : assign_stat
 | read_stat
 | write_stat
 | func_call
+| print_stack
 | BREAK {$$ = keynode(T_BREAK);}
 ;
 assign_stat : ID {$$ = idnode();} EQUAL expr {$$ = nontermnode(NASSIGN_STAT);
@@ -86,6 +87,8 @@ if_stat : IF expr THEN stat_list opt_else_stat END {$$ = nontermnode(NIF_STAT);
 opt_else_stat : ELSE stat_list {$$ = $2;}
         | {$$ = NULL;}
         ;
+print_stack : PRINTSTACK '(' ')' {$$ = nontermnode(NPRINT_STACK);}
+            ;
 while_stat : WHILE expr DO stat_list END {$$ = nontermnode(NWHILE_STAT);
                                         $$->c1 = $2;
                                         $$->c2 = $4;}
