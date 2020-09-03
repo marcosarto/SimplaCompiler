@@ -9,12 +9,12 @@ Pnode rootAST;
 int funInterrupt = 0, toExit = 0;
 
 void runCode(Pnode root) {
-    //Pulisco lo stdin per eventuali input dell'utente
     initRunStructure();
     initStringPool();
 
     rootAST = root;
 
+    //Creo RA del main
     Astack as;
     as.startPoint = op;
     as.nObjs = 0;
@@ -22,15 +22,19 @@ void runCode(Pnode root) {
     *ap = as;
     ap++;
 
+    //Se ci sono variabili globali devono essere aggiunte sullo stack
     if (root->c1 != NULL)
         varDeclListex(root->c1);
 
+    //Eseguo il corpo del main
     bodyex(root->b);
 
+    //Stampo nel file Strutture stack a fine esecuzione e string heap
     printAStack();
     printStringPoolStructure();
 }
-
+/*Funzione usata sia dal main che da tutte le funzioni per aggiungere allo
+ * stack le loro variabili*/
 void varDeclListex(Pnode n) {
     HashType tipo;
     tipo = getHashTypeN(n->c2, 0);
@@ -39,28 +43,33 @@ void varDeclListex(Pnode n) {
     while (temp) {
         Ostackrecord otemp;
         switch (tipo) {
+            //Se le variabili iniziano con * sono puntatori e salviamo il tipo di conseguenza
             case INTE:
-                otemp.tipo = INTE;
+                otemp.tipo = temp->value.sval[0]!='*'? INTE : INTEP;
                 break;
             case REALE:
-                otemp.tipo = REALE;
+                otemp.tipo = temp->value.sval[0]!='*'? REALE : REALEP;
                 break;
             case BOOLE:
-                otemp.tipo = BOOLE;
+                otemp.tipo = temp->value.sval[0]!='*'? BOOLE : BOOLEP;
                 break;
             case STRINGE:
-                otemp.tipo = STRINGE;
+                otemp.tipo = temp->value.sval[0]!='*'? STRINGE : STRINGEP;
                 break;
         }
         *op = otemp;
+        //funzione che aumenta di uno il puntatore OP (ostack) e di uno il n di oggetti sull astack (ap)
         aumentaOp();
         temp = temp->b;
     }
+    //Fin qui gestisce una riga, se le variabili sono su più righe continuo l'esplorazione
     if (n->b != NULL) varDeclListex(n->b);
 }
 
 void bodyex(Pnode n) {
     while (n != NULL) {
+        //Quando durante l'esecuzione di una funzione incontro un return pongo il flag funInterrupt
+        //ad 1, cosi facendo posso risalire lo stack al RA precedente
         if (funInterrupt) return;
         if (n->type == T_BREAK || toExit) {
             breakStatex(n);
@@ -117,14 +126,23 @@ void whileStatex(Pnode n) {
 }
 
 void breakStatex(Pnode n) {
+    /*Serve perchè quando mi trovo in un if dentro un for e trovo il break
+     * il bodyex uscirebbe solo dall'if e poi riprenderebbe ad eseguire normalmente
+     * mentre voglio che il body smetta di eseguire finchè non ho finito le stat-list
+     * del for, alla fine del forStatex reimposto toExit a 0 (uguale per il while)*/
     toExit = 1;
 }
 
 void assignStatex(Pnode n) {
+    //Controllo se è un puntatore ma non ha asterischi davanti
     if (lookUpCond(n->c1->value.sval, (ap - 1)->table, 0)->pointer && n->c1->value.sval[0] != '*') {
+        //Se la RHS dell'assegnamento è una variabile senza '&' davanti
         if (n->c2->type == T_ID) {
+            //Mi salvo dove sono sullo stack le variabili sia destra che sinistra
             int Oid = getOidP(n->c1->value.sval, (ap - 1)->table);
             int Oid2 = getOidP(n->c2->value.sval, (ap - 1)->table);
+            //Salvo nel campo intero LHS il campo intero RHS
+            // (salvo l'indirizzo, i due puntatori punteranno alla stessa cosa)
             if (Oid != -1) {
                 if (Oid2 != -1)
                     ((ap - 1)->startPoint + Oid)->val.ival = ((ap - 1)->startPoint + Oid2)->val.ival;
@@ -141,30 +159,11 @@ void assignStatex(Pnode n) {
                     ((aproot)->startPoint + Oid)->val.ival = ((aproot)->startPoint + Oid2)->val.ival;
                 }
             }
+        //Entro qui solo se a destra ho un & e ID
         } else {
-            //la variabile dopo & e' un puntatore
-//            if (lookUpCond(n->c2->c1->value.sval, (ap - 1)->table, 0)->pointer) {
-//                int Oid = getOidP(n->c1->value.sval, (ap - 1)->table);
-//                int Oid2 = getOidP(n->c2->c1->value.sval, (ap - 1)->table);
-//                if (Oid != -1) {
-//                    if (Oid2 != -1)
-//                        ((ap - 1)->startPoint + Oid)->val.pointer = &((ap - 1)->startPoint + Oid2)->val.pointer;
-//                    else {
-//                        Oid2 = getOidP(n->c2->c1->value.sval, getGlobale());
-//                        ((ap - 1)->startPoint + Oid)->val.pointer = &((aproot)->startPoint + Oid2)->val.pointer;
-//                    }
-//                } else {
-//                    Oid = getOidP(n->c1->value.sval, getGlobale());
-//                    if (Oid2 != -1)
-//                        ((aproot)->startPoint + Oid)->val.pointer = &((ap - 1)->startPoint + Oid2)->val.pointer;
-//                    else {
-//                        Oid2 = getOidP(n->c2->c1->value.sval, getGlobale());
-//                        ((aproot)->startPoint + Oid)->val.pointer = &((aproot)->startPoint + Oid2)->val.pointer;
-//                    }
-//                }
-//            } else {
             int Oid = getOidP(n->c1->value.sval, (ap - 1)->table);
             int Oid2 = getOidP(n->c2->c1->value.sval, (ap - 1)->table);
+            //In questo caso devo salvare nel campo intero della LHS la posizione sullo stack della variabile RHS
             if (Oid != -1) {
                 if (Oid2 != -1)
                     ((ap - 1)->startPoint + Oid)->val.ival = (((ap - 1)->startPoint + Oid2) - oproot);
@@ -183,7 +182,7 @@ void assignStatex(Pnode n) {
             }
             //}
         }
-    } else {
+    } else { //Entro quando è un normale assegnamento che non coinvolge puntatori
         exprex(n->c2);
         cambiaValInStack(n->c1->value.sval);
     }
@@ -195,6 +194,11 @@ void writeStatex(Pnode n) {
     while (temp != NULL) {
         exprex(temp);
         switch ((op - 1)->tipo) {
+            //Se è un puntatore stampo il campo intero che contiene l'indirizzo puntato
+            case INTEP:
+            case REALEP:
+            case BOOLEP:
+            case STRINGEP:
             case INTE:
                 printf("%d", (op - 1)->val.ival);
                 break;
@@ -287,7 +291,7 @@ void readStatex(Pnode n) {
 }
 
 void forStatex(Pnode n) {
-
+    //Eseguo una tantum l'assegnamento nella prima posizione del for (es. i=0)
     exprex(n->c1->c1);
     cambiaValInStack(n->c1->value.sval);
 
@@ -343,6 +347,8 @@ void ifStatex(Pnode n) {
     }
 }
 
+/*A questo metodo passato un identificatore lo trova sullo stack e sovrascrive il valore con quello in prima posizione
+ * nella pila (quello piu in alto)*/
 void cambiaValInStack(char *s) {
     if (s[0] == '*') {
 
@@ -355,6 +361,7 @@ void cambiaValInStack(char *s) {
             os.tipo = lookUpCond(s, getGlobale(), 0)->tipo;
             os.val.ival = ((aproot)->startPoint + getOidP(s, getGlobale()))->val.ival;
         }
+        //Scorro la 'linked list' dei puntatori fino a trovare a cosa puntano
         while (s[i] == '*') {
             i++;
             if(s[i]!='*')
@@ -370,7 +377,7 @@ void cambiaValInStack(char *s) {
             ((ap - 1)->startPoint + Oid)->val = (op - 1)->val;
             diminuisciOp();
         }
-            //E' globale e io non sono nel main
+            //E' globale
         else {
             Oid = getOid(s, getGlobale());
             ((aproot)->startPoint + Oid)->val = (op - 1)->val;
@@ -380,6 +387,7 @@ void cambiaValInStack(char *s) {
 }
 
 void returnStatex(Pnode n) {
+    //Rimuovo il RA e lascio nella posizione più alta del scorso RA il risultato dell'expr del return (if any)
     if (n->c1 != NULL) {
         exprex(n->c1);
         (((ap - 2)->startPoint) + (ap - 2)->nObjs - 1)->val = (op - 1)->val;
@@ -450,6 +458,7 @@ void funcCallex(Pnode n) {
     }
 }
 
+//Qui iniziamo la parte fortemente ricorsiva, è come se fosse un gigante switch
 void exprex(Pnode n) {
     Ostackrecord os;
     switch (n->type) {
@@ -779,33 +788,38 @@ void factorex(Pnode n) {
             }
             break;
         case T_ID:
+            //Qui devo restituire il valore dell'id, se è un puntatore devo scorrerlo per vedere a cosa punta
             if (n->value.sval[0] == '*') {
                 int i = 0;
 
                 if (getOidP(n->value.sval, (ap - 1)->table) != -1) {
-                    os.tipo = lookUpCond(n->value.sval, (ap - 1)->table, 0)->tipo;
                     os.val.ival = ((ap - 1)->startPoint + getOidP(n->value.sval, (ap - 1)->table))->val.ival;
                 } else {
-                    os.tipo = lookUpCond(n->value.sval, getGlobale(), 0)->tipo;
                     os.val.ival = ((aproot)->startPoint + getOidP(n->value.sval, getGlobale()))->val.ival;
                 }
+                //Scorrimento puntatore
                 while (n->value.sval[i] == '*') {
                     i++;
                     if(n->value.sval[i]!='*')
                         break;
                     os.val.ival = oproot[os.val.ival].val.ival;
                 }
+                /*Come tipo salvo quello a cui punto non quello di partenza perchè potrebbe succedere
+                 * che parto da un puntatore e arrivo ad una variabile di tipo normale, a quel punto
+                 * se avessi il tipo sbagliato si romperebbero le funzioni di visualizzazione*/
+                os.tipo = oproot[os.val.ival].tipo;
                 os.val = oproot[os.val.ival].val;
                 *op = os;
                 aumentaOp();
+            //Se variabile normale (non * non &, andava bene anche solo else)
             } else if (lookUpCond(n->value.sval, (ap - 1)->table, 0) != NULL) {
                 if (getOidP(n->value.sval, (ap - 1)->table) != -1) {
-                    os.tipo = lookUpCond(n->value.sval, (ap - 1)->table, 0)->tipo;
+                    os.tipo = ((ap - 1)->startPoint + getOidP(n->value.sval, (ap - 1)->table))->tipo;
                     os.val = ((ap - 1)->startPoint + getOidP(n->value.sval, (ap - 1)->table))->val;
                     *op = os;
                     aumentaOp();
                 } else {
-                    os.tipo = lookUpCond(n->value.sval, getGlobale(), 0)->tipo;
+                    os.tipo = ((aproot)->startPoint + getOidP(n->value.sval, getGlobale()))->tipo;
                     os.val = ((aproot)->startPoint + getOidP(n->value.sval, getGlobale()))->val;
                     *op = os;
                     aumentaOp();
@@ -813,13 +827,14 @@ void factorex(Pnode n) {
             }
             break;
         case T_ADDR:
+            //Se inizia con & devo sicuramente restituire la posizione sullo stack della variabile alla sua destra
             if (getOidP(n->c1->value.sval, (ap - 1)->table) != -1) {
-                os.tipo = lookUpCond(n->c1->value.sval, (ap - 1)->table, 0)->tipo;
+                os.tipo = ((ap - 1)->startPoint + getOidP(n->c1->value.sval, (ap - 1)->table))->tipo;
                 os.val.ival = (((ap - 1)->startPoint + getOidP(n->c1->value.sval, (ap - 1)->table))- oproot);
                 *op = os;
                 aumentaOp();
             } else {
-                os.tipo = lookUpCond(n->c1->value.sval, getGlobale(), 0)->tipo;
+                os.tipo = ((aproot)->startPoint + getOidP(n->c1->value.sval, getGlobale()))->tipo;
                 os.val.ival = (((aproot)->startPoint + getOidP(n->c1->value.sval, getGlobale()))- oproot);
                 *op = os;
                 aumentaOp();

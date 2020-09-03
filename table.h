@@ -20,6 +20,10 @@ enum hashtypeenum{
     STRINGE,
     BOOLE,
     VOIDE,
+    INTEP,
+    REALEP,
+    STRINGEP,
+    BOOLEP
 };
 
 struct sentry{

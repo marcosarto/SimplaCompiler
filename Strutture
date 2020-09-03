@@ -1,25 +1,31 @@
+Tabella interna di fattoriale (ID|TIPO|OID)
+chain[110]-->n|INTEGER|0 -->NULL
+chain[630]-->fact|INTEGER|1 -->NULL
+
+
+Tabella interna di stampaFattoriali (ID|TIPO|OID)
+chain[102]-->f|INTEGER|2 -->NULL
+chain[105]-->i|INTEGER|1 -->NULL
+chain[185]-->tot|INTEGER|0 -->NULL
+
+
 Tabella interna di Globale (ID|TIPO|OID)
-chain[97]-->a|REAL|0 -->NULL
-chain[828]-->p1|REAL|1 -->NULL
-chain[829]-->p2|REAL|2 -->NULL
-chain[830]-->p3|REAL|3 -->NULL
-chain[831]-->p4|REAL|4 -->NULL
+chain[229]-->fattoriale|INTEGER|1 -->NULL
+chain[455]-->stampaFattoriali|VOID|2 -->NULL
+chain[627]-->numero|INTEGER|0 -->NULL
 
 
 --------------OSTACK(TIPO|VAL)--------------
-[ REAL | 5.000000 ]
-[ REAL | 0.000000 ]
-[ REAL | 0.000000 ]
-[ REAL | 0.000000 ]
-[ REAL | 0.000000 ]
+[ INTEGER | 6 ]
 --------ASTACK(nOggetti|Val del primo)--------
-[ 5 | 1084227584 ]
+[ 1 | 6 ]
 
 
 Hashmap delle stringhe presenti
-chain[290]-->num, inutile poi sovrascritto (reale) :  -->NULL
-chain[782]-->-> -->NULL
-chain[900]-->Chain :  -->NULL
+chain[463]-->Il fattoriale di  -->NULL
+chain[569]-->\n -->NULL
+chain[640]--> é  -->NULL
+chain[948]-->Inserisci un numero:  -->NULL
 
 CONTENUTO HEAP
-num, inutile poi sovrascritto (reale) : |Chain : |->
+Inserisci un numero: |\n|Il fattoriale di | é 

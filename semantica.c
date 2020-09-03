@@ -533,7 +533,11 @@ HashType funcCall(Pnode n, Table *table) {
             if (temp->type == T_ID) {
                 Entry *e1 = lookUpCond(temp->value.sval, table, 0);
 
-                if (e1->nstars != funEntry->dformali[i]->nstars) {
+                int j = 0;
+                while(temp->value.sval[j]=='*')
+                    j++;
+
+                if ((e1->nstars-j) != funEntry->dformali[i]->nstars) {
                     char *s = malloc(LEN_ERR_MAX);
                     sprintf(s, "i puntatori della funzione %s hanno livelli diversi, %s livello %d, %s livello %d\n",
                             funEntry->key, e1->key, e1->nstars, funEntry->dformali[i]->key,
@@ -541,6 +545,7 @@ HashType funcCall(Pnode n, Table *table) {
                     errSemantico(s, n);
                 }
             }else if(temp->type==T_ADDR){
+
                 Entry *e1 = lookUpCond(temp->c1->value.sval,table,0);
 
                 if(e1->nstars+1!=(funEntry->dformali[i]->nstars)) {

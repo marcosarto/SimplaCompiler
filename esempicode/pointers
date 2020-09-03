@@ -1,4 +1,4 @@
-a,b: integer;
+a,b,*c: integer;
 func daSommare(a : integer, b : integer, *riporto : integer) : void
 temp : integer;
 body
@@ -14,6 +14,7 @@ body
     writeln("Numeri da sommare : ");
     read(a);
     read(b);
-    daSommare(a,b,&a);
+    c = &a;
+    daSommare(*c,b,c);
     writeln("Risultato della somma : ",a);
 end.

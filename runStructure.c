@@ -13,7 +13,11 @@ char* tipiToStringr[] =
                 "REAL",
                 "STRING",
                 "BOOLEAN",
-                "VOID"
+                "VOID",
+                "*INTEGER",
+                "*REAL",
+                "*STRING",
+                "*BOOLEAN"
         };
 
 
@@ -26,6 +30,10 @@ void printAStackstout(){
     for(Ostackrecord *ostackr = ostack;ostackr<op;ostackr++){
         printf("[ ");
         switch (ostackr->tipo) {
+            case INTEP:
+            case REALEP:
+            case STRINGEP:
+            case BOOLEP:
             case BOOLE:
             case INTE:
                 printf("%s | %d",tipiToStringr[ostackr->tipo],ostackr->val.ival);
@@ -54,6 +62,10 @@ void printAStack(){
     for(Ostackrecord *ostackr = ostack;ostackr<op;ostackr++){
         writeToFile("[ ");
         switch (ostackr->tipo) {
+            case INTEP:
+            case REALEP:
+            case STRINGEP:
+            case BOOLEP:
             case BOOLE:
             case INTE:
                 sprintf(toWrite,"%s | %d",tipiToStringr[ostackr->tipo],ostackr->val.ival);
