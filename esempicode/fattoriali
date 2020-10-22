@@ -23,7 +23,6 @@ end;
 body
     write("Inserisci un numero: ");
     read(numero);
-    write("\n");
     if numero < 0 then
         writeln("Il numero ", numero, " non é valido");
     else

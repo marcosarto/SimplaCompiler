@@ -648,7 +648,6 @@ void relTermex(Pnode n) {
         case T_PLUS:
             relTermex(n->c1);
             lowTermex(n->c2);
-            printAStack();
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival + (op - 1)->val.ival;
@@ -691,7 +690,6 @@ void lowTermex(Pnode n) {
         case T_STAR:
             lowTermex(n->c1);
             factorex(n->c2);
-            printAStack();
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 os.val.ival = (op - 2)->val.ival * (op - 1)->val.ival;
@@ -707,7 +705,6 @@ void lowTermex(Pnode n) {
         case T_DIV:
             lowTermex(n->c1);
             factorex(n->c2);
-            printAStack();
             if ((op - 2)->tipo == INTE) {
                 os.tipo = INTE;
                 if((op-1)->val.ival == 0){
